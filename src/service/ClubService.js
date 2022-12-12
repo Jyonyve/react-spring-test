@@ -30,8 +30,8 @@ class ClubService {
         );
     }
 
-    deleteClub(club){
-        return axios.delete(BASE_URL+ '/' + club.reactId);
+    deleteClub(id){
+        axios.delete(BASE_URL+ '/' + id);
     }
 
     fetchClubs(){

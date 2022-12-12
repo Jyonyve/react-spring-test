@@ -81,15 +81,24 @@ class ClubStore{
             console.log(clubId + 'is undefined. ');
         })
 
-        
     }
 
     @action
     deleteClub(){
         let index = this._clubs.findIndex(club => club.reactId === this.club.reactId);
+
+        let value = this.clubService.fetchClubId(this._club.reactId);
+        value.then( clubId => {
+            this.clubService.deleteClub(clubId.data);      
+        } , clubId => {
+            console.log(clubId + 'is undefined. ');
+        })
+
         if(index > -1){
             this._clubs.splice(index, 1);
         }
+
+
 
         this._club = {};
     }
