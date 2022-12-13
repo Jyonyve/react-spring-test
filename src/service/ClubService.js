@@ -34,8 +34,8 @@ class ClubService {
         axios.delete(BASE_URL+ '/' + id);
     }
 
-    fetchClubs(){
-        return axios.get(BASE_URL + '/all');
+    async fetchClubs(){
+        return await axios.get(BASE_URL + '/all');
     }
 
     async fetchClubId(reactId){

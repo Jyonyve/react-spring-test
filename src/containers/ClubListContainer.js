@@ -13,22 +13,28 @@ class ClubListContainer extends Component {
     this.props.clubStore.selectedClub(club);
   }
 
- 
+  onSetClubList(){
+    this.props.clubStore.setClubList();
+  }
+
   render(){
 
-    let {clubs, searchText} = this.props.clubStore;
+    
+    //let clubs = this.props.clubStore.clubs;
+    // const {searchText} =this.props.clubStore.searchText;
 
-    clubs = clubs.filter( club => club.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
-
-    clubs.sort(function(a, b){
-      return a.name - b.name;
-    });
+    // const arrClubs = Array(clubs)
+    // .filter( club => club['name'].toLowerCase().indexOf(searchText.toLowerCase()) !== -1)
+    // .sort((a, b) =>  a.name - b.name);
 
     return (
+      
       <ClubListView 
-        clubs = {clubs}
+        clubs = {this.props.clubStore.clubs}
         onSelectedClub = {this.onSelectedClub}
+        onSetClubList = {this.onSetClubList}
       />
+      
     )
   }
 }

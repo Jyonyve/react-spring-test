@@ -14,7 +14,7 @@ class App extends Component {
         </Box>
         <Box m={3}>
           <SearchbarContainer />
-          <ClubListContainer />
+          <ClubListContainer/>
         </Box>
       </Container>
   );

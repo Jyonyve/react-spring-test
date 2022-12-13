@@ -5,6 +5,7 @@ class ClubStore{
     
     constructor(){
         makeObservable(this);
+        this.setClubList();
     }
 
     clubService = ClubService;
@@ -30,7 +31,7 @@ class ClubStore{
     //(호출할 때마다 연산하지 않도록 최종 캐싱값을 반환해줌)
     //지금은 적용되어있지 않음.... 만약 toJS 합수를 이용해 리턴을 JS객체 배열로 받겠다, 하면 붙여줘야함
     get clubs(){
-        return this._clubs;
+        return Array(this._clubs);
     }
 
     get searchText(){
@@ -55,10 +56,24 @@ class ClubStore{
     }
 
     @action
-    addClub(club){
-        this._clubs.push(club);
-        this.clubService.addClub(club);
+    setClubList(){
+        let dbClubs = this.clubService.fetchClubs();
+
+        Array(dbClubs).forEach(dbClub => 
+            {this._clubs.push(dbClub);
+        })
+
+        return this.clubs;
     }
+
+    @action
+    addClub(club){
+        this._clubs = [];
+        
+        this.clubService.addClub(club);
+        this.setClubList();
+    }
+
 
     @action
     selectedClub(club){
@@ -78,7 +93,7 @@ class ClubStore{
             this.setClubProps('id', clubId.data );      
             this.clubService.editClub(clubId.data, this._club);      
         } , clubId => {
-            console.log(clubId + 'is undefined. ');
+            console.log(clubId.data + 'is undefined. ');
         })
 
     }

@@ -1,14 +1,16 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent} from 'react';
 import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper } from '@material-ui/core';
 import { observer } from 'mobx-react';
 
-
 @observer
 class ClubListView extends PureComponent {
+
   render(){
 
-    const {clubs, onSelectedClub} = this.props;
+    let {onSelectedClub, clubs} = this.props;
+    let p_clubs = [];
 
+    Promise.resolve(clubs).then(value => p_clubs = value);
 
     return (
       <TableContainer component={Paper} >
@@ -17,24 +19,23 @@ class ClubListView extends PureComponent {
             <TableRow>
               <TableCell align='center'>Name</TableCell>
               <TableCell align='center'>Intro</TableCell>
+              <TableCell align='center'>ID</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {
-            Array.isArray(clubs) && clubs.length ? 
-            clubs.map( (club ) => (
+              p_clubs.map( club => 
+                
               <TableRow key={club.reactId} hover onClick={()=> onSelectedClub(club)}>
                 <TableCell>{club.name}</TableCell>
                 <TableCell>{club.intro}</TableCell>
-              </TableRow>
-            ))
-            : 
-            <TableRow>
-              <TableCell> empty </TableCell>
-            </TableRow>
-            }
-            
-          </TableBody>
+                <TableCell>{club.id}</TableCell>
+              </TableRow> 
+                             
+              ).forEach(club => console.log(club))
+              
+            } 
+          </TableBody>            
         </Table>
       </TableContainer>
     )
