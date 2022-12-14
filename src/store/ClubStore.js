@@ -1,4 +1,4 @@
-import {observable, action, computed, makeObservable} from 'mobx';
+import {observable, action, computed, makeObservable, toJS} from 'mobx';
 import ClubService from '../service/ClubService';
 
 class ClubStore{
@@ -31,7 +31,7 @@ class ClubStore{
     //(호출할 때마다 연산하지 않도록 최종 캐싱값을 반환해줌)
     //지금은 적용되어있지 않음.... 만약 toJS 합수를 이용해 리턴을 JS객체 배열로 받겠다, 하면 붙여줘야함
     get clubs(){
-        return Array(this._clubs);
+        return toJS(this._clubs);
     }
 
     get searchText(){
@@ -59,19 +59,18 @@ class ClubStore{
     setClubList(){
         let dbClubs = this.clubService.fetchClubs();
 
-        Array(dbClubs).forEach(dbClub => 
-            {this._clubs.push(dbClub);
-        })
-
-        return this.clubs;
+        Promise.resolve(dbClubs).then(dbClub => 
+            {this._clubs.push(dbClub);}
+        )
+        return this._clubs;      
     }
 
     @action
-    addClub(club){
+    addClub(club){        
         this._clubs = [];
-        
         this.clubService.addClub(club);
         this.setClubList();
+        return this._clubs;
     }
 
 

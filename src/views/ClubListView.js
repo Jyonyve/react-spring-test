@@ -1,16 +1,14 @@
 import React, { PureComponent} from 'react';
 import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper } from '@material-ui/core';
-import { observer } from 'mobx-react';
 
-@observer
+
 class ClubListView extends PureComponent {
 
   render(){
 
-    let {onSelectedClub, clubs} = this.props;
-    let p_clubs = [];
-
-    Promise.resolve(clubs).then(value => p_clubs = value);
+    let onSelectedClub = this.props.onSelectedClub;
+    const clubs = this.props.clubs;
+    let clubsFlat = clubs.flat(Infinity);
 
     return (
       <TableContainer component={Paper} >
@@ -23,18 +21,23 @@ class ClubListView extends PureComponent {
             </TableRow>
           </TableHead>
           <TableBody>
-            {
-              p_clubs.map( club => 
-                
-              <TableRow key={club.reactId} hover onClick={()=> onSelectedClub(club)}>
-                <TableCell>{club.name}</TableCell>
-                <TableCell>{club.intro}</TableCell>
-                <TableCell>{club.id}</TableCell>
-              </TableRow> 
-                             
-              ).forEach(club => console.log(club))
-              
-            } 
+        {
+        clubsFlat.length && Array.isArray(clubsFlat) ?
+        clubsFlat.map((element) => (
+          <TableRow key={element.reactId} hover onClick={()=> onSelectedClub(element)}>
+            <TableCell>{element.name}</TableCell>
+            <TableCell>{element.intro}</TableCell>
+            <TableCell>{element.id}</TableCell>
+          </TableRow>
+          ))  
+           :
+           <TableRow>
+             <TableCell>empty</TableCell>
+             <TableCell>empty</TableCell>
+             <TableCell>empty</TableCell>
+           </TableRow>
+
+        }
           </TableBody>            
         </Table>
       </TableContainer>

@@ -9,7 +9,7 @@ class ClubService {
 
     addClub(club){
 
-        return axios.post(
+        axios.post(
             BASE_URL,
             JSON.stringify(club),
             {headers: {
@@ -35,7 +35,14 @@ class ClubService {
     }
 
     async fetchClubs(){
-        return await axios.get(BASE_URL + '/all');
+        let clubs = [];
+        try {
+          await axios.get(BASE_URL + '/all')
+          .then(club => clubs.push(club.data))  
+        } catch (error) {
+            console.error(error.message);
+        }
+        return clubs;       
     }
 
     async fetchClubId(reactId){
