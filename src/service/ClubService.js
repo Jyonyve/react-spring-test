@@ -6,7 +6,6 @@ const BASE_URL = 'http://localhost:8080/club';
 @autobind
 class ClubService {
 
-
     addClub(club){
 
         axios.post(
@@ -44,17 +43,6 @@ class ClubService {
         }
         return clubs;       
     }
-
-    async fetchClubId(reactId){
-        try{
-        let id = await axios.get(BASE_URL + '/react/' + reactId);
-        return id;
-        }
-        catch(error){
-            console.error();
-        }
-    }
-    
 }
 
 export default new ClubService();

@@ -1,15 +1,23 @@
 import React, { PureComponent} from 'react';
 import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper } from '@material-ui/core';
+import { observer } from 'mobx-react';
+import { action } from 'mobx';
+import autobind from 'autobind-decorator';
 
-
+@observer
+@autobind
 class ClubListView extends PureComponent {
 
-  render(){
-
-    let onSelectedClub = this.props.onSelectedClub;
+  @action
+  clubsFlatter(){
     const clubs = this.props.clubs;
-    let clubsFlat = clubs.flat(Infinity);
+    return clubs.flat(Infinity);
+  }
 
+  render(){
+   
+    let onSelectedClub = this.props.onSelectedClub;
+    const clubsFlat = this.clubsFlatter();    
     return (
       <TableContainer component={Paper} >
         <Table m={3}>
@@ -41,6 +49,7 @@ class ClubListView extends PureComponent {
           </TableBody>            
         </Table>
       </TableContainer>
+      
     )
   }
 }

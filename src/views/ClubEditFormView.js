@@ -38,7 +38,7 @@ class ClubEditFormView extends PureComponent {
             />
           </Grid>
         </Grid>
-        <Grid item xs={6}>
+        <Grid item>
          <Button variant='contained' color='primary' startIcon={<SaveIcon />}
                 onClick={onAddClub} > Add </Button>&nbsp;&nbsp;
          <Button variant='contained' color='default' startIcon={<UpdateIcon />}

@@ -1,19 +1,17 @@
-import {observable, action, computed, makeObservable, toJS} from 'mobx';
+import { action, observable,  makeObservable,computed, runInAction} from 'mobx';
 import ClubService from '../service/ClubService';
 
 class ClubStore{
     
     constructor(){
+        this.setClubs.bind(this);
         makeObservable(this);
-        this.setClubList();
     }
 
     clubService = ClubService;
     
     @observable
-    _club = {
-        
-    } //reactId, title, date
+    _club = {} //reactId, title, date
 
     @observable
     _clubs = [];
@@ -31,11 +29,17 @@ class ClubStore{
     //(호출할 때마다 연산하지 않도록 최종 캐싱값을 반환해줌)
     //지금은 적용되어있지 않음.... 만약 toJS 합수를 이용해 리턴을 JS객체 배열로 받겠다, 하면 붙여줘야함
     get clubs(){
-        return toJS(this._clubs);
+        return this._clubs;
     }
 
     get searchText(){
         return this._searchText;
+    }
+
+    @action
+    componentDidMount(){
+        this._clubs = [];
+        this._clubs = this.setClubs.bind(this);
     }
 
     @action
@@ -56,21 +60,23 @@ class ClubStore{
     }
 
     @action
-    setClubList(){
-        let dbClubs = this.clubService.fetchClubs();
-
-        Promise.resolve(dbClubs).then(dbClub => 
-            {this._clubs.push(dbClub);}
-        )
-        return this._clubs;      
+    async setClubs(){
+        try {
+            runInAction( () => this._clubs =[]);
+            let dbClubs = [];
+            dbClubs = await this.clubService.fetchClubs();
+                Promise.resolve(dbClubs).then(dbClub => 
+                    {   runInAction( () =>
+                        this._clubs.push(dbClub));}
+                    )
+            //this._clubs = fromPromise(this.clubService.fetchClubs());
+        } catch (error) {
+        }
     }
 
     @action
     addClub(club){        
-        this._clubs = [];
         this.clubService.addClub(club);
-        this.setClubList();
-        return this._clubs;
     }
 
 
@@ -81,39 +87,13 @@ class ClubStore{
 
     @action
     updateClub(){
-        let foundClub = this._clubs.find(club => club.reactId === this._club.reactId);
-        foundClub.name = this._club.name;
-        foundClub.intro = this._club.intro;
-
-        let value = this.clubService.fetchClubId(foundClub.reactId);
-
-        value.then( clubId => {
-            console.log('clubId : ' + clubId.data + ' !!');
-            this.setClubProps('id', clubId.data );      
-            this.clubService.editClub(clubId.data, this._club);      
-        } , clubId => {
-            console.log(clubId.data + 'is undefined. ');
-        })
-
+        this.clubService.editClub(this.club.id, this._club);
+        this._club = {};
     }
 
     @action
     deleteClub(){
-        let index = this._clubs.findIndex(club => club.reactId === this.club.reactId);
-
-        let value = this.clubService.fetchClubId(this._club.reactId);
-        value.then( clubId => {
-            this.clubService.deleteClub(clubId.data);      
-        } , clubId => {
-            console.log(clubId + 'is undefined. ');
-        })
-
-        if(index > -1){
-            this._clubs.splice(index, 1);
-        }
-
-
-
+        this.clubService.deleteClub(this._club.id);
         this._club = {};
     }
 
