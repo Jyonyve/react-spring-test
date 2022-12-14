@@ -72,6 +72,8 @@ class ClubStore{
             //this._clubs = fromPromise(this.clubService.fetchClubs());
         } catch (error) {
         }
+
+        return this._clubs;
     }
 
     @action

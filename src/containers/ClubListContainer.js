@@ -9,10 +9,10 @@ import ClubListView from '../views/ClubListView';
 @autobind
 class ClubListContainer extends Component {
 
-  // constructor(props){
-  //   super(props);
-  //   this.onSetClubs();
-  // }
+  constructor(props){
+    super(props);
+    this.onSetClubs();
+  }
 
   onSelectedClub(club){
     this.props.clubStore.selectedClub(club);
@@ -21,7 +21,6 @@ class ClubListContainer extends Component {
   onSetClubs(){
     this.props.clubStore.setClubs();
   }
-
 
   render(){
     
