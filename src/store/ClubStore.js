@@ -37,12 +37,6 @@ class ClubStore{
     }
 
     @action
-    componentDidMount(){
-        this._clubs = [];
-        this._clubs = this.setClubs.bind(this);
-    }
-
-    @action
     setSearchText(searchText){
         this._searchText = searchText;
     }
@@ -77,8 +71,16 @@ class ClubStore{
     }
 
     @action
-    addClub(club){        
-        this.clubService.addClub(club);
+    async addClub(club){
+        try{
+        let id ='';
+        id = await this.clubService.addClub(club);
+        runInAction( () => this.setClubProps('id', id))
+        this._clubs.push(this._club);
+        } catch(error){
+            console.error();
+        }
+        this._club = {}
     }
 
 
@@ -89,14 +91,42 @@ class ClubStore{
 
     @action
     updateClub(){
+        try {
+        let fclubs =this._clubs.flat(Infinity);
+        let i = fclubs.findIndex(club => club.id === this._club.id);
+        let eclubs = fclubs.fill(this._club, i, i+1);
+
+        this._clubs=[];
+        runInAction( () => eclubs.map ( eclub => this._clubs.push(eclub)));
+
         this.clubService.editClub(this.club.id, this._club);
         this._club = {};
+
+        }catch(error){
+            console.error();
+        }
+
+        
     }
+
 
     @action
     deleteClub(){
-        this.clubService.deleteClub(this._club.id);
-        this._club = {};
+        try{
+            let fclubs =this._clubs.flat(Infinity);
+            let i = fclubs.findIndex(club => club.id === this._club.id);
+            fclubs.splice(i, 1);
+
+            console.log(JSON.stringify(fclubs))
+            this._clubs =[];
+            runInAction( () => fclubs.map(fclub => this._clubs.push(fclub)));
+
+            this.clubService.deleteClub(this.club.id);
+            this._club = {};
+        }
+        catch (error) {
+            console.error();
+        }
     }
 
 

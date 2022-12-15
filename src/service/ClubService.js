@@ -6,15 +6,18 @@ const BASE_URL = 'http://localhost:8080/club';
 @autobind
 class ClubService {
 
-    addClub(club){
+    async addClub(club){
 
-        axios.post(
+        let id = '';
+        await axios.post(
             BASE_URL,
             JSON.stringify(club),
             {headers: {
                 "Content-Type" : `application/json`,
             },
-        });
+        }).then( res => {id = res.data;});
+        return id;
+
     }
 
     editClub(id, club){

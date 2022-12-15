@@ -32,7 +32,7 @@ class ClubListView extends PureComponent {
         {
         clubsFlat.length && Array.isArray(clubsFlat) ?
         clubsFlat.map((element) => (
-          <TableRow key={element.reactId} hover onClick={()=> onSelectedClub(element)}>
+          <TableRow key={element.id} hover onClick={()=> onSelectedClub(element)}>
             <TableCell>{element.name}</TableCell>
             <TableCell>{element.intro}</TableCell>
             <TableCell>{element.id}</TableCell>
