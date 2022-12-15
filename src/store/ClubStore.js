@@ -109,6 +109,11 @@ class ClubStore{
         
     }
 
+    @action
+    filterClub(){
+        let fclub = this.clubs.flat(Infinity);
+        fclub.filter( club => club.name.match(this.searchText));
+    }
 
     @action
     deleteClub(){

@@ -24,9 +24,14 @@ class ClubListContainer extends Component {
 
   render(){
     
+    let {clubs, searchText} = this.props.clubStore;
+    let fclubs = clubs.flat(Infinity);
+
+    clubs = fclubs.filter( club => club.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
+
     return (
       <ClubListView 
-        clubs = {this.props.clubStore.clubs}
+        clubs = {clubs}
         onSelectedClub = {this.onSelectedClub}
         onSetClubs = {this.onSetClubs}
       />
