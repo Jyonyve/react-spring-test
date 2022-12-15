@@ -1,18 +1,17 @@
-import {observable, action, computed, makeObservable} from 'mobx';
+import { action, observable,  makeObservable,computed, runInAction} from 'mobx';
 import ClubService from '../service/ClubService';
 
 class ClubStore{
     
     constructor(){
+        this.setClubs.bind(this);
         makeObservable(this);
     }
 
     clubService = ClubService;
     
     @observable
-    _club = {
-        
-    } //reactId, title, date
+    _club = {} //reactId, title, date
 
     @observable
     _clubs = [];
@@ -55,10 +54,35 @@ class ClubStore{
     }
 
     @action
-    addClub(club){
-        this._clubs.push(club);
-        this.clubService.addClub(club);
+    async setClubs(){
+        try {
+            runInAction( () => this._clubs =[]);
+            let dbClubs = [];
+            dbClubs = await this.clubService.fetchClubs();
+                Promise.resolve(dbClubs).then(dbClub => 
+                    {   runInAction( () =>
+                        this._clubs.push(dbClub));}
+                    )
+            //this._clubs = fromPromise(this.clubService.fetchClubs());
+        } catch (error) {
+        }
+
+        return this._clubs;
     }
+
+    @action
+    async addClub(club){
+        try{
+        let id ='';
+        id = await this.clubService.addClub(club);
+        runInAction( () => this.setClubProps('id', id))
+        this._clubs.push(this._club);
+        } catch(error){
+            console.error();
+        }
+        this._club = {}
+    }
+
 
     @action
     selectedClub(club){
@@ -67,40 +91,47 @@ class ClubStore{
 
     @action
     updateClub(){
-        let foundClub = this._clubs.find(club => club.reactId === this._club.reactId);
-        foundClub.name = this._club.name;
-        foundClub.intro = this._club.intro;
+        try {
+        let fclubs =this._clubs.flat(Infinity);
+        let i = fclubs.findIndex(club => club.id === this._club.id);
+        let eclubs = fclubs.fill(this._club, i, i+1);
 
-        let value = this.clubService.fetchClubId(foundClub.reactId);
+        this._clubs=[];
+        runInAction( () => eclubs.map ( eclub => this._clubs.push(eclub)));
 
-        value.then( clubId => {
-            console.log('clubId : ' + clubId.data + ' !!');
-            this.setClubProps('id', clubId.data );      
-            this.clubService.editClub(clubId.data, this._club);      
-        } , clubId => {
-            console.log(clubId + 'is undefined. ');
-        })
+        this.clubService.editClub(this.club.id, this._club);
+        this._club = {};
 
+        }catch(error){
+            console.error();
+        }
+
+        
+    }
+
+    @action
+    filterClub(){
+        let fclub = this.clubs.flat(Infinity);
+        fclub.filter( club => club.name.match(this.searchText));
     }
 
     @action
     deleteClub(){
-        let index = this._clubs.findIndex(club => club.reactId === this.club.reactId);
+        try{
+            let fclubs =this._clubs.flat(Infinity);
+            let i = fclubs.findIndex(club => club.id === this._club.id);
+            fclubs.splice(i, 1);
 
-        let value = this.clubService.fetchClubId(this._club.reactId);
-        value.then( clubId => {
-            this.clubService.deleteClub(clubId.data);      
-        } , clubId => {
-            console.log(clubId + 'is undefined. ');
-        })
+            console.log(JSON.stringify(fclubs))
+            this._clubs =[];
+            runInAction( () => fclubs.map(fclub => this._clubs.push(fclub)));
 
-        if(index > -1){
-            this._clubs.splice(index, 1);
+            this.clubService.deleteClub(this.club.id);
+            this._club = {};
         }
-
-
-
-        this._club = {};
+        catch (error) {
+            console.error();
+        }
     }
 
 

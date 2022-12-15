@@ -2,7 +2,7 @@ import React, { Component} from 'react';
 import ClubEditFormView from '../views/ClubEditFormView';
 import {inject, observer} from 'mobx-react';
 import autobind from 'autobind-decorator';
-import generateId from '../IDGenerator';
+//import generateId from '../IDGenerator';
 
 @inject('clubStore')
 @autobind 
@@ -16,7 +16,7 @@ class ClubEditFormContainer extends Component {
 
   onAddClub(){
     let { club } = this.props.clubStore;
-    club = {...club, reactId:generateId(8)}
+    //club = {...club, reactId:generateId(8)}
     this.props.clubStore.addClub(club);
   } 
 

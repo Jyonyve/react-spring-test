@@ -1,15 +1,23 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent} from 'react';
 import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper } from '@material-ui/core';
 import { observer } from 'mobx-react';
-
+import { action } from 'mobx';
+import autobind from 'autobind-decorator';
 
 @observer
+@autobind
 class ClubListView extends PureComponent {
+
+  @action
+  clubsFlatter(){
+    const clubs = this.props.clubs;
+    return clubs.flat(Infinity);
+  }
+
   render(){
-
-    const {clubs, onSelectedClub} = this.props;
-
-
+   
+    let onSelectedClub = this.props.onSelectedClub;
+    const clubsFlat = this.clubsFlatter();    
     return (
       <TableContainer component={Paper} >
         <Table m={3}>
@@ -17,26 +25,31 @@ class ClubListView extends PureComponent {
             <TableRow>
               <TableCell align='center'>Name</TableCell>
               <TableCell align='center'>Intro</TableCell>
+              <TableCell align='center'>ID</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {
-            Array.isArray(clubs) && clubs.length ? 
-            clubs.map( (club ) => (
-              <TableRow key={club.reactId} hover onClick={()=> onSelectedClub(club)}>
-                <TableCell>{club.name}</TableCell>
-                <TableCell>{club.intro}</TableCell>
-              </TableRow>
-            ))
-            : 
-            <TableRow>
-              <TableCell> empty </TableCell>
-            </TableRow>
-            }
-            
-          </TableBody>
+        {
+        clubsFlat.length && Array.isArray(clubsFlat) ?
+        clubsFlat.map((element) => (
+          <TableRow key={element.id} hover onClick={()=> onSelectedClub(element)}>
+            <TableCell>{element.name}</TableCell>
+            <TableCell>{element.intro}</TableCell>
+            <TableCell>{element.id}</TableCell>
+          </TableRow>
+          ))  
+           :
+           <TableRow>
+             <TableCell>empty</TableCell>
+             <TableCell>empty</TableCell>
+             <TableCell>empty</TableCell>
+           </TableRow>
+
+        }
+          </TableBody>            
         </Table>
       </TableContainer>
+      
     )
   }
 }

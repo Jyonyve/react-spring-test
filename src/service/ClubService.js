@@ -6,16 +6,18 @@ const BASE_URL = 'http://localhost:8080/club';
 @autobind
 class ClubService {
 
+    async addClub(club){
 
-    addClub(club){
-
-        return axios.post(
+        let id = '';
+        await axios.post(
             BASE_URL,
             JSON.stringify(club),
             {headers: {
                 "Content-Type" : `application/json`,
             },
-        });
+        }).then( res => {id = res.data;});
+        return id;
+
     }
 
     editClub(id, club){
@@ -34,20 +36,16 @@ class ClubService {
         axios.delete(BASE_URL+ '/' + id);
     }
 
-    fetchClubs(){
-        return axios.get(BASE_URL + '/all');
-    }
-
-    async fetchClubId(reactId){
-        try{
-        let id = await axios.get(BASE_URL + '/react/' + reactId);
-        return id;
+    async fetchClubs(){
+        let clubs = [];
+        try {
+          await axios.get(BASE_URL + '/all')
+          .then(club => clubs.push(club.data))  
+        } catch (error) {
+            console.error(error.message);
         }
-        catch(error){
-            console.error();
-        }
+        return clubs;       
     }
-    
 }
 
 export default new ClubService();
