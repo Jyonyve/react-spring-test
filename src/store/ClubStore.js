@@ -3,9 +3,10 @@ import ClubService from '../service/ClubService';
 
 class ClubStore{
     
-    constructor(){
+    constructor(rootStore){
         this.setClubs.bind(this);
         makeObservable(this);
+        this.rootStore = rootStore;
     }
 
     clubService = ClubService;

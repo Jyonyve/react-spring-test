@@ -1,7 +1,7 @@
 import autobind from 'autobind-decorator';
 import { inject, observer } from 'mobx-react';
 import React, { Component } from 'react';
-import ClubListView from '../views/ClubListView';
+import ClubListView from '../../views/ClubListView';
 
 
 @inject('clubStore')

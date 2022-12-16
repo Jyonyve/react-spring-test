@@ -1,7 +1,7 @@
 import React, { Component} from 'react';
-import ClubEditFormView from '../views/ClubEditFormView';
 import {inject, observer} from 'mobx-react';
 import autobind from 'autobind-decorator';
+import ClubEditFormView from '../../views/ClubEditFormView';
 //import generateId from '../IDGenerator';
 
 @inject('clubStore')
@@ -33,7 +33,7 @@ class ClubEditFormContainer extends Component {
     const {clubStore} = this.props;
 
     return(
-      <ClubEditFormView 
+      <ClubEditFormView
         club = {clubStore.club} //get 통해서 가져온 것(변수처럼 가져오게 되어있음)
         onSetClubProps = {this.onSetClubProps}
         onAddClub = {this.onAddClub}

@@ -2,14 +2,13 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {Provider} from 'mobx-react'
-import ClubStore from './store/ClubStore'
 import ClubService from './service/ClubService';
+import RootStoreProvider from './store/StoreLCycler'
 
 ReactDOM.render(
-    <Provider clubStore = {ClubStore}>
+    <RootStoreProvider>
       <App  clubService = {ClubService}/>
-    </Provider>,
+    </RootStoreProvider>,
   document.getElementById('root')
 );
 
