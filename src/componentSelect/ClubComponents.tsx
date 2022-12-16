@@ -1,7 +1,7 @@
 import {Box, Container} from '@material-ui/core';
-import ClubEditFormContainer from './containers/clubContainers/ClubEditFormContainer'
-import SearchbarContainer from './containers/clubContainers/SearchbarContainer';
-import ClubListContainer from './containers/clubContainers/ClubListContainer';
+import ClubEditFormContainer from '../containers/clubContainers/ClubEditFormContainer'
+import SearchbarContainer from '../containers/clubContainers/SearchbarContainer';
+import ClubListContainer from '../containers/clubContainers/ClubListContainer';
 
 export const ClubComponents = () => {
 
