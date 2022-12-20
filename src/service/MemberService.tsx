@@ -64,7 +64,7 @@ export const MemberService = (func: string, member : any) =>{
     const fetchMembers =async () => {
         let members : any[] = []; //배열타입 명시해주지 않으면 never라고 인식해서 초기화가 제대로 안됨
         try {
-            await axios.get(BASE_URL + '/all')
+            await axios.get(BASE_URL)
             .then(member => members.push(member.data));
             
             return members;
