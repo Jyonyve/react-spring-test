@@ -1,11 +1,14 @@
 import React, { createContext } from "react";
 import {types, Instance} from 'mobx-state-tree'
 import { MemberStore } from "./MemberStore";
+import ClubStore from "./ClubStore";
 
 export const rootStore = types.model({
     memberStore : MemberStore,
+    clubStore : ClubStore,
 }).create({
-    memberStore : { member : '', members : [], searchText:'' }
+    memberStore : { member : '', members : [], searchText:'' },
+    clubStore : { club : undefined, clubs : [], searchText : '' }
 });
 
 const RootStoreContext = createContext<Instance<typeof rootStore>|null>(null);

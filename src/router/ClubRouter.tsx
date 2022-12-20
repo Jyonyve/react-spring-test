@@ -15,7 +15,7 @@ function ClubRouter (props:any) {
             <SearchbarContainer />
             <ClubListContainer/>
           </Box>
-      </Container>
+        </Container>
     )
 
 }

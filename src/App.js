@@ -12,13 +12,12 @@ class App extends Component {
     return (
       <StoreProvider value={rootStore}>
         <BrowserRouter>
-          <LinkSelector>
+          <LinkSelector/>
             <Switch>
-              <Route path='/' component={Main}/>
+              <Route path='/*' component={Main}/>
               <Route path='/club' component={ClubRouter}/>
               <Route path='/member' component={MemberRouter}/>
             </Switch>
-          </LinkSelector>
         </BrowserRouter>
       </StoreProvider>    
     );

@@ -12,7 +12,6 @@ function MemberRouter (props:any) {
           </Box>
           <Box m={3}>
             <SearchbarContainer />
-            {/* <MemberListView/> */}
           </Box>
       </Container>
     )

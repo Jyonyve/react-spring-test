@@ -8,9 +8,7 @@ import ClubService from './service/ClubService';
 import { MemberStore } from './store/MemberStore';
 
 ReactDOM.render(
-    <Provider 
-    clubStore = {ClubStore}
-    memberStore = {MemberStore}>
+    <Provider clubStore = {ClubStore} memberStore = {MemberStore}>
       <App  clubService = {ClubService}/>
     </Provider>,
   document.getElementById('root')

@@ -67,7 +67,7 @@ export const MemberStore = types.model('memberStore')
             try {
                 if(self.member){
                     const id : string|undefined = self.member?.id;
-                    let i = self.members.findIndex(member => member.id === id)
+                    let i = self.members.findIndex(member => member.id === id);
                     self.members.splice(i, 1, self.member);
                     MemberService('editMember', self.member);
                 }
