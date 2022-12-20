@@ -1,8 +1,8 @@
 import axios from "axios";
-import { useEffect } from "react";
+import  { useEffect } from "react";
 import Member from "../aggregate/Member";
 
-export const MemberService = (func: string, member : Member|undefined) =>{
+export const MemberService = (func: string, member : any) =>{
     
     const BASE_URL: string = 'http://localhost:8080/member';
     
@@ -12,7 +12,7 @@ export const MemberService = (func: string, member : Member|undefined) =>{
         memberService(func, member)
     })
 
-    const addMember = async (targetMember: Member|undefined) => {
+    const addMember = async (targetMember: typeof Member) => {
         try{
             if(!targetMember){
                 throw new Error('no member to for service!');
@@ -34,12 +34,12 @@ export const MemberService = (func: string, member : Member|undefined) =>{
         }
     }
 
-    const editMember = async (targetMember:Member|undefined) => {
+    const editMember = async (targetMember:typeof Member) => {
         try {
             if(!targetMember){
                 throw new Error('no member to for service!');
             }
-            const id :string = targetMember.id;
+            const id = targetMember.properties.id;
             axios.put(
                 BASE_URL + `/react/${id}`,
                 JSON.stringify(targetMember),{
@@ -53,11 +53,11 @@ export const MemberService = (func: string, member : Member|undefined) =>{
         }
     }
 
-    const deleteMember = (targetMember : Member|undefined) => {
+    const deleteMember = (targetMember : typeof Member) => {
         if(!targetMember){
             throw new Error('no member to for service!');
         }
-        const id :string = targetMember.id;
+        const id = targetMember.properties.id;
         axios.delete(BASE_URL + `/${id}`);
     }
 
@@ -74,7 +74,7 @@ export const MemberService = (func: string, member : Member|undefined) =>{
         }
     }
 
-    const memberService = (func:string, targetMember:Member|undefined) => {
+    const memberService = (func:string, targetMember:typeof Member) => {
 
     switch(func){
         case 'addMember' :
@@ -90,5 +90,4 @@ export const MemberService = (func: string, member : Member|undefined) =>{
 
     return memberService;
 }
-
 

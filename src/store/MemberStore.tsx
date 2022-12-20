@@ -1,78 +1,96 @@
-import Member from '../aggregate/Member'
-import {useEffect, useState} from 'react'; 
 import {MemberService} from '../service/MemberService'
+import { types } from 'mobx-state-tree';
+import Member from '../aggregate/Member';
 
-export const MemberStore = () => {
-
-    const [member, setMember] = useState<Member|undefined>(undefined);
-    const [members, setMembers] = useState<Member[]>([]);
-    const [searchText, setSearchText] = useState('');
+export const MemberStore = types.model('memberStore')
+.props({
+    member : types.reference(Member),
+    members : types.array(Member),
+    searchText : types.optional(types.string, '')
     
-    const fetchMembers = async () => {
-        try {
-            
-            let dbMembers : any;
-            dbMembers = MemberService('fetchMembers', member)
-            await Promise.resolve(dbMembers).then(
-                dbMember => members.push(dbMember));
-            setMembers(members);
-        } catch (error) {
-            console.error(error);
+}).views(self => ({
+        get member(){
+            return self.member ? self.member : undefined;
+        },
+
+        get members(){
+            return self.members ? self.members : [];
+        },
+
+        get searchText() {
+            return self.searchText ? self.searchText : '';
         }
-        return members;
     }
 
-    const addMember = async (member: Member) => {
-        try {
-            let id : any;
-            await Promise.resolve(MemberService('addClub', member))
-            .then(addId => id = addId);
-            console.log(`new member id : ${id}`)
+)).actions((self => ({
+        setMember : (member :any) => {
+            self.member = member
+        },
 
-            member = {...member, 'id':id}
-            setMember(member);
-            members.push(member);
-            setMembers(members);
-
-        } catch (error) {
-            console.error(error);
-        }
-        setMember(undefined);
-    }
-
-    const editMember = () => {
-        try {
-            if(member){
-                const id : string = member.id;
-                let i = members.findIndex(member => member.id === id)
-                let newMembers : Member[] = members;
-                newMembers.fill(member, i, i+1);
-                setMembers(newMembers);
-
-                MemberService('editMember', member);
+        setMemberProps : (name :string, value:string) => {
+        self.member = {
+            ...self.member,
+            [name as keyof typeof Member] : value
             }
-            
-        } catch (error) {
-            console.error(error);
-        }
-        setMember(undefined);
-    }
+        },
 
-    const deleteMember = () => {
-        try {
-            if(member){
-                const id :string = member.id;
-                let i = members.findIndex(member => member.id === id);
-                let memberDeleted : Member[] = members.splice(i, 1);
-                setMembers(memberDeleted);
-
-                MemberService('deleteMember', member);
-                setMember(undefined);
+        setMembers : async () => {
+            self.members.clear();
+            try {
+                let dbMembers : any;
+                dbMembers = MemberService('fetchMembers', self.member )
+                await Promise.resolve(dbMembers).then(
+                    dbMember => self.members.push(dbMember));
+            } catch (error) {
+                console.error(error);
             }
-            
-        } catch (error) {
-            console.error(error);
-        }
-    }
+        },
 
-}
+        addMember : async () => {
+            try {
+                let id : any;
+                await Promise.resolve(MemberService('addClub', self.member))
+                .then(addId => id = addId);
+                console.log(`new member id : ${id}`)
+                self.member = {
+                    ...self.member,
+                    'id' : id
+                }
+                self.members.push(self.member)
+    
+            } catch (error) {
+                console.error(error);
+            }
+        },
+
+        editMember : () => {
+            try {
+                if(self.member){
+                    const id : string|undefined = self.member?.id;
+                    let i = self.members.findIndex(member => member.id === id)
+                    self.members.splice(i, 1, self.member);
+                    MemberService('editMember', self.member);
+                }
+                
+            } catch (error) {
+                console.error(error);
+            }
+        },
+
+        deleteMember : () => {
+            try {
+                if(self.member){
+                    const id :string|undefined = self.member?.id;
+                    let i = self.members.findIndex(member => member.id === id);
+                    self.members.splice(i, 1);    
+                    MemberService('deleteMember', self.member);
+                }
+                
+            } catch (error) {
+                console.error(error);
+            }
+
+        }
+
+    }
+)));

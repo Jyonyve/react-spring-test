@@ -1,17 +1,22 @@
-import { createContext, useContext } from "react";
-import ClubStore from "./ClubStore";
+import React, { createContext } from "react";
+import {types, Instance} from 'mobx-state-tree'
 import { MemberStore } from "./MemberStore";
 
-class RootStore {
+export const rootStore = types.model({
+    memberStore : MemberStore,
+}).create({
+    memberStore : { member : '', members : [], searchText:'' }
+});
 
-    clubStore : typeof ClubStore;
-    memberStore : typeof MemberStore;
-    
-    constructor() {
-      this.clubStore = ClubStore;
-      this.memberStore = MemberStore;
+const RootStoreContext = createContext<Instance<typeof rootStore>|null>(null);
+export const StoreProvider = RootStoreContext.Provider;
+
+
+export function useStore(){
+    const store = React.useContext(RootStoreContext);
+    if(store===null){
+        throw new Error(`store cannot be null. add a context provider`);
     }
-  }
-  const StoreContext = createContext(new RootStore());
+    return store;
+}
 
-export const useStores = () => useContext(StoreContext);  
