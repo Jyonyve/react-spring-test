@@ -24,7 +24,7 @@ class ClubEditFormView extends PureComponent {
               label="Name" 
               variant="standard"
               value={club && club.name ? club.name : ""}
-              onChange = { (event) => onSetClubProps('name', event.target.value)} 
+              onChange = { (event) => onSetClubProps('name', event.target.value.toString)} 
               />
           </Grid>
           <Grid item xs={3}>
@@ -34,7 +34,7 @@ class ClubEditFormView extends PureComponent {
               label="Intro" 
               variant="standard"
               value={club && club.intro ? club.intro : ""}
-              onChange = { (event) => onSetClubProps('intro', event.target.value)} 
+              onChange = { (event) => onSetClubProps('intro', event.target.value.toString)} 
             />
           </Grid>
         </Grid>

@@ -16,7 +16,7 @@ class ClubListView extends PureComponent {
 
   render(){
    
-    let onSelectedClub = this.props.onSelectedClub;
+    let onSetClub = this.props.onSetClub;
     const clubsFlat = this.clubsFlatter();    
     return (
       <TableContainer component={Paper} >
@@ -32,7 +32,7 @@ class ClubListView extends PureComponent {
         {
         clubsFlat.length && Array.isArray(clubsFlat) ?
         clubsFlat.map((element) => (
-          <TableRow key={element.id} hover onClick={()=> onSelectedClub(element)}>
+          <TableRow key={element.id} hover onClick={()=> onSetClub(element)}>
             <TableCell>{element.name}</TableCell>
             <TableCell>{element.intro}</TableCell>
             <TableCell>{element.id}</TableCell>
