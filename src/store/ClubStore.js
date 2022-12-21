@@ -15,28 +15,13 @@ export const defaultSnapshot = {
         foundationTime:0,
 }
 
-const ClubStore = types.model('clubStore',{
+const ClubStore = types
+.model('clubStore',{
     club : types.optional(club, defaultSnapshot),
-    clubs: types.array(club),
+    clubs: types.array(types.reference(club)),
     searchText : types.string
     }
 )
-// .props({
-    
-// })
-// .views(self => ({
-    // get club(){
-    //     return self.club;
-    // },
-
-    // get clubs(){
-    //     return self.clubs ? self.clubs : [];
-    // },
-
-    // get searchText() {
-    //         return self.searchText ? self.searchText : '';
-    //     }
-//}))
 .actions((self => ({
     setClub : (club) => {
         self.club = club;
@@ -69,20 +54,29 @@ const ClubStore = types.model('clubStore',{
         let dbClubs = this.fetchClubs();
         Promise.resolve(dbClubs)
         .then(dbClub => pushClubs.push(dbClub))
-        self.clubs = pushClubs.flat(Infinity)
+        pushClubs.flat(Infinity).map( club => self.clubs.push(club));
     },
 
-    async addClub(){
+    async addIdToClub(){
         try{
-        let id ='';
-        id = await this.clubService.addClub(club);
-        this.setClubProps('id', id)
-        console.log(JSON.stringify(self.club))
-        self.clubs.push(self.club);
+        let insertClub = self.club;
+        let id = await ClubService.addClub(insertClub);
+        insertClub = {
+            ...insertClub,
+            'id' : id
+        }
+        console.log(JSON.stringify(insertClub))
+        return insertClub;
         } catch(error){
             console.error(error);
         }
     },
+
+    async addClub(){
+        let insertClub = this.addIdToClub();
+        self.clubs.push(insertClub);
+    },
+
 
     updateClub(){
         try {
@@ -111,7 +105,6 @@ const ClubStore = types.model('clubStore',{
         catch (error) {
             console.error(error);
         }
-    }
-
+    },
 })))
 export default ClubStore;

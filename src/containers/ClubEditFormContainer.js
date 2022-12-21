@@ -15,9 +15,8 @@ class ClubEditFormContainer extends Component {
   }
 
   onAddClub(){
-    let club ;
     //club = {...club, reactId:generateId(8)}
-    rootStore.clubStore.addClub(club);
+    rootStore.clubStore.addClub();
   } 
 
   onUpdateClub(){

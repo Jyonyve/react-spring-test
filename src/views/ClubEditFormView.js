@@ -8,6 +8,7 @@ import { observer } from 'mobx-react';
 
 @observer
 class ClubEditFormView extends PureComponent {
+
   render(){
 
 
@@ -24,7 +25,7 @@ class ClubEditFormView extends PureComponent {
               label="Name" 
               variant="standard"
               value={club && club.name ? club.name : ""}
-              onChange = { (event) => onSetClubProps('name', event.target.value.toString)} 
+              onChange = { (event) => onSetClubProps('name', event.target.value)} 
               />
           </Grid>
           <Grid item xs={3}>
@@ -34,7 +35,7 @@ class ClubEditFormView extends PureComponent {
               label="Intro" 
               variant="standard"
               value={club && club.intro ? club.intro : ""}
-              onChange = { (event) => onSetClubProps('intro', event.target.value.toString)} 
+              onChange = { (event) => onSetClubProps('intro', event.target.value)} 
             />
           </Grid>
         </Grid>

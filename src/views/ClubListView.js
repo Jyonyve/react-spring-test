@@ -8,6 +8,11 @@ import autobind from 'autobind-decorator';
 @autobind
 class ClubListView extends PureComponent {
 
+  constructor(props){
+    super(props);
+    this.props.onSetClubs();
+  }
+
   @action
   clubsFlatter(){
     const clubs = this.props.clubs;

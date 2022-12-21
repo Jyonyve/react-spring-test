@@ -9,11 +9,6 @@ import ClubListView from '../views/ClubListView';
 @autobind
 class ClubListContainer extends Component {
 
-  constructor(props){
-    super(props);
-    this.onSetClubs();
-  }
-
   onSetClub(club){
     rootStore.clubStore.setClub(club);
   }
@@ -25,9 +20,9 @@ class ClubListContainer extends Component {
   render(){
     
     let {clubs, searchText} = rootStore.clubStore;
-    let fclubs = clubs.flat(Infinity);
+    //let fclubs = clubs.flat(Infinity);
 
-    clubs = fclubs.filter( club => club.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
+    //clubs = fclubs.filter( club => club.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
 
     return (
       <ClubListView 
