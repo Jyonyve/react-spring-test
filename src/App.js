@@ -1,25 +1,23 @@
-import { Switch } from '@material-ui/core';
 import { Component } from 'react';
-import { BrowserRouter, Route, } from 'react-router-dom';
+import {  Route, Routes } from 'react-router-dom';
 import ClubRouter from './router/ClubRouter';
 import { LinkSelector } from './router/LinkSelector';
 import MemberRouter from './router/MemberRouter';
-import { rootStore, StoreProvider } from './store/RootStore';
 import Main from './views/Main';
+import React from 'react'
 
 class App extends Component {
   render(){
     return (
-      <StoreProvider value={rootStore}>
-        <BrowserRouter>
-          <LinkSelector/>
-            <Switch>
-              <Route path='/*' component={Main}/>
-              <Route path='/club' component={ClubRouter}/>
-              <Route path='/member' component={MemberRouter}/>
-            </Switch>
-        </BrowserRouter>
-      </StoreProvider>    
+      <div className="App">
+        <LinkSelector/>
+          <Routes>
+            <Route exact path='/' component={Main}/>
+            <Route path='/club' component={ClubRouter}/>
+            <Route path='/member' component={MemberRouter}/>
+            <Route component={ () => <h2>Page not found...</h2>}/>
+          </Routes>
+      </div>
     );
   }
 }

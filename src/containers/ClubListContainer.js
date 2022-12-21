@@ -1,10 +1,11 @@
 import autobind from 'autobind-decorator';
 import { inject, observer } from 'mobx-react';
 import React, { Component } from 'react';
+import { rootStore } from '../store/RootStore';
 import ClubListView from '../views/ClubListView';
 
 
-@inject('clubStore')
+@inject('rootstore')
 @observer
 @autobind
 class ClubListContainer extends Component {
@@ -14,25 +15,24 @@ class ClubListContainer extends Component {
     this.onSetClubs();
   }
 
-  onSelectedClub(club){
-    this.props.clubStore.selectedClub(club);
+  onSetClub(club){
+    rootStore.clubStore.setClub(club);
   }
 
   onSetClubs(){
-    this.props.clubStore.setClubs();
+    rootStore.clubStore.setClubs();
   }
 
   render(){
     
-    let {clubs, searchText} = this.props.clubStore;
-    let fclubs = clubs.flat(Infinity);
+    let {clubs, searchText} = rootStore.clubStore;
 
-    clubs = fclubs.filter( club => club.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
+    let filterClubs = clubs.filter( club => club.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
 
     return (
       <ClubListView 
-        clubs = {clubs}
-        onSelectedClub = {this.onSelectedClub}
+        clubs = {filterClubs}
+        onSelectedClub = {this.onSetClub}
         onSetClubs = {this.onSetClubs}
       />
       

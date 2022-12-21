@@ -4,7 +4,7 @@ import ClubEditFormContainer from '../containers/ClubEditFormContainer';
 import ClubListContainer from '../containers/ClubListContainer';
 import SearchbarContainer from '../containers/SearchbarContainer';
 
-function ClubRouter (props:any) {
+function ClubRouter () {
 
     return(
         <Container >

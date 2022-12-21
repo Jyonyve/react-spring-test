@@ -2,15 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {Provider} from 'mobx-react'
-import ClubStore from './store/ClubStore'
-import ClubService from './service/ClubService';
-import { MemberStore } from './store/MemberStore';
+import { BrowserRouter } from 'react-router-dom';
+import { rootStore, StoreProvider } from './store/RootStore';
 
 ReactDOM.render(
-    <Provider clubStore = {ClubStore} memberStore = {MemberStore}>
-      <App  clubService = {ClubService}/>
-    </Provider>,
+  <StoreProvider value={rootStore}>
+    <BrowserRouter>
+      <App/>
+    </BrowserRouter>
+  </StoreProvider>,    
   document.getElementById('root')
 );
 

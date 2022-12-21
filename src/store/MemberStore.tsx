@@ -44,6 +44,7 @@ export const MemberStore = types.model('memberStore')
             } catch (error) {
                 console.error(error);
             }
+            return self.members
         },
 
         addMember : async () => {
