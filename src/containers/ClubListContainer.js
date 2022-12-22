@@ -20,9 +20,9 @@ class ClubListContainer extends Component {
   render(){
     
     let {clubs, searchText} = rootStore.clubStore;
-    //let fclubs = clubs.flat(Infinity);
+    let fclubs = clubs.flat(Infinity);
 
-    //clubs = fclubs.filter( club => club.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
+    clubs = fclubs.filter( club => club.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
 
     return (
       <ClubListView 

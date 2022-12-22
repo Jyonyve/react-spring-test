@@ -1,5 +1,5 @@
 import ClubService from '../service/ClubService';
-import {  castToReferenceSnapshot, castToSnapshot, types } from 'mobx-state-tree';
+import {  castToReferenceSnapshot, types } from 'mobx-state-tree';
 
 export const club = types.model({
     id : types.identifier,
@@ -42,6 +42,10 @@ const ClubStore = types
             ...self.club,
             [name] : value
         }
+    },
+
+    setSearchText(searchText){
+        self.searchText = searchText;
     },
 
     pushClubs : (clubs) => {

@@ -3,6 +3,7 @@ import ClubEditFormContainer from './containers/ClubEditFormContainer';
 import ClubListContainer from './containers/ClubListContainer';
 
 import {Box, Container} from '@material-ui/core';
+import SearchbarContainer from './containers/SearchbarContainer';
 
 class App extends Component {
   render(){
@@ -12,6 +13,7 @@ class App extends Component {
           <ClubEditFormContainer />
         </Box>
         <Box m={3}>
+          <SearchbarContainer />
           <ClubListContainer/>
         </Box>
       </Container>
