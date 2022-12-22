@@ -1,5 +1,5 @@
 import ClubService from '../service/ClubService';
-import { types } from 'mobx-state-tree';
+import {  castToReferenceSnapshot, castToSnapshot, types } from 'mobx-state-tree';
 
 export const club = types.model({
     id : types.identifier,
@@ -18,7 +18,7 @@ export const defaultSnapshot = {
 const ClubStore = types
 .model('clubStore',{
     club : types.optional(club, defaultSnapshot),
-    clubs: types.array(types.reference(club)),
+    clubs: types.array(club),
     searchText : types.string
     }
 )
@@ -38,6 +38,11 @@ const ClubStore = types
         }
     },
 
+    pushClubs : (clubs) => {
+        let clubList = JSON.parse(clubs);
+        clubList.map(club => self.clubs.push(castToReferenceSnapshot(club)));
+    },
+
     async fetchClubs(){
         try {
             this.clearClub();
@@ -49,32 +54,35 @@ const ClubStore = types
         }
     },
 
-    setClubs(){
-        let pushClubs = [];
-        let dbClubs = this.fetchClubs();
-        Promise.resolve(dbClubs)
-        .then(dbClub => pushClubs.push(dbClub))
-        pushClubs.flat(Infinity).map( club => self.clubs.push(club));
+    async setClubs(){
+        let dbClubs = await this.fetchClubs();
+        dbClubs = dbClubs.flat(Infinity);
+        console.log(dbClubs)
+        this.pushClubs(JSON.stringify(dbClubs))
     },
 
-    async addIdToClub(){
+    async  addIdToClub(){
         try{
-        let insertClub = self.club;
-        let id = await ClubService.addClub(insertClub);
+        let insertClub = {};
+        insertClub = {...self.club};
+        let id = await ClubService.addClub(insertClub)
         insertClub = {
             ...insertClub,
             'id' : id
         }
-        console.log(JSON.stringify(insertClub))
-        return insertClub;
+        console.log(JSON.stringify(insertClub) + '    1')
+        this.setClubProps('id', id);
+        console.log('2')
         } catch(error){
             console.error(error);
         }
     },
 
     async addClub(){
-        let insertClub = this.addIdToClub();
-        self.clubs.push(insertClub);
+        await this.addIdToClub();
+        console.log('3')
+        this.setClubs();
+        console.log('4')
     },
 
 

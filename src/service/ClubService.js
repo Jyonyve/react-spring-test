@@ -10,7 +10,7 @@ class ClubService {
 
         let id = '';
         await axios.post(
-            BASE_URL + '/add',
+            BASE_URL,
             JSON.stringify(club),
             {headers: {
                 "Content-Type" : `application/json`,
@@ -22,7 +22,7 @@ class ClubService {
 
     editClub(id, club){
         axios.put(
-            BASE_URL + '/react/' + id,
+            BASE_URL + '/' + id,
             JSON.stringify(club),
             {
                 headers: {
@@ -39,8 +39,8 @@ class ClubService {
     async fetchClubs(){
         let clubs = [];
         try {
-          await axios.get(BASE_URL)
-          .then(club => clubs.push(club.data))  
+          await axios.get(BASE_URL + '/all')
+          .then(club => clubs.push(club.data));
         } catch (error) {
             console.error(error.message);
         }
