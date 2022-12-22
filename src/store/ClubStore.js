@@ -48,8 +48,8 @@ const ClubStore = types
         self.searchText = searchText;
     },
 
-    pushClubs : (clubs) => {
-        let clubList = JSON.parse(clubs);
+    pushClubs : (JSonclubs) => {
+        let clubList = JSON.parse(JSonclubs);
         clubList.map(club => self.clubs.push(castToReferenceSnapshot(club)));
     },
 
