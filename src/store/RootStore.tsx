@@ -1,13 +1,14 @@
 import React, { createContext } from "react";
 import {types, Instance,  castToSnapshot, } from 'mobx-state-tree'
 import ClubStore, { defaultSnapshot } from "./ClubStore";
-//import { MemberStore } from "./MemberStore";
+import { MemberStore } from "./MemberStore";
+import { defaultSnapshotMember } from "../aggregate/Member";
 
 export const rootStore = types.model({
-    //memberStore : MemberStore,
+    memberStore : MemberStore,
     clubStore : ClubStore,
 }).create({
-    //memberStore : { member : '', members : [], searchText:'' },
+    memberStore : { member : castToSnapshot(defaultSnapshotMember), members : [], searchText:'' },
     clubStore : { club : castToSnapshot(defaultSnapshot), clubs:[], searchText:''},
 });
 
