@@ -23,11 +23,17 @@ const ClubStore = types
     }
 )
 .actions((self => ({
-    setClub : (club) => {
-        self.club = club;
+
+    setClub(club){
+        self.club = {...club};  
     },
 
-    clearClub : () => {
+    clearClub: () => {
+        self.club = defaultSnapshot;
+        console.log('club cleaning' + JSON.stringify(self.club));
+    },
+    
+    clearClubs : () => {
         self.clubs.clear();
     },
 
@@ -45,7 +51,7 @@ const ClubStore = types
 
     async fetchClubs(){
         try {
-            this.clearClub();
+            this.clearClubs();
             let dbClubs = [];
             dbClubs = await ClubService.fetchClubs();
             return dbClubs;
@@ -88,10 +94,10 @@ const ClubStore = types
 
     updateClub(){
         try {
-        let i = self.clubs.findIndex(club => club.id === self.club.get('id').id);
-        self.clubs.splice(i, 1, self.club);
-        console.log(`club ID : ${self.club.get('id').id}`)
-        ClubService.editClub(self.club.get('id').id, self.club);
+        let i = self.clubs.findIndex(club => club.id === self.club.id);
+        self.clubs.splice(i, 1, {...self.club});
+        console.log(`club ID : ${self.club.id}`)
+        ClubService.editClub(self.club.id, self.club);
         }catch(error){
             console.error(error);
         }
@@ -99,16 +105,15 @@ const ClubStore = types
         
     },
 
-    // filterClub(){
-    //     return self.clubs.filter( club => club.name.match(self.searchText));
-    // },
+    filterClub(){
+        return self.clubs.filter( club => club.name.match(self.searchText));
+    },
 
     deleteClub(){
         try{
-            let i = self.clubs.findIndex(club => club.id === self.club.get('id').id);
+            let i = self.clubs.findIndex(club => club.id === self.club.id);
             self.clubs.splice(i, 1);
-
-            ClubService.deleteClub(self.club.get('id').id);
+            ClubService.deleteClub(self.club.id);
         }
         catch (error) {
             console.error(error);
