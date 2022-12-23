@@ -2,7 +2,7 @@ import {Container, Box} from '@material-ui/core';
 import { MemberEditFormContainer } from '../containers/MemberEditFormContainer';
 import SearchbarContainer from '../containers/SearchbarContainer';
 import React from 'react';
-import { MemberListView } from '../views/MemberListView';
+import { MemberListContainer } from '../containers/MemberListContainer';
 
 function MemberRouter () {
 
@@ -13,7 +13,7 @@ function MemberRouter () {
           </Box>
           <Box m={3}>
             <SearchbarContainer />
-            <MemberListView />
+            <MemberListContainer />
           </Box>
       </Container>
     )

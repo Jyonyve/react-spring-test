@@ -20,8 +20,18 @@ const ClubStore = types
     club : types.optional(club, defaultSnapshot),
     clubs: types.array(club),
     searchText : types.string
-    }
-)
+    })
+.views( self => ({
+    getClub(){
+        const club = {...self.club}
+        return club;
+    },
+
+    getClubs(){
+        const clubs = {...self.clubs}
+        return clubs;
+    },
+}))
 .actions((self => ({
 
     setClub(club){

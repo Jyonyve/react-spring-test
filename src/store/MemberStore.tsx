@@ -1,77 +1,123 @@
-import {MemberService} from '../service/MemberService'
-import {  types } from 'mobx-state-tree';
+import MemberService from '../service/MemberService';
+import { castToReferenceSnapshot, castToSnapshot, types } from 'mobx-state-tree';
 import Member, { defaultSnapshotMember } from '../aggregate/Member';
+
 
 export const MemberStore = types
 .model(('memberStore'), {
     member : types.optional(Member, defaultSnapshotMember),
     members : types.array(Member),
-    searchText : types.optional(types.string, '')
-    
+    searchText : types.optional(types.string, ''),
+    memberService : types.optional(MemberService, {})
 })
-// .views(self => ({
-//         get member(){
-//             return self.member ? self.member : undefined;
-//         },
-
-//         get members(){
-//             return self.members ? self.members : [];
-//         },
-
-//         get searchText() {
-//             return self.searchText ? self.searchText : '';
-//         }
-// }))
-.actions((self => ({
-    setMember : (member :any) => {
-        self.member = member
+.views(self => ({
+    getMember : () => {
+        const member = {...self.member}
+        return member;
     },
 
-    setMemberProps : (name :string, value:string) => {
+    getMembers: () => {
+        const members = {...self.members}
+        return members;
+    },
+
+    getSearchText: () => {
+        return self.searchText;
+    },
+}))
+.actions((self => ({
+
+    setMember (member :any) {
+        self.member = {...member}
+    },
+
+    setMemberAddressKey (name: string, value : string){
+        self.member.addresses = {
+            ...self.member.addresses,
+            [name] : value
+        }
+    },
+
+    setMemberProps (name :string, value:string) {
     self.member = {
         ...self.member,
-        [name as keyof typeof Member] : value
+        [name] : value
         }
     },
 
-    setMembers : async () => {
+    clearMember() {
+        self.member = castToSnapshot(defaultSnapshotMember);
+    },
+
+    clearMembers() {
         self.members.clear();
+    },
+
+    async fetchMembers() {
         try {
+            this.clearMembers();
             let dbMembers : any;
-            dbMembers = MemberService('fetchMembers', self.member )
-            await Promise.resolve(dbMembers).then(
-                dbMember => self.members.push(dbMember));
-        } catch (error) {
-            console.error(error);
-        }
-        return self.members
-    },
-
-    addMember : async () => {
-        try {
-            let id : any;
-            await Promise.resolve(MemberService('addClub', self.member))
-            .then(addId => id = addId);
-            console.log(`new member id : ${id}`)
-            self.member = {
-                ...self.member,
-                'id' : id
-            }
-            self.members.push(self.member)
-
+            dbMembers = await self.memberService.fetchMembers();
+            return dbMembers;
         } catch (error) {
             console.error(error);
         }
     },
 
-    editMember : () => {
+    async setMembers() {
         try {
-            if(self.member){
-                const id : string|undefined = self.member?.id;
-                let i = self.members.findIndex(member => member.id === id);
-                self.members.splice(i, 1, self.member);
-                MemberService('editMember', self.member);
-            }
+           let dbMembers = await this.fetchMembers();
+            dbMembers = dbMembers.flat(Infinity);
+            console.log(dbMembers);
+            this.pushMembers(JSON.stringify(dbMembers)); 
+        } catch (error) {
+            
+        }
+    },
+
+    pushMembers : (JSONmembers: string) => {
+        let memberList :[] = JSON.parse(JSONmembers);
+        memberList.map(member => self.members.push(castToReferenceSnapshot(member)));
+    },
+
+   async addIdToMember(){
+        try {
+            let insertMember = {...self.member};
+            let id : any = await self.memberService.addMember(insertMember);
+            let insertId :string = id as string
+            insertMember = {
+                ...insertMember, 
+                'id' : insertId
+            };
+            console.log(`id: ${insertId}`)
+            this.setMemberProps('id', insertId);
+            //this.setMember(castToSnapshot(insertMember));
+        } catch (error) {
+            console.log(error);
+        }    
+   },
+
+    async addMember(){
+        try {
+            console.log(`addMember ran.`)
+            await this.addIdToMember();
+            console.log(`addIdMember ran.`)
+            this.setMembers();
+            console.log(`setMembers ran.`)
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
+    editMember () {
+        try {
+            const id : string|undefined = self.member?.id;
+            let memberList = self.getMembers();
+            let i = self.members.findIndex(member => member.id === id);
+            memberList.splice(i, 1, self.member);
+            
+            self.memberService.editMember(self.getMember);
+
             
         } catch (error) {
             console.error(error);
@@ -84,7 +130,7 @@ export const MemberStore = types
                 const id :string|undefined = self.member?.id;
                 let i = self.members.findIndex(member => member.id === id);
                 self.members.splice(i, 1);    
-                MemberService('deleteMember', self.member);
+                self.memberService.deleteMember(id);
             }
             
         } catch (error) {

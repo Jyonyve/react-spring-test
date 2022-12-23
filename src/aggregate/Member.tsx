@@ -1,4 +1,3 @@
-import Address from "./Address";
 import {  types} from "mobx-state-tree";
 
 export const defaultSnapshotAddress = {
@@ -6,7 +5,8 @@ export const defaultSnapshotAddress = {
     zipAddress :'',
     streetAddress : '',
     country : '',
-    addressType: 'Home'
+    addressType: 'Home',
+    id : ''
 }
 export const defaultSnapshotMember = {
     id:'',

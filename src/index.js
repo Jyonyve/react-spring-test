@@ -1,17 +1,19 @@
-import { Provider } from 'mobx-react';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { rootStore } from './store/RootStore';
+import { rootStore, StoreProvider } from './store/RootStore';
 import {BrowserRouter} from 'react-router-dom';
+import { Provider } from 'mobx-react';
 
 
 ReactDOM.render(
-    <Provider rootStore = {rootStore}>
+    <Provider rootStore ={rootStore} >
+    <StoreProvider value={rootStore}>
       <BrowserRouter>
-        <App/>
+        <App />
       </BrowserRouter>
+     </StoreProvider>
     </Provider>,
   document.getElementById('root')
 );

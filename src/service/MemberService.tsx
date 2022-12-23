@@ -1,18 +1,13 @@
 import axios from "axios";
-import  { useEffect } from "react";
-import Member from "../aggregate/Member";
+import { types } from "mobx-state-tree";
 
-export const MemberService = (func: string, member : any) =>{
-    
-    const BASE_URL: string = 'http://localhost:8080/member';
-    
+const BASE_URL: string = 'http://localhost:8080/member';
 
-    useEffect(() => {
-        console.log(`memberService 호출`);
-        memberService(func, member)
-    })
+const MemberService = types.model(
+)
+.actions(() => ({
 
-    const addMember = async (targetMember: typeof Member) => {
+    addMember : async (targetMember : any) => {
         try{
             if(!targetMember){
                 throw new Error('no member to for service!');
@@ -32,9 +27,9 @@ export const MemberService = (func: string, member : any) =>{
         } catch(error) {
             console.error(error);
         }
-    }
+    },
 
-    const editMember = async (targetMember:typeof Member) => {
+    editMember : async (targetMember: any) => {
         try {
             if(!targetMember){
                 throw new Error('no member to for service!');
@@ -51,43 +46,31 @@ export const MemberService = (func: string, member : any) =>{
         } catch (error) {
             console.error(error)
         }
-    }
+    },
 
-    const deleteMember = (targetMember : typeof Member) => {
+    deleteMember : (targetMember :any) => {
         if(!targetMember){
             throw new Error('no member to for service!');
         }
         const id = targetMember.properties.id;
         axios.delete(BASE_URL + `/${id}`);
-    }
+    },
 
-    const fetchMembers =async () => {
+    fetchMembers : async () => {
         let members : any[] = []; //배열타입 명시해주지 않으면 never라고 인식해서 초기화가 제대로 안됨
         try {
             await axios.get(BASE_URL)
             .then(member => members.push(member.data));
-            
-            return members;
+            if(members !==undefined){
+                return members;
+            }else {
+                throw new Error(`fetchMember Cannot be undefined.`)
+            }
             
         } catch (error) {
             console.error(error);
         }
     }
-
-    const memberService = (func:string, targetMember:typeof Member) => {
-
-    switch(func){
-        case 'addMember' :
-            return addMember(targetMember);
-        case 'editMember' :
-            return editMember(targetMember);
-        case 'deleteMember':
-            return deleteMember(targetMember);
-        case 'fetchMembers' :
-            return fetchMembers();
-        }  
-    }
-
-    return memberService;
-}
+}));
+export default MemberService;
 
