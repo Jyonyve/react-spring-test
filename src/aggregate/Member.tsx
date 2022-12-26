@@ -6,6 +6,7 @@ export const defaultSnapshotAddress = {
     streetAddress : '',
     country : '',
     addressType: 'Home',
+    addressId : '',
     id : ''
 }
 export const defaultSnapshotMember = {
@@ -19,6 +20,16 @@ export const defaultSnapshotMember = {
 
 }
 
+const Address = types.model('Address',{
+    zipCode : types.string,
+    zipAddress :types.string,
+    streetAddress : types.string,
+    country : types.string,
+    addressType: types.string,
+    addressId : types.string,
+    id : types.string
+})
+
 const Member = types.model('Member',
 {
     email : types.string,
@@ -26,7 +37,7 @@ const Member = types.model('Member',
     phoneNumber :types.string,
     nickName : types.string,
     birthday: types.string,
-    addresses : types.map(types.string),
+    addresses : types.map(types.reference(Address)),
     id : types.identifier
 })
 export default Member;

@@ -68,7 +68,6 @@ export const MemberStore = types
         try {
            let dbMembers = await this.fetchMembers();
             dbMembers = dbMembers.flat(Infinity);
-            console.log(dbMembers);
             this.pushMembers(JSON.stringify(dbMembers)); 
         } catch (error) {
             
@@ -76,8 +75,11 @@ export const MemberStore = types
     },
 
     pushMembers : (JSONmembers: string) => {
+    
         let memberList :[] = JSON.parse(JSONmembers);
-        memberList.map(member => self.members.push(castToReferenceSnapshot(member)));
+        console.log(`pushmember ran. ${memberList}`)
+        memberList.map(Member => self.members.push(castToReferenceSnapshot(Member)))
+        console.log(`pushmember finish`)
     },
 
    async addIdToMember(){
@@ -90,8 +92,6 @@ export const MemberStore = types
                 'id' : insertId
             };
             console.log(`id: ${insertId}`)
-            this.setMemberProps('id', insertId);
-            //this.setMember(castToSnapshot(insertMember));
         } catch (error) {
             console.log(error);
         }    
