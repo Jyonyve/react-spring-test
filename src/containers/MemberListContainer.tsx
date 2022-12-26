@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import React, { useEffect } from "react";
+import React from "react";
 import Member from "../aggregate/Member";
 import { useStore } from "../store/RootStore";
 import { MemberListView } from "../views/MemberListView";
@@ -26,8 +26,6 @@ export const MemberListContainer = (observer(() => {
 
     let searchText = memberStore.getSearchText();
     let members = flatMembers().filter(member => member.email.toLowerCase().indexOf(searchText.toLowerCase()));
-    
-    useEffect( () => onSetMembers);
 
     return(
         <MemberListView

@@ -1,10 +1,11 @@
 import { observer } from "mobx-react";
 import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper } from '@material-ui/core';
-import React from "react";
+import React, {useEffect} from "react";
 
 export const MemberListView = observer((props:any) => {
     
-  const {members, onSetMember} = props;
+  const {members, onSetMembers, onSetMember} = props;
+  useEffect( () => onSetMembers, [onSetMembers]);
 
     return(
         <TableContainer component={Paper} >
