@@ -1,14 +1,13 @@
-import {  types} from "mobx-state-tree";
+import { types} from "mobx-state-tree";
 
-export const defaultSnapshotAddress = {
-    zipCode : '',
-    zipAddress :'',
-    streetAddress : '',
-    country : '',
-    addressType: 'Home',
-    addressId : '',
-    id : ''
-}
+// export const defaultSnapshotAddress = {
+//     zipCode : '',
+//     zipAddress :'',
+//     streetAddress : '',
+//     country : '',
+//     addressType: '',
+//     id : ''
+// }
 export const defaultSnapshotMember = {
     id:'',
     name:'',
@@ -16,28 +15,27 @@ export const defaultSnapshotMember = {
     phoneNumber:'',
     nickName : '',
     birthday: '',
-    addresses : defaultSnapshotAddress
+    //address : defaultSnapshotAddress
 
 }
 
-const Address = types.model('Address',{
-    zipCode : types.string,
-    zipAddress :types.string,
-    streetAddress : types.string,
-    country : types.string,
-    addressType: types.string,
-    addressId : types.string,
-    id : types.string
-})
+// const Address = types.model('Address',{
+//     zipCode : types.string,
+//     zipAddress :types.string,
+//     streetAddress : types.string,
+//     country : types.string,
+//     addressType: types.string,
+//     id : types.string
+// })
 
 const Member = types.model('Member',
 {
-    email : types.string,
-    name :types.string,
-    phoneNumber :types.string,
-    nickName : types.string,
-    birthday: types.string,
-    addresses : types.map(types.reference(Address)),
-    id : types.identifier
+    email : types.optional(types.string,''),
+    name :types.optional(types.string,''),
+    phoneNumber :types.optional(types.string,''),
+    nickName : types.optional(types.string,''),
+    birthday: types.optional(types.string,''),
+    id : types.identifier,
+    //address : types.reference(castToSnapshot(Address))
 })
 export default Member;

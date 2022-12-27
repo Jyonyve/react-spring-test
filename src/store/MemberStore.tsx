@@ -1,5 +1,5 @@
 import MemberService from '../service/MemberService';
-import { castToReferenceSnapshot, castToSnapshot, types } from 'mobx-state-tree';
+import {  castToSnapshot, types } from 'mobx-state-tree';
 import Member, { defaultSnapshotMember } from '../aggregate/Member';
 
 
@@ -7,21 +7,21 @@ export const MemberStore = types
 .model(('memberStore'), {
     member : types.optional(Member, defaultSnapshotMember),
     members : types.array(Member),
-    searchText : types.optional(types.string, ''),
+    searchText : types.string,
     memberService : types.optional(MemberService, {})
 })
 .views(self => ({
-    getMember : () => {
+    getMember(){
         const member = {...self.member}
         return member;
     },
 
-    getMembers: () => {
+    getMembers() {
         const members = {...self.members}
         return members;
     },
 
-    getSearchText: () => {
+    getSearchText(){
         return self.searchText;
     },
 }))
@@ -29,13 +29,6 @@ export const MemberStore = types
 
     setMember (member :any) {
         self.member = {...member}
-    },
-
-    setMemberAddressKey (name: string, value : string){
-        self.member.addresses = {
-            ...self.member.addresses,
-            [name] : value
-        }
     },
 
     setMemberProps (name :string, value:string) {
@@ -70,28 +63,20 @@ export const MemberStore = types
             dbMembers = dbMembers.flat(Infinity);
             this.pushMembers(JSON.stringify(dbMembers)); 
         } catch (error) {
-            
+            console.error(error)
         }
     },
 
     pushMembers : (JSONmembers: string) => {
-    
         let memberList :[] = JSON.parse(JSONmembers);
-        console.log(`pushmember ran. ${memberList}`)
-        memberList.map(Member => self.members.push(castToReferenceSnapshot(Member)))
-        console.log(`pushmember finish`)
+        memberList.map(member => self.members.push(castToSnapshot(member)))
     },
 
    async addIdToMember(){
         try {
             let insertMember = {...self.member};
             let id : any = await self.memberService.addMember(insertMember);
-            let insertId :string = id as string
-            insertMember = {
-                ...insertMember, 
-                'id' : insertId
-            };
-            console.log(`id: ${insertId}`)
+            console.log(`id: ${id}`)
         } catch (error) {
             console.log(error);
         }    
@@ -111,7 +96,7 @@ export const MemberStore = types
 
     editMember () {
         try {
-            const id : string|undefined = self.member?.id;
+            const id : string = self.member.id;
             let memberList = self.getMembers();
             let i = self.members.findIndex(member => member.id === id);
             memberList.splice(i, 1, self.member);

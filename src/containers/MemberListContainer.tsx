@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import React from "react";
+import React,{useState, useEffect} from "react";
 import Member from "../aggregate/Member";
 import { useStore } from "../store/RootStore";
 import { MemberListView } from "../views/MemberListView";
@@ -7,6 +7,9 @@ import { MemberListView } from "../views/MemberListView";
 export const MemberListContainer = (observer(() => {
     
     const memberStore = useStore().memberStore;
+    let [copyMembers, setCopyMembers] = useState<any[]>();
+
+    useEffect(()=>{setUpList()})
 
     const onSetMember = (member : typeof Member) => {
         memberStore.setMember(member);
@@ -16,16 +19,18 @@ export const MemberListContainer = (observer(() => {
         memberStore.setMemberProps(name, value);
     }
 
-    const onSetMembers = () => {
+    function onSetMembers () {
         memberStore.setMembers();
     }
 
-    function flatMembers (){
-        return memberStore.members.flat(Infinity);
+    let searchText:string = memberStore.getSearchText();
+
+    async function setUpList(){
+            let dbMembers = await memberStore.fetchMembers()
+            setCopyMembers(dbMembers.flat(Infinity));
     }
 
-    let searchText = memberStore.getSearchText();
-    let members = flatMembers().filter(member => member.email.toLowerCase().indexOf(searchText.toLowerCase()));
+    let members = copyMembers?.filter(member => member.email.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
 
     return(
         <MemberListView

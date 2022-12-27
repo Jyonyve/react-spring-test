@@ -4,8 +4,10 @@ import React, {useEffect} from "react";
 
 export const MemberListView = observer((props:any) => {
     
-  const {members, onSetMembers, onSetMember} = props;
-  useEffect( () => onSetMembers, [onSetMembers]);
+  const {members, onSetMember, onSetMembers} = props;
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(()=>{onSetMembers()}, []);
 
     return(
         <TableContainer component={Paper} >
