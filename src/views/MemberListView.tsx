@@ -6,6 +6,7 @@ export const MemberListView = observer((props:any) => {
     
   const {members, onSetMembers, onSetMember} = props;
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(()=>{onSetMembers()},[]);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
