@@ -97,13 +97,9 @@ export const MemberStore = types
     editMember () {
         try {
             const id : string = self.member.id;
-            let memberList = self.getMembers();
             let i = self.members.findIndex(member => member.id === id);
-            memberList.splice(i, 1, self.member);
-            
-            self.memberService.editMember(self.getMember);
-
-            
+            self.members.splice(i, 1, {...self.member});
+            self.memberService.editMember(id, {...self.member});
         } catch (error) {
             console.error(error);
         }
@@ -111,13 +107,11 @@ export const MemberStore = types
 
     deleteMember : () => {
         try {
-            if(self.member){
-                const id :string|undefined = self.member?.id;
+                const id :string = self.member.id;
+                console.log(id)
                 let i = self.members.findIndex(member => member.id === id);
                 self.members.splice(i, 1);    
-                self.memberService.deleteMember(id);
-            }
-            
+                self.memberService.deleteMember(id); 
         } catch (error) {
             console.error(error);
         }

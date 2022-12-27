@@ -29,14 +29,10 @@ const MemberService = types.model(
         }
     },
 
-    editMember : async (targetMember: any) => {
+    editMember : async (id:string, targetMember: any) => {
         try {
-            if(!targetMember){
-                throw new Error('no member to for service!');
-            }
-            const id = targetMember.properties.id;
             axios.put(
-                BASE_URL + `/react/${id}`,
+                BASE_URL + "/" + id,
                 JSON.stringify(targetMember),{
                     headers:{
                         "Content-Type" : `application/json`,
@@ -48,12 +44,8 @@ const MemberService = types.model(
         }
     },
 
-    deleteMember : (targetMember :any) => {
-        if(!targetMember){
-            throw new Error('no member to for service!');
-        }
-        const id = targetMember.properties.id;
-        axios.delete(BASE_URL + `/${id}`);
+    deleteMember : (id:string) => {
+        axios.delete(BASE_URL + "/" + id);
     },
 
     fetchMembers : async () => {
