@@ -10,6 +10,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "@types/react-router-dom": "^5.3.3",
     "autobind-decorator": "^2.4.0",
     "axios": "^1.2.1",
     "cors": "^2.8.5",
@@ -23,7 +24,7 @@
     "moment": "^2.29.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-router-dom": "^6.6.0",
+    "react-router-dom": "^6.6.1",
     "react-scripts": "4.0.1",
     "web-vitals": "^0.2.4"
   },
