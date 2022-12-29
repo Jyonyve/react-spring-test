@@ -10,6 +10,7 @@ import {
 } from "@mui/material";
 import { Span } from "../templete/app/components/Typography";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
+import { NavLink } from "react-router-dom";
 
 
 const TextField = styled(TextValidator)(() => ({
@@ -88,6 +89,11 @@ export const Main = () => {
           <Button color="primary" variant="contained" type="submit">
             <Icon>send</Icon>
             <Span sx={{ pl: 1, textTransform: "capitalize" }}>Submit</Span>
+          </Button>
+          <Button color="secondary" variant="contained" type="button" >
+            <Icon>send</Icon>
+            <NavLink to="/login/oauth2/code/google"></NavLink>
+            <Span sx={{ pl: 1, textTransform: "capitalize" }}>Google Login</Span>
           </Button>
         </ValidatorForm>
       </div>

@@ -9,7 +9,7 @@ class MainService {
     getHelloWorld  = async () :Promise<string>  => {
         let message : string = '';
         try { 
-            await axios.get(this.BASE_URL+'/main').then(res => message = res.data)
+            await axios.get(this.BASE_URL+'main').then(res => message = res.data)
         } catch (error) {
            console.error(error); 
         }
