@@ -2,7 +2,7 @@ import autobind from "autobind-decorator";
 import axios from "axios";
 
 @autobind
-class MainService {
+class LoginService {
     
     BASE_URL = 'http://localhost:8080/';
 
@@ -15,5 +15,7 @@ class MainService {
         }
         return message;
     }
+
+    
 }
-export default new MainService();
+export default new LoginService();

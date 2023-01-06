@@ -54,6 +54,7 @@ const MemberService = types.model(
             await axios.get(BASE_URL)
             .then(member => members.push(member.data));
             if(members !==undefined){
+                console.log(JSON.stringify(members));
                 return members;
             }else {
                 throw new Error(`fetchMember Cannot be undefined.`)

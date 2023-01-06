@@ -59,6 +59,7 @@ const ClubStore = types
     },
 
     pushClubs : (JSonclubs) => {
+        console.log(JSonclubs);
         let clubList = JSON.parse(JSonclubs);
         clubList.map(club => self.clubs.push(castToReferenceSnapshot(club)));
     },

@@ -39,13 +39,20 @@ class ClubService {
     async fetchClubs(){
         let clubs = [];
         try {
-          await axios.get(BASE_URL)
-          .then(club => clubs.push(club.data));
+          await axios.get(BASE_URL, 
+                {headers: {
+                 "Content-type": `application/json` 
+                },
+                }
+            )
+            .then(club => clubs.push(club.data));
+          console.log(clubs)
         } catch (error) {
             console.error(error.message);
         }
         return clubs;       
     }
 }
+
 
 export default new ClubService();
