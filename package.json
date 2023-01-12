@@ -14,6 +14,7 @@
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "@types/gapi": "^0.0.43",
     "@types/react-router-dom": "^5.3.3",
     "autobind-decorator": "^2.4.0",
     "axios": "^1.2.1",
@@ -27,11 +28,13 @@
     "mobx-state-tree": "^5.1.7",
     "mobx-utils": "^6.0.5",
     "moment": "^2.29.1",
+    "nvm": "^0.0.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-material-ui-form-validator": "^3.0.1",
     "react-router-dom": "^6.6.1",
-    "react-scripts": "4.0.1",
+    "react-scripts": "^5.0.1",
+    "typescript": "^4.9.4",
     "web-vitals": "^0.2.4"
   },
   "scripts": {
@@ -84,5 +87,9 @@
         }
       ]
     ]
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/Jyonyve/react-spring-test.git",
+  "author": "Jyonyve <key_neco@naver.com>",
+  "license": "MIT"
 }

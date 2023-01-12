@@ -1,10 +1,7 @@
-import React from "react";
 import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import axios from "axios";
 
 export const LoginGoogle = (props:any) => {
-
-    const URL :string = 'http://localhost:8080'
 
     return(
         <GoogleOAuthProvider clientId="642225847404-je5i44c2t5d6jskll3sk82nqh233ejlk.apps.googleusercontent.com">
@@ -12,13 +9,13 @@ export const LoginGoogle = (props:any) => {
                 onSuccess={async credentialResponse => {
                     console.log(credentialResponse);
                     await axios.post(
-                        URL + "/login",
+                        "http://localhost:8080/oauth2/login",
                         {},
-                        {
-                            headers: {Authorization: `Bearer ${credentialResponse}`}
-
+                        {headers: {
+                            "authorization" : `bearer ${credentialResponse}`
+                           },
+                           withCredentials: true,
                         }
-                        ,
                     )
                 }}
                 onError={() => {
