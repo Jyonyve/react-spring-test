@@ -1,15 +1,16 @@
 import autobind from "autobind-decorator";
 import axios from "axios";
+const BASE_URL = 'http://localhost:8080/club';
 
 @autobind
 class ClubService {
-    BASE_URL = 'http://localhost:8080/club';
+    
 
     async addClub(club){
 
         let id = '';
         await axios.post(
-            this.BASE_URL,
+            BASE_URL,
             JSON.stringify(club),
             {headers: {
                 "Content-Type" : `application/json`,
@@ -21,7 +22,7 @@ class ClubService {
 
     editClub(id, club){
         axios.put(
-            this.BASE_URL + '/' + id,
+            BASE_URL + '/' + id,
             JSON.stringify(club),
             {
                 headers: {
@@ -39,7 +40,7 @@ class ClubService {
         let clubs = [];
         try {
           await axios.get(
-          this.BASE_URL, 
+          BASE_URL, 
                 {headers: {
                  "Content-type": `application/json` 
                 },

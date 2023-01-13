@@ -9,12 +9,12 @@ export const LoginGoogle = (props:any) => {
                 onSuccess={async credentialResponse => {
                     console.log(credentialResponse);
                     await axios.post(
-                        "http://localhost:8080/oauth2/login",
+                        "http://localhost:8080/oauth2/login/",
                         {},
                         {headers: {
-                            "authorization" : `bearer ${credentialResponse}`
+                            "authorization" : `bearer ${credentialResponse.credential}`
                            },
-                           withCredentials: true,
+                         withCredentials: true,
                         }
                     )
                 }}
