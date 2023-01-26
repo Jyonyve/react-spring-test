@@ -1,11 +1,9 @@
-import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
+import { GoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 
-export const LoginGoogle = (props:any) => {
-
+export const GoogleLoginContainer = (props:any) => {
     return(
-        <GoogleOAuthProvider clientId="642225847404-je5i44c2t5d6jskll3sk82nqh233ejlk.apps.googleusercontent.com">
-            <GoogleLogin
+        <GoogleLogin
                 onSuccess={async credentialResponse => {
                     console.log(credentialResponse);
                     await axios.post(
@@ -15,9 +13,7 @@ export const LoginGoogle = (props:any) => {
                             headers: {
                             "Authorization" : `Bearer ${credentialResponse.credential}`,
                             },
-                            
                             withCredentials: true,
-                         
                         }
                     )
                 }}
@@ -25,6 +21,5 @@ export const LoginGoogle = (props:any) => {
                     console.log('Login Failed');
                 }}
             />
-        </GoogleOAuthProvider>
-    )
+    );
 }

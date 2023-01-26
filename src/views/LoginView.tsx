@@ -10,7 +10,6 @@ import {
   TableHead,
 } from "@mui/material";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
-import { LoginGoogle } from './LoginGoogle';
 
 
 const TextField = styled(TextValidator)(() => ({
@@ -92,7 +91,6 @@ export const Login = () => {
                   <Button color="primary" variant="contained" type="submit">
                     <span>Submit</span>
                   </Button>
-                  <LoginGoogle></LoginGoogle>
                 </TableCell>
               </TableRow>
             </TableBody>
