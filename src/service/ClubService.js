@@ -1,6 +1,7 @@
 import autobind from "autobind-decorator";
 import axios from "axios";
-const BASE_URL = 'http://localhost:8080/club';
+
+const BASE_URL = '/club';
 
 @autobind
 class ClubService {

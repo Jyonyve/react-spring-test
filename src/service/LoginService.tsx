@@ -4,7 +4,7 @@ import axios from "axios";
 @autobind
 class LoginService {
     
-    BASE_URL = 'http://localhost:8080/';
+    BASE_URL = 'http://localhost:8080';
 
     getHelloWorld  = async () :Promise<string>  => {
         let message : string = '';

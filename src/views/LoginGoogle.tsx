@@ -9,19 +9,22 @@ export const LoginGoogle = (props:any) => {
                 onSuccess={async credentialResponse => {
                     console.log(credentialResponse);
                     await axios.post(
-                        "http://localhost:8080/oauth2/login/",
+                        "/oauth2/login",
                         {},
-                        {headers: {
-                            "authorization" : `bearer ${credentialResponse.credential}`
-                           },
-                         withCredentials: true,
+                        {
+                            headers: {
+                            "Authorization" : `Bearer ${credentialResponse.credential}`,
+                            },
+                            
+                            withCredentials: true,
+                         
                         }
                     )
                 }}
                 onError={() => {
                     console.log('Login Failed');
                 }}
-            />;
+            />
         </GoogleOAuthProvider>
     )
 }

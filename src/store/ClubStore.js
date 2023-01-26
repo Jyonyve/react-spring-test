@@ -69,6 +69,7 @@ const ClubStore = types
             this.clearClubs();
             let dbClubs = [];
             dbClubs = await ClubService.fetchClubs();
+            console.log(`dbClubs ${dbClubs}`);
             return dbClubs;
         } catch (error) {
             console.error(error);

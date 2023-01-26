@@ -1,5 +1,3 @@
-import axios from 'axios';
-import React from 'react';
 import { Route,  Routes } from 'react-router-dom';
 import ClubRouter from './router/ClubRouter';
 import { LinkSelector } from './router/LinkSelector';
@@ -8,7 +6,6 @@ import { Login } from './views/LoginView';
  
 
 const App = () => {
-    axios.defaults.withCredentials = true;
     
     return (
       <div className='App'>

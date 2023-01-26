@@ -29,14 +29,19 @@ const MemberService = types.model(
         }
     },
 
-    editMember : async (id:string, targetMember: any) => {
+    editMember : async (id:string, targetMember:any) => {
         try {
+            if(!targetMember){
+                throw new Error('no member to for service!');
+            }
             axios.put(
                 BASE_URL + "/" + id,
-                JSON.stringify(targetMember),{
+                JSON.stringify(targetMember),
+                {
                     headers:{
                         "Content-Type" : `application/json`,
                     }
+    
                 }
             )
         } catch (error) {

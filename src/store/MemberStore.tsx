@@ -2,7 +2,6 @@ import MemberService from '../service/MemberService';
 import {  castToSnapshot, types } from 'mobx-state-tree';
 import Member, { defaultSnapshotMember } from '../aggregate/Member';
 
-
 export const MemberStore = types
 .model(('memberStore'), {
     member : types.optional(Member, defaultSnapshotMember),
@@ -75,8 +74,9 @@ export const MemberStore = types
    async addIdToMember(){
         try {
             let insertMember = {...self.member};
-            let id : any = await self.memberService.addMember(insertMember);
+            let id : string|undefined = await self.memberService.addMember(insertMember);
             console.log(`id: ${id}`)
+            this.setMemberProps('id', id!)
         } catch (error) {
             console.log(error);
         }    
@@ -87,6 +87,7 @@ export const MemberStore = types
             console.log(`addMember ran.`)
             await this.addIdToMember();
             console.log(`addIdMember ran.`)
+            console.log(`${JSON.stringify({...self.member})}`)
             this.setMembers();
             console.log(`setMembers ran.`)
         } catch (error) {
@@ -96,10 +97,12 @@ export const MemberStore = types
 
     editMember () {
         try {
+            const targetMember = {...self.member}
+            console.log(`editTargetMember : ${JSON.stringify(targetMember)}`)
             const id : string = self.member.id;
             let i = self.members.findIndex(member => member.id === id);
-            self.members.splice(i, 1, {...self.member});
-            self.memberService.editMember(id, {...self.member});
+            self.memberService.editMember(id, targetMember);
+            self.members.splice(i, 1, targetMember);
         } catch (error) {
             console.error(error);
         }
