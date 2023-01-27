@@ -1,17 +1,16 @@
 import autobind from "autobind-decorator";
 import axios from "axios";
 
-const BASE_URL = '/club';
-
 @autobind
 class ClubService {
     
+    BASE_URL = '/club';
 
     async addClub(club){
 
         let id = '';
         await axios.post(
-            BASE_URL,
+            this.BASE_URL,
             JSON.stringify(club),
             {headers: {
                 "Content-Type" : `application/json`,
@@ -23,7 +22,7 @@ class ClubService {
 
     editClub(id, club){
         axios.put(
-            BASE_URL + '/' + id,
+            this.BASE_URL + '/' + id,
             JSON.stringify(club),
             {
                 headers: {
@@ -41,7 +40,7 @@ class ClubService {
         let clubs = [];
         try {
           await axios.get(
-          BASE_URL, 
+          this.BASE_URL, 
                 {headers: {
                  "Content-type": `application/json` 
                 },
@@ -55,4 +54,5 @@ class ClubService {
         return clubs;       
     }
 }
+// eslint-disable-next-line
 export default new ClubService();

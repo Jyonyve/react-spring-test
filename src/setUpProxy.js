@@ -15,5 +15,22 @@ module.exports = (app) => {
         }
       }
     )
+
+  //   createProxyMiddleware(
+  //     '/club',
+  //     {
+  //       target: 'http://localhost:8080/',
+  //       changeOrigin: true,
+  //     }
+  //   )
+  // )
+  // app.use(
+  //   createProxyMiddleware(
+  //     '/member',
+  //     {
+  //       target: 'http://localhost:8080/',
+  //       changeOrigin: true,
+  //     }
+  //   )
   );
 }

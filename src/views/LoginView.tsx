@@ -1,4 +1,3 @@
-//import MainService from "../service/MainService"
 import { Table, TableContainer, TableRow, TableCell, Paper, TableBody } from '@material-ui/core';
 import React from 'react';
 import {useState, useEffect} from 'react'
@@ -29,7 +28,7 @@ export class StateType {
   email :string = '';
 }
   
-export const Login = () => {
+export const LoginView = () => {
 
     const [state, setState] = useState<StateType>(new StateType());
 

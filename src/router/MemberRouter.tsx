@@ -4,7 +4,7 @@ import SearchbarContainer from '../containers/SearchbarContainer';
 import React from 'react';
 import { MemberListContainer } from '../containers/MemberListContainer';
 
-function MemberRouter () {
+function MemberRouter (props:any) {
 
     return(
         <Container >

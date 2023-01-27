@@ -14,11 +14,12 @@ export const defaultSnapshotMember = {
     email:'',
     phoneNumber:'000-0000-0000',
     nickName : 'default',
-    birthday: '1900-01-01',
+    birthday: '',
     password: 'default',
-    role: 'Member',
-    provider: 'default',
-    roleKey:'ROLE_Member'
+    roleInclub: '',
+    role: "MEMBER",
+    provider: 'DEFAULT',
+    refreshToken: '',
     //address : defaultSnapshotAddress
 
 }
@@ -40,10 +41,11 @@ const Member = types.model('Member',
     nickName : types.optional(types.string,''),
     birthday: types.optional(types.string,''),
     id : types.identifier,
-    role : types.optional(types.string,''),
+    roleInClub : types.optional(types.string,''),
+    role : types.optional(types.string,""),
     password: types.optional(types.string,''),
     provider: types.optional(types.string,''),
-    roleKey: types.optional(types.string,''),
+    refreshToken: types.optional(types.string,''),
     //address : types.reference(castToSnapshot(Address))
 })
 export default Member;
