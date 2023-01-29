@@ -5,6 +5,9 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 
 
 export const LinkSelector = (props:any) => {
+
+    const accessToken = props.accessToken;
+
     return(
         <><nav className="navtop">
             <h2><NavLink to='/'> Let's travel! club </NavLink></h2>
@@ -16,8 +19,16 @@ export const LinkSelector = (props:any) => {
                             <TableCell>
                                 <ul className="nav-links">
                                     <li><NavLink to='/app'>App Main</NavLink></li>
-                                    <li><NavLink to='/club'>Travel Clubs</NavLink></li>
-                                    <li><NavLink to='/member'>For Members</NavLink></li>
+                                    <li 
+                                        {...accessToken
+                                        ? <NavLink to='/club'>Travel Clubs</NavLink>
+                                        : ''}
+                                    ></li>
+                                    <li
+                                        {...accessToken
+                                        ? <NavLink to='/member'>For Members</NavLink>
+                                        : ''}
+                                    ></li>
                                 </ul>
                             </TableCell>
                         </TableRow>

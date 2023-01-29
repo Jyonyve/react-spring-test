@@ -1,37 +1,28 @@
 import { Button } from "@material-ui/core";
 import { useGoogleLogin } from '@react-oauth/google';
-import axios from "axios";
 
 
 export const GoogleLoginContainer = (props:any) => {
   
-    let accessToken : string = '';
+    let accessToken : any;
 
     const login = useGoogleLogin({
       onSuccess: codeResponse => {
-        console.log(codeResponse);
-          axios.get(
-          `https://oauth2.googleapis.com/token?code=${codeResponse.code}&grant_type=authorization_code&redirect_uri=http://localhost:8080/login/oauth2/code/google`,
-          { headers: { Authorization: 'Bearer <tokenResponse.access_token>' } }
-          .then()
-
-      )},
+        accessToken = codeResponse.code
+      },
       flow: 'auth-code',
       ux_mode: 'redirect',
-      redirect_uri : 'http://localhost:8080/login/oauth2/code/google',
-
-      )
-    }
-    );
+      redirect_uri : 'http://localhost:3000/login/oauth2/code/google',
+      state : accessToken
+    });
     
     return (
-    <Button color="secondary" onClick={() => login()}>
+    <Button color="secondary" onClick={() => {login()}}>
       Sign in with Google 🚀{' '}
     </Button>
     );
 
-
-
+    
 
 
     
