@@ -5,9 +5,10 @@ import Member from "../aggregate/Member";
 import { useStore } from "../store/RootStore";
 import { MemberListView } from "../views/MemberListView";
 
-export const MemberListContainer = (observer(() => {
+export const MemberListContainer = (observer((props:any) => {
     
     const memberStore = useStore().memberStore;
+    const accessToken = props.accessToken;
 
     const onSetMember = (member : typeof Member) => {
         memberStore.setMember(member);

@@ -11,6 +11,10 @@ export const LinkSelector = (props:any) => {
     return(
         <><nav className="navtop">
             <h2><NavLink to='/'> Let's travel! club </NavLink></h2>
+        <GoogleOAuthProvider
+            clientId="642225847404-je5i44c2t5d6jskll3sk82nqh233ejlk.apps.googleusercontent.com">
+            <GoogleLoginContainer {...props}/>
+        </GoogleOAuthProvider>
             <TableContainer component={Paper}>
                 <Table>
                     <TableHead></TableHead>
@@ -19,16 +23,12 @@ export const LinkSelector = (props:any) => {
                             <TableCell>
                                 <ul className="nav-links">
                                     <li><NavLink to='/app'>App Main</NavLink></li>
-                                    {/* <li 
-                                        {...accessToken
-                                        ? <NavLink to='/club'>Travel Clubs</NavLink>
-                                        : ''}
-                                    ></li>
-                                    <li
-                                        {...accessToken
-                                        ? <NavLink to='/member'>For Members</NavLink>
-                                        : ''}
-                                    ></li> */}
+                                    <li >
+                                        Member's feature : <NavLink to='/club'>Travel Clubs</NavLink>
+                                    </li>
+                                    <li>
+                                        Member's feature : <NavLink to='/member'>For Members</NavLink>
+                                    </li>
                                 </ul>
                             </TableCell>
                         </TableRow>
@@ -36,10 +36,6 @@ export const LinkSelector = (props:any) => {
                 </Table>
             </TableContainer>
         </nav>
-        <GoogleOAuthProvider
-            clientId="642225847404-je5i44c2t5d6jskll3sk82nqh233ejlk.apps.googleusercontent.com">
-        <GoogleLoginContainer />
-        </GoogleOAuthProvider>
         </>
     )
 }

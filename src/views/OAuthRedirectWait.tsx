@@ -26,10 +26,8 @@ function OAuthRedirectWait (props:any) {
            //withCredentials: true,
         }
         ).then( (res) => {  bearerAccessToken = res.headers['authorization'];
+                        console.log(bearerAccessToken);
                         setAccessToken(bearerAccessToken?.substring(7));
-                        console.log(accessToken);
-                        localStorage.setItem('access_token', accessToken!); 
-                        console.log('localStorage' + localStorage.getItem('access_token'))
         })
     ;
 
@@ -37,6 +35,9 @@ function OAuthRedirectWait (props:any) {
     useEffect(()=> {
         if(accessToken === ''){
            redirection() 
+        } else {
+            localStorage.setItem('access_token', accessToken); 
+            console.log('localStorage saved accessToken : ' + localStorage.getItem('access_token'))
         }
     },[accessToken])
 

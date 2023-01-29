@@ -18,6 +18,7 @@ ReactDOM.render(
         </BrowserRouter>
       </StoreProvider>
     </Provider>,
+    
   document.getElementById('root')
 );
 

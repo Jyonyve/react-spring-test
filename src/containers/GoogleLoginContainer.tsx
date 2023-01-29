@@ -4,16 +4,16 @@ import { useGoogleLogin } from '@react-oauth/google';
 
 export const GoogleLoginContainer = (props:any) => {
   
-    let accessToken : any;
+    let accessToken = props.accessToken;
+    let code: string ='';
 
     const login = useGoogleLogin({
       onSuccess: codeResponse => {
-        accessToken = codeResponse.code
+        code = codeResponse.code
       },
       flow: 'auth-code',
       ux_mode: 'redirect',
       redirect_uri : 'http://localhost:3000/login/oauth2/code/google',
-      state : accessToken
     });
     
     return (

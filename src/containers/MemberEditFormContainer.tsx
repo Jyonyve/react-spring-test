@@ -3,9 +3,10 @@ import React from "react";
 import { useStore } from "../store/RootStore";
 import { MemberEditformView } from "../views/MemberEditFormView";
 
-export const MemberEditFormContainer = (observer(() => {
+export const MemberEditFormContainer = (observer((props:any) => {
     
     const memberStore = useStore().memberStore;
+    const accessToken = props.accessToken;
 
     const onSetMemberProps =(name:string, value:string) =>{
         memberStore.setMemberProps(name, value);

@@ -11,21 +11,21 @@ const App = () => {
 
     return (
       <div className='App'>
-        <LinkSelector accessToken = {accessToken}/>
+        <LinkSelector accessToken = {accessToken}/> 
+        
         <Routes>
-          <Route exact path='/' element={<App/>}/>
           <Route path='/login/oauth2/code/google' element = {<OAuthRedirectWait accessToken = {accessToken} setAccessToken = {setAccessToken}/>} />
-
-          {/* <Route exact path='/club' element={
+          
+          <Route exact path='/club' element={
             accessToken !== ''
             ? <ClubRouter accessToken={accessToken}/>
-            : <App/>
+            : `this service is only for members. please login`
           }/>
           <Route exact path='/member' element={
             accessToken !== ''
             ? <MemberRouter accessToken = {accessToken}/>
-            : <App/>
-            }/> */}
+            : `this service is only for members. please login`
+            }/>
         </Routes>
       </div>
   );
