@@ -10,6 +10,7 @@ import ClubListView from '../views/ClubListView';
 class ClubListContainer extends Component {
 
   clubStore = this.props.rootStore.clubStore;
+  accessToken= this.props.accessToken;
   
   onSetClub(club){
     this.clubStore.setClub(club);

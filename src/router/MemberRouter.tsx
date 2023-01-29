@@ -9,11 +9,11 @@ function MemberRouter (props:any) {
     return(
         <Container >
           <Box m={3}>
-            <MemberEditFormContainer />
+            <MemberEditFormContainer {...props}/>
           </Box>
           <Box m={3}>
             <SearchbarContainer />
-            <MemberListContainer />
+            <MemberListContainer {...props}/>
           </Box>
       </Container>
     )

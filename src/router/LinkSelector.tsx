@@ -19,7 +19,7 @@ export const LinkSelector = (props:any) => {
                             <TableCell>
                                 <ul className="nav-links">
                                     <li><NavLink to='/app'>App Main</NavLink></li>
-                                    <li 
+                                    {/* <li 
                                         {...accessToken
                                         ? <NavLink to='/club'>Travel Clubs</NavLink>
                                         : ''}
@@ -28,7 +28,7 @@ export const LinkSelector = (props:any) => {
                                         {...accessToken
                                         ? <NavLink to='/member'>For Members</NavLink>
                                         : ''}
-                                    ></li>
+                                    ></li> */}
                                 </ul>
                             </TableCell>
                         </TableRow>

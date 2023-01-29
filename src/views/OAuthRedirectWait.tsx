@@ -5,6 +5,8 @@ import { LoginView } from "./LoginView";
 
 function OAuthRedirectWait (props:any) {
 
+    let {accessToken, setAccessToken} = props;
+
     const useQuery = () => new URLSearchParams(useLocation().search);
     const query = useQuery();
 
@@ -13,8 +15,8 @@ function OAuthRedirectWait (props:any) {
 
     const url :string = 'http://localhost:8080/login/oauth2/code/google?code=' + code + '&scope=' + scope;
     let bearerAccessToken :string|undefined ='';
-    let {accessToken, setAccessToken} = props;
-    const redirection = async (props:any) => 
+    
+    const redirection = async () => 
     await axios.get(
         url,
         {
@@ -23,17 +25,20 @@ function OAuthRedirectWait (props:any) {
             },
            //withCredentials: true,
         }
-    ).then( (res) => {  bearerAccessToken = res.headers['authorization'];
+        ).then( (res) => {  bearerAccessToken = res.headers['authorization'];
                         setAccessToken(bearerAccessToken?.substring(7));
                         console.log(accessToken);
                         localStorage.setItem('access_token', accessToken!); 
                         console.log('localStorage' + localStorage.getItem('access_token'))
-                    })
+        })
     ;
 
+    // eslint-disable-next-line
     useEffect(()=> {
-        redirection(props)
-    },[])
+        if(accessToken === ''){
+           redirection() 
+        }
+    },[accessToken])
 
     return(
         <LoginView/>

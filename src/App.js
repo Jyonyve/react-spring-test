@@ -5,7 +5,7 @@ import { LinkSelector } from './router/LinkSelector';
 import OAuthRedirectWait from './views/OAuthRedirectWait';
 import { useState } from 'react';
 
-const App = (props) => {
+const App = () => {
     
     const [accessToken, setAccessToken] = useState('');
 
@@ -16,16 +16,16 @@ const App = (props) => {
           <Route exact path='/' element={<App/>}/>
           <Route path='/login/oauth2/code/google' element = {<OAuthRedirectWait accessToken = {accessToken} setAccessToken = {setAccessToken}/>} />
 
-          <Route exact path='/club' element={
-            accessToken
+          {/* <Route exact path='/club' element={
+            accessToken !== ''
             ? <ClubRouter accessToken={accessToken}/>
             : <App/>
           }/>
           <Route exact path='/member' element={
-            accessToken
+            accessToken !== ''
             ? <MemberRouter accessToken = {accessToken}/>
             : <App/>
-            }/>
+            }/> */}
         </Routes>
       </div>
   );

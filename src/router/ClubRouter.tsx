@@ -6,14 +6,16 @@ import SearchbarContainer from '../containers/SearchbarContainer';
 
 function ClubRouter (props:any) {
 
+  let accessToken = props.accessToken;
+
     return(
         <Container >
           <Box m={3}>
-            <ClubEditFormContainer />
+            <ClubEditFormContainer accessToken={accessToken} />
           </Box>
           <Box m={3}>
             <SearchbarContainer />
-            <ClubListContainer/>
+            <ClubListContainer accessToken={accessToken}/>
           </Box>
         </Container>
     )

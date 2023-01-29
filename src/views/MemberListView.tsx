@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 
 export const MemberListView = observer((props:any) => {
     
-  const {members, onSetMembers, onSetMember} = props;
+  const {members, onSetMembers, onSetMember, accessToken} = props;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(()=>{onSetMembers()},[]);

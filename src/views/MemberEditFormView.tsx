@@ -7,7 +7,7 @@ import React from 'react';
 
 export const MemberEditformView = (observer((props:any) => {
 
-  const {member, onAddMember, onUpdateMember, onDeleteMember, onSetMemberProps} = props;
+  const {member, onAddMember, onUpdateMember, onDeleteMember, onSetMemberProps, accessToken} = props;
     return(
       <form noValidate> 
         <Grid container xs={12} spacing={3}>
