@@ -4,7 +4,7 @@ import axios from "axios";
 @autobind
 class ClubService {
     
-    BASE_URL = '/club';
+    BASE_URL = '';
 
     async addClub(club){
 
@@ -16,7 +16,10 @@ class ClubService {
                 "Content-Type" : `application/json`,
                 "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
             },
-        }).then( res => {id = res.data;});
+            withCredentials : true,
+            }
+            
+        ).then( res => {id = res.data;});
         return id;
 
     }
@@ -52,6 +55,7 @@ class ClubService {
                 "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
                 "Content-type": `application/json` ,
                 },
+                withCredentials: true,
                 }
             )
             .then(club => clubs.push(club.data));
