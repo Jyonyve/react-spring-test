@@ -18,7 +18,6 @@ export const defaultSnapshotMember = {
     password: 'default',
     role: [],
     provider: 'DEFAULT',
-    refreshToken: '',
     //address : defaultSnapshotAddress
 
 }
@@ -43,7 +42,6 @@ const Member = types.model('Member',
     role : types.array(types.string),
     password: types.optional(types.string,''),
     provider: types.optional(types.string,''),
-    refreshToken: types.optional(types.string,''),
     //address : types.reference(castToSnapshot(Address))
 })
 export default Member;
