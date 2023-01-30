@@ -1,31 +1,41 @@
 import { Button } from "@material-ui/core";
-import { useGoogleLogin } from '@react-oauth/google';
+import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 
 
 export const GoogleLoginContainer = (props:any) => {
   
-    let accessToken = props.accessToken;
+    let {id_token, setId_token }= props;
+    // eslint-disable-next-line
     let code: string ='';
 
     const login = useGoogleLogin({
       onSuccess: codeResponse => {
-        code = codeResponse.code
+        code = codeResponse.code;
       },
       flow: 'auth-code',
       ux_mode: 'redirect',
       redirect_uri : 'http://localhost:3000/login/oauth2/code/google',
     });
-    
+
+    const logout = (props:any) => {
+      localStorage.clear()
+      googleLogout()
+      setId_token('')
+    };
+
     return (
-    <Button color="secondary" onClick={() => {login()}}>
-      Sign in with Google 🚀{' '}
-    </Button>
+      <div>
+        {!id_token ?
+        <Button color="primary" onClick={() => {login()}}>
+          Sign in with Google 🚀{' '}
+        </Button>
+        : 
+        <Button color="secondary" onClick={() => {logout(props)}}>
+          Sign out
+        </Button>}
+      </div>
     );
 
-    
-
-
-    
     // let id :string = '';
     // const redirectFunction =(someId:string) =>{
     //     if (someId !== null) {

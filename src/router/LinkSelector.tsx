@@ -6,11 +6,9 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 
 export const LinkSelector = (props:any) => {
 
-    const accessToken = props.accessToken;
-
     return(
         <><nav className="navtop">
-            <h2><NavLink to='/'> Let's travel! club </NavLink></h2>
+            <h2><NavLink to='*'> Let's travel! club </NavLink></h2>
         <GoogleOAuthProvider
             clientId="642225847404-je5i44c2t5d6jskll3sk82nqh233ejlk.apps.googleusercontent.com">
             <GoogleLoginContainer {...props}/>
@@ -22,7 +20,7 @@ export const LinkSelector = (props:any) => {
                         <TableRow>
                             <TableCell>
                                 <ul className="nav-links">
-                                    <li><NavLink to='/app'>App Main</NavLink></li>
+                                    <li><NavLink to='/'>App Main</NavLink></li>
                                     <li >
                                         Member's feature : <NavLink to='/club'>Travel Clubs</NavLink>
                                     </li>

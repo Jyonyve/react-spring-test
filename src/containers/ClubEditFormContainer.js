@@ -11,7 +11,7 @@ import autobind from 'autobind-decorator';
 class ClubEditFormContainer extends Component {
 
   clubStore = this.props.rootStore.clubStore;
-  accessToken= this.props.accessToken;
+  id_token= this.props.id_token;
   
   onSetClubProps(name, value){
     this.clubStore.setClubProps(name, value);

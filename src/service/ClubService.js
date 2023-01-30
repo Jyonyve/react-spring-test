@@ -14,6 +14,7 @@ class ClubService {
             JSON.stringify(club),
             {headers: {
                 "Content-Type" : `application/json`,
+                "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
             },
         }).then( res => {id = res.data;});
         return id;
@@ -27,13 +28,19 @@ class ClubService {
             {
                 headers: {
                     "Content-Type" : `application/json`,
+                    "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
                 },        
             }
         );
     }
 
     deleteClub(id){
-        axios.delete(this.BASE_URL+ '/' + id);
+        axios.delete(this.BASE_URL+ '/' + id,
+        {headers: {
+            "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
+            },
+        }
+        );
     }
 
     async fetchClubs(){
@@ -42,7 +49,8 @@ class ClubService {
           await axios.get(
           this.BASE_URL, 
                 {headers: {
-                 "Content-type": `application/json` 
+                "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
+                "Content-type": `application/json` 
                 },
                 }
             )

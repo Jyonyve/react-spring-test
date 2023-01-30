@@ -2,28 +2,27 @@ import { Route,  Routes } from 'react-router-dom';
 import ClubRouter from './router/ClubRouter';
 import MemberRouter from './router/MemberRouter';
 import { LinkSelector } from './router/LinkSelector';
-import OAuthRedirectWait from './views/OAuthRedirectWait';
+import GoogleLoginTokenAndView from './views/GoogleLoginTokenAndView';
 import { useState } from 'react';
 
 const App = () => {
     
-    const [accessToken, setAccessToken] = useState('');
+    const [id_token, setId_token] = useState('');
 
     return (
-      <div className='App'>
-        <LinkSelector accessToken = {accessToken}/> 
-        
+      <div className='App'>       
+      <LinkSelector id_token = {id_token} setId_token = {setId_token}/> 
         <Routes>
-          <Route path='/login/oauth2/code/google' element = {<OAuthRedirectWait accessToken = {accessToken} setAccessToken = {setAccessToken}/>} />
+          <Route path='/login/oauth2/code/google' element = {<GoogleLoginTokenAndView id_token = {id_token} setId_token = {setId_token}/>} />
           
           <Route exact path='/club' element={
-            accessToken !== ''
-            ? <ClubRouter accessToken={accessToken}/>
+            id_token !== ''
+            ? <ClubRouter id_token={id_token}/>
             : `this service is only for members. please login`
           }/>
           <Route exact path='/member' element={
-            accessToken !== ''
-            ? <MemberRouter accessToken = {accessToken}/>
+            id_token !== ''
+            ? <MemberRouter id_token = {id_token}/>
             : `this service is only for members. please login`
             }/>
         </Routes>

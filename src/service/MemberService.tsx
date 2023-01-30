@@ -19,6 +19,7 @@ const MemberService = types.model(
             {
                 headers: {
                     "Content-Type" : `application/json`,
+                    "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
                 }
             }
             ).then( res => {id = res.data});
@@ -40,6 +41,7 @@ const MemberService = types.model(
                 {
                     headers:{
                         "Content-Type" : `application/json`,
+                        "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
                     }
     
                 }
@@ -50,13 +52,22 @@ const MemberService = types.model(
     },
 
     deleteMember : (id:string) => {
-        axios.delete(BASE_URL + "/" + id);
+        axios.delete(BASE_URL + "/" + id,
+        {headers: {
+            "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
+            },
+        }
+        );
     },
 
     fetchMembers : async () => {
         let members : any[] = []; //배열타입 명시해주지 않으면 never라고 인식해서 초기화가 제대로 안됨
         try {
-            await axios.get(BASE_URL)
+            await axios.get(BASE_URL,
+                {headers: {
+                    "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
+                    },
+                })
             .then(member => members.push(member.data));
             if(members !==undefined){
                 console.log(JSON.stringify(members));

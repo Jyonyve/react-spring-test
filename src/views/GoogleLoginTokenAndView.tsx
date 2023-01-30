@@ -3,9 +3,9 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { LoginView } from "./LoginView";
 
-function OAuthRedirectWait (props:any) {
+function GoogleLoginTokenAndView (props:any) {
 
-    let {accessToken, setAccessToken} = props;
+    let {id_token, setId_token} = props;
 
     const useQuery = () => new URLSearchParams(useLocation().search);
     const query = useQuery();
@@ -14,7 +14,7 @@ function OAuthRedirectWait (props:any) {
     const scope :string|null = query.get('scope');
 
     const url :string = 'http://localhost:8080/login/oauth2/code/google?code=' + code + '&scope=' + scope;
-    let bearerAccessToken :string|undefined ='';
+    let bearerId_token :string|undefined ='';
     
     const redirection = async () => 
     await axios.get(
@@ -25,25 +25,25 @@ function OAuthRedirectWait (props:any) {
             },
            //withCredentials: true,
         }
-        ).then( (res) => {  bearerAccessToken = res.headers['authorization'];
-                        console.log(bearerAccessToken);
-                        setAccessToken(bearerAccessToken?.substring(7));
+        ).then( (res) => {  bearerId_token = res.headers['authorization'];
+                        console.log(bearerId_token);
+                        setId_token(bearerId_token?.substring(7));
         })
     ;
 
     // eslint-disable-next-line
     useEffect(()=> {
-        if(accessToken === ''){
+        if(id_token === ''){
            redirection() 
         } else {
-            localStorage.setItem('access_token', accessToken); 
-            console.log('localStorage saved accessToken : ' + localStorage.getItem('access_token'))
+            localStorage.setItem('id_token', id_token); 
+            console.log('localStorage saved id_token : ' + localStorage.getItem('id_token'))
         }
-    },[accessToken])
+    },[id_token])
 
     return(
         <LoginView/>
     );
 
 }
-export default OAuthRedirectWait;
+export default GoogleLoginTokenAndView;
