@@ -3,7 +3,7 @@ import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper
 import React, { useEffect } from "react";
 
 export const MemberListView = observer((props:any) => {
-    
+  // eslint-disable-next-line  
   const {members, onSetMembers, onSetMember, id_token} = props;
 
   // eslint-disable-next-line react-hooks/exhaustive-deps

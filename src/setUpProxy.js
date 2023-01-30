@@ -1,20 +1,20 @@
 const { createProxyMiddleware } = require('http-proxy-middleware')
 
 module.exports = (app) => {
-  // axios.defaults.withCredentials = true;
   app.use(
     createProxyMiddleware(
-      ['/v1', '/v2'],
+      ['/club', '/member'],
       {
         target: 'http://localhost:8080',
         changeOrigin: true,
         ws :true,
         router: {
-          '/v2': 'http://localhost:3000'
+          '/club': 'http://localhost:8080/club',
+          '/member': 'http://localhost:8080/member'
         },
-        pathRewrite: {
-          '^/v2': ''
-        }
+        // pathRewrite: {
+        //   '^/v2': ''
+        // }
       }
     )
   );

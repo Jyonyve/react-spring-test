@@ -6,7 +6,6 @@ import { MemberEditformView } from "../views/MemberEditFormView";
 export const MemberEditFormContainer = (observer((props:any) => {
     
     const memberStore = useStore().memberStore;
-    const id_token = props.id_token;
 
     const onSetMemberProps =(name:string, value:string) =>{
         memberStore.setMemberProps(name, value);

@@ -7,6 +7,7 @@ import React from 'react';
 
 export const MemberEditformView = (observer((props:any) => {
 
+  // eslint-disable-next-line
   const {member, onAddMember, onUpdateMember, onDeleteMember, onSetMemberProps, id_token} = props;
     return(
       <form noValidate> 

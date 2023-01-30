@@ -8,7 +8,6 @@ import { MemberListView } from "../views/MemberListView";
 export const MemberListContainer = (observer((props:any) => {
     
     const memberStore = useStore().memberStore;
-    const id_token = props.id_token;
 
     const onSetMember = (member : typeof Member) => {
         memberStore.setMember(member);
