@@ -1,7 +1,7 @@
 import axios from "axios";
 import { types } from "mobx-state-tree";
 
-const BASE_URL: string = 'http://localhost:8080/member';
+const BASE_URL: string = '/member';
 
 const MemberService = types.model(
 )

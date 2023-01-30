@@ -17,7 +17,7 @@ function GoogleLoginTokenAndView (props:any) {
 
     const url :string = 'http://localhost:8080/login/oauth2/code/google?code=' + code + '&scope=' + scope;
     let bearerId_token :string|undefined ='';
-    let userRoles : string|void|undefined = '';
+    let userRoles : string[];
 
     const redirection = async () => 
     {
@@ -36,7 +36,7 @@ function GoogleLoginTokenAndView (props:any) {
           setId_token(bearerId_token?.substring(7));
           userRoles = res.data;
           console.log(userRoles);
-          localStorage.setItem('userRoles', userRoles!);
+          localStorage.setItem('userRoles', userRoles.toString());
                       
         })
       }

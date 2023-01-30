@@ -50,7 +50,7 @@ class ClubService {
           this.BASE_URL, 
                 {headers: {
                 "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
-                "Content-type": `application/json` 
+                "Content-type": `application/json` ,
                 },
                 }
             )

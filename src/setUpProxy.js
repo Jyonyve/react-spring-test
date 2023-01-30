@@ -1,5 +1,4 @@
 const { createProxyMiddleware } = require('http-proxy-middleware')
-
 module.exports = (app) => {
   app.use(
     createProxyMiddleware(
@@ -9,8 +8,8 @@ module.exports = (app) => {
         changeOrigin: true,
         ws :true,
         router: {
-          '/club': 'http://localhost:8080/club',
-          '/member': 'http://localhost:8080/member'
+          '/club': '/club',
+          '/member': '/member'
         },
         // pathRewrite: {
         //   '^/v2': ''
