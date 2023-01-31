@@ -12,12 +12,12 @@ export const defaultSnapshotMember = {
     id:'',
     name:'',
     email:'',
-    phoneNumber:'000-0000-0000',
-    nickName : 'basic',
-    birthday: '1900-01-01',
-    password: '123456',
+    phoneNumber:'',
+    nickName : 'Top Secret',
+    birthday: 'Top Secret',
+    password: 'Top Secret',
     role: [],
-    provider: 'DEFAULT',
+    provider: 'Top Secret',
     //address : defaultSnapshotAddress
 
 }

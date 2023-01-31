@@ -17,6 +17,7 @@ const MemberService = types.model(
             BASE_URL,
             JSON.stringify(targetMember),
             {
+                data : localStorage.getItem('userRoles'),
                 headers: {
                     "Content-Type" : `application/json`,
                     "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
@@ -40,6 +41,7 @@ const MemberService = types.model(
                 BASE_URL + "/" + id,
                 JSON.stringify(targetMember),
                 {
+                    data : localStorage.getItem('userRoles'),
                     headers:{
                         "Content-Type" : `application/json`,
                         "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
@@ -54,9 +56,12 @@ const MemberService = types.model(
 
     deleteMember : (id:string) => {
         axios.delete(BASE_URL + "/" + id,
-        {headers: {
-            "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
-            },withCredentials: true,
+        {
+            data : localStorage.getItem('userRoles'),
+            headers: {
+                "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
+            },
+            withCredentials: true,
         }
         );
     },
@@ -64,13 +69,16 @@ const MemberService = types.model(
     fetchMembers : async () => {
         let members : any[] = []; //배열타입 명시해주지 않으면 never라고 인식해서 초기화가 제대로 안됨
         try {
-            await axios.get(BASE_URL,
-                {headers: {
-                    "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
-                    },withCredentials: true,
+            await axios.get(
+                BASE_URL,
+                {
+                    headers: {
+                        "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
+                        },
+                    withCredentials: true,
                 })
             .then(member => members.push(member.data));
-            if(members !==undefined){
+            if(members !== undefined){
                 console.log(JSON.stringify(members));
                 return members;
             }else {
