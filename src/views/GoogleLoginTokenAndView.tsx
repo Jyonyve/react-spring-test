@@ -28,7 +28,7 @@ function GoogleLoginTokenAndView (props:any) {
               headers: {
                   "Authorization" : `Bearer ${code}`,
               },
-            //withCredentials: true,
+              withCredentials: true,
           }
         )
         .then( (res) => {  

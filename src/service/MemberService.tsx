@@ -79,7 +79,7 @@ const MemberService = types.model(
                 })
             .then(member => members.push(member.data));
             if(members !== undefined){
-                console.log(JSON.stringify(members));
+                // console.log(JSON.stringify(members));
                 return members;
             }else {
                 throw new Error(`fetchMember Cannot be undefined.`)

@@ -1,6 +1,6 @@
 import MemberService from '../service/MemberService';
 import {  castToSnapshot, types } from 'mobx-state-tree';
-import Member, { defaultSnapshotMember } from '../aggregate/Member';
+import Member, { defaultSnapshotMember, disguidedSnapshotMember } from '../aggregate/Member';
 
 export const MemberStore = types
 .model(('memberStore'), {
@@ -58,16 +58,19 @@ export const MemberStore = types
 
     async setMembers() {
         try {
-           let dbMembers = await this.fetchMembers();
-            dbMembers = dbMembers.flat(Infinity);
-            this.pushMembers(JSON.stringify(dbMembers)); 
+           let dbMembers :any[] = await this.fetchMembers();
+                dbMembers = dbMembers.flat(Infinity);
+                this.pushMembers(JSON.stringify(dbMembers)); 
         } catch (error) {
             console.error(error)
         }
     },
 
     pushMembers : (JSONmembers: string) => {
-        let memberList :[] = JSON.parse(JSONmembers);
+        let memberList :any[] = JSON.parse(JSONmembers);
+        if (memberList.length <= 1){
+            self.members.push(disguidedSnapshotMember)
+        }
         memberList.map(member => self.members.push(castToSnapshot(member)))
     },
 

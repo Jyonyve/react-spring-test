@@ -22,6 +22,20 @@ export const defaultSnapshotMember = {
 
 }
 
+export const disguidedSnapshotMember = {
+    id:'Top Secret',
+    name:'Top Secret',
+    email:'Top Secret',
+    phoneNumber:'Top Secret',
+    nickName : 'Top Secret',
+    birthday: 'Top Secret',
+    password: 'Top Secret',
+    role: [],
+    provider: 'Top Secret',
+    //address : defaultSnapshotAddress
+
+}
+
 // const Address = types.model('Address',{
 //     zipCode : types.string,
 //     zipAddress :types.string,
