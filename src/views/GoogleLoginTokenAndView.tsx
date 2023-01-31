@@ -52,12 +52,9 @@ function GoogleLoginTokenAndView (props:any) {
            redirection() 
         } else {
             localStorage.setItem('id_token', id_token);
-            console.log(`${localStorage.getItem('userRoles')}, ${localStorage.getItem('id_token')}`)
         }
     // eslint-disable-next-line
     },[id_token])
-
-    
 
     return(
         <LoginView/>
