@@ -3,7 +3,7 @@ import { googleLogout, useGoogleLogin } from '@react-oauth/google';
 
 
 
-export const GoogleLoginContainer = (props:any) => {
+export const GoogleLoginButtonContainer = (props:any) => {
   
     let {id_token, setId_token }= props;
 

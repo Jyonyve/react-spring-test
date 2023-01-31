@@ -32,7 +32,8 @@ class ClubService {
                 headers: {
                     "Content-Type" : `application/json`,
                     "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
-                },        
+                },
+                withCredentials : true,        
             }
         );
     }
@@ -42,6 +43,7 @@ class ClubService {
         {headers: {
             "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
             },
+            withCredentials : true,
         }
         );
     }

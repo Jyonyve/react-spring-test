@@ -20,7 +20,8 @@ const MemberService = types.model(
                 headers: {
                     "Content-Type" : `application/json`,
                     "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
-                }
+                },
+                withCredentials: true,
             }
             ).then( res => {id = res.data});
             return id;
@@ -42,7 +43,7 @@ const MemberService = types.model(
                     headers:{
                         "Content-Type" : `application/json`,
                         "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
-                    }
+                    },withCredentials: true,
     
                 }
             )
@@ -55,7 +56,7 @@ const MemberService = types.model(
         axios.delete(BASE_URL + "/" + id,
         {headers: {
             "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
-            },
+            },withCredentials: true,
         }
         );
     },
@@ -66,7 +67,7 @@ const MemberService = types.model(
             await axios.get(BASE_URL,
                 {headers: {
                     "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
-                    },
+                    },withCredentials: true,
                 })
             .then(member => members.push(member.data));
             if(members !==undefined){
@@ -82,4 +83,3 @@ const MemberService = types.model(
     }
 }));
 export default MemberService;
-

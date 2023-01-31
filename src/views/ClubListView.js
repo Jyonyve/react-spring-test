@@ -19,8 +19,10 @@ class ClubListView extends PureComponent {
     return clubs.flat(Infinity);
   }
 
+  authorization = Object.values(JSON.parse(localStorage.getItem('userRoles')));
+  
   render(){
-   
+    
     let onSetClub = this.props.onSetClub;
     const clubsFlat = this.clubsFlatter();    
     return (
@@ -30,28 +32,25 @@ class ClubListView extends PureComponent {
             <TableRow>
               <TableCell align='center'>Name</TableCell>
               <TableCell align='center'>Intro</TableCell>
-              <TableCell align='center'>ID</TableCell>
+              <TableCell align='center'>Board</TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
-        {
-        clubsFlat.length && Array.isArray(clubsFlat) ?
-        clubsFlat.map((element) => (
-          <TableRow key={element.id} hover onClick={()=> onSetClub(element)}>
-            <TableCell>{element.name}</TableCell>
-            <TableCell>{element.intro}</TableCell>
-            <TableCell>{element.id}</TableCell>
-          </TableRow>
-          ))  
-           :
-           <TableRow>
-             <TableCell>empty</TableCell>
-             <TableCell>empty</TableCell>
-             <TableCell>empty</TableCell>
-           </TableRow>
-
-        }
-          </TableBody>            
+        <TableBody>
+          {clubsFlat.length && Array.isArray(clubsFlat) ? clubsFlat.map((element) => (
+            <TableRow key={element.id} hover onClick={()=> onSetClub(element)}>
+              <TableCell>{element.name}</TableCell>
+              <TableCell>{element.intro}</TableCell>
+              <TableCell>element.boardName</TableCell>
+            </TableRow>
+            ))  
+            :
+            <TableRow>
+              <TableCell>empty</TableCell>
+              <TableCell>empty</TableCell>
+              <TableCell>empty</TableCell>
+            </TableRow>
+          }
+        </TableBody>
         </Table>
       </TableContainer>
       

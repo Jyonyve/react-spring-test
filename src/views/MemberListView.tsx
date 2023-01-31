@@ -19,7 +19,6 @@ export const MemberListView = observer((props:any) => {
               <TableCell align='center'>Name</TableCell>
               <TableCell align='center'>email</TableCell>
               <TableCell align='center'>Phone</TableCell>
-              <TableCell align='center'>Phone</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -30,7 +29,6 @@ export const MemberListView = observer((props:any) => {
               <TableCell>{element.name}</TableCell>
               <TableCell>{element.email}</TableCell>
               <TableCell>{element.phoneNumber}</TableCell>
-              <TableCell>{element.id}</TableCell>
             </TableRow> 
           ))
           :
