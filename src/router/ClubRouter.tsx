@@ -10,10 +10,10 @@ function ClubRouter (props:any) {
 
     return(
         <Container >
-          <Box m={3}>
+          <Box width="100%" overflow="auto" m={3}>
             <ClubEditFormContainer id_token={id_token} />
           </Box>
-          <Box m={3}>
+          <Box  width="100%" overflow="auto" m={3}>
             <SearchbarContainer />
             <ClubListContainer id_token={id_token}/>
           </Box>

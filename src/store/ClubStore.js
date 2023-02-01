@@ -1,19 +1,6 @@
 import ClubService from '../service/ClubService';
-import {  castToReferenceSnapshot, types } from 'mobx-state-tree';
-
-export const club = types.model({
-    id : types.identifier,
-    name : types.string,
-    intro : types.string,
-    foundationTime : types.number
-});
-
-export const defaultSnapshot = {
-        id:'',
-        name:'',
-        intro:'',
-        foundationTime:0,
-}
+import { club, defaultSnapshot } from '../aggregate/Club';
+import { types, castToReferenceSnapshot } from 'mobx-state-tree';
 
 const ClubStore = types
 .model('clubStore',{

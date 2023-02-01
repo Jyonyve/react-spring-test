@@ -3,11 +3,14 @@ import ClubRouter from './router/ClubRouter';
 import MemberRouter from './router/MemberRouter';
 import { LinkSelector } from './router/LinkSelector';
 import GoogleLoginTokenAndView from './views/GoogleLoginTokenAndView';
+import PaginationTable from './views/PaginationTable';
 import { useState } from 'react';
 
-const App = () => {
+
+const App = (props) => {
     
     const [id_token, setId_token] = useState('');
+    
 
     return (
       <div className='App'>       
@@ -17,13 +20,19 @@ const App = () => {
           
           <Route exact path='/club' element={
             id_token !== ''
-            ? <ClubRouter id_token={id_token}/>
+            ? <ClubRouter/>
             : `this service is only for members. please login`
           }/>
           <Route exact path='/member' element={
             id_token !== ''
-            ? <MemberRouter id_token = {id_token}/>
+            ? <MemberRouter/>
             : `this service is only for members. please login`
+            }/>
+
+          <Route exact path="/board/:clubId/:boardKind" element={
+            id_token !== '' //나중에 클럽별 권한 검사 추가...
+            ? <PaginationTable {...props}/>
+            : `unproven route!`
             }/>
         </Routes>
       </div>

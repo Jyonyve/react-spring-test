@@ -3,6 +3,7 @@ import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper
 import { observer } from 'mobx-react';
 import { action } from 'mobx';
 import autobind from 'autobind-decorator';
+import BoardContainer from '../containers/BoardContainer';
 
 @observer
 @autobind
@@ -24,7 +25,8 @@ class ClubListView extends PureComponent {
   render(){
     
     let onSetClub = this.props.onSetClub;
-    const clubsFlat = this.clubsFlatter();    
+    const clubsFlat = this.clubsFlatter();  
+      
     return (
       <TableContainer component={Paper} >
         <Table m={3}>
@@ -40,7 +42,7 @@ class ClubListView extends PureComponent {
             <TableRow key={element.id} hover onClick={()=> onSetClub(element)}>
               <TableCell>{element.name}</TableCell>
               <TableCell>{element.intro}</TableCell>
-              <TableCell>element.boardName</TableCell>
+              <TableCell><BoardContainer clubId={element.id}/></TableCell>
             </TableRow>
             ))  
             :

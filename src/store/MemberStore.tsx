@@ -37,6 +37,10 @@ export const MemberStore = types
         }
     },
 
+    setSearchText(searchText :string){
+        self.searchText = searchText;
+    },
+
     clearMember() {
         self.member = castToSnapshot(defaultSnapshotMember);
     },
@@ -68,7 +72,7 @@ export const MemberStore = types
 
     pushMembers : (JSONmembers: string) => {
         let memberList :any[] = JSON.parse(JSONmembers);
-        if (memberList.length <= 1){
+        if (memberList.toString() === ""){
             self.members.push(disguidedSnapshotMember)
         }
         memberList.map(member => self.members.push(castToSnapshot(member)))
