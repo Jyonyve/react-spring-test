@@ -1,7 +1,7 @@
 import {  castToSnapshot, types } from 'mobx-state-tree';
 import { Board, defaultSnapshotBoard } from '../aggregate/Board';
 import { BoardKind } from '../aggregate/BoardKind';
-import posting from '../aggregate/Posting';
+import {posting} from '../aggregate/Posting';
 import BoardService from '../service/BoardService';
 
 
@@ -30,6 +30,10 @@ export const BoardStore = types
 .actions((self => ({
     setBoard (board :any) {
         self.board = {...board};
+    },
+    setBoardOnebyOne (name:string, value: string){
+        self.board={...self.board,
+        [name] : value}
     },
 
     clearBoard() {
@@ -70,7 +74,9 @@ export const BoardStore = types
 
     async setPostings (clubId:string, boardKind: BoardKind) {
         let dbPostings = await this.fetchBoardAndPosting(clubId, boardKind);
-        dbPostings!.flatMap(posting => self.postings.push(castToSnapshot(posting)))
+        if(!!dbPostings && dbPostings.length !== 0){
+           dbPostings!.flatMap(posting => self.postings.push(castToSnapshot(posting))) 
+        };
     }
 
     // async setBoards() {

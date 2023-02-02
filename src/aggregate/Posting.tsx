@@ -1,6 +1,6 @@
 import { types } from "mobx-state-tree";
 
-const posting = types.model({
+export const posting = types.model({
 
     id : types.identifier,
     title: types.string,
@@ -10,14 +10,13 @@ const posting = types.model({
     readCount : types.number,
     boardId :types.string,
 })
-export default posting;
 
 export const defaultSnapshotPosting = {
     id:'',
     title: '',
     contents: '',
     writerEmail: '',
-    writtenDate : 0,
+    writtenDate : '',
     readCount : 0,
     boardId :''
 }

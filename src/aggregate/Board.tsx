@@ -2,7 +2,7 @@ import { types } from 'mobx-state-tree';
 import { BoardKind } from './BoardKind';
 
 export const Board = types.model({
-    id : types.identifier,
+    id : types.identifier, //boardId = clubId/boardKind 형태.
     name : types.string,
     boardKind : types.string,
     createDate : types.string,

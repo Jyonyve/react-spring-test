@@ -13,7 +13,7 @@ const AppButtonRoot = styled('div')(({ theme }) => ({
   '& .input': { display: 'none' },
 }));
 
-const StyledButton = styled(Button)(({ theme }) => ({
+export const StyledButton = styled(Button)(({ theme }) => ({
   margin: theme.spacing(1),
 }));
 

@@ -6,6 +6,7 @@ import Menu from "@mui/material/Menu";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { BoardKind } from "../aggregate/BoardKind";
+import { observer } from "mobx-react";
 
 // const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
 //   "&:focus": {
@@ -16,7 +17,7 @@ import { BoardKind } from "../aggregate/BoardKind";
 //   },
 // }));
 
-function BoardListViewAndNavlink(props) {
+const BoardListViewAndNavlink = (observer((props)=> {
   // eslint-disable-next-line
   const {clubId, clubName} = props;
   // eslint-disable-next-line
@@ -72,6 +73,6 @@ function BoardListViewAndNavlink(props) {
     </nav>
   </div>
   );
-}
+}))
 
 export default BoardListViewAndNavlink;

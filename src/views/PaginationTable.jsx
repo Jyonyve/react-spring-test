@@ -1,6 +1,7 @@
 import {
   Box,
   Paper,
+  Card,
   // Icon, IconButton,
   TableContainer,
   styled,
@@ -16,6 +17,8 @@ import moment from "moment";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { defaultSnapshotBoard } from "../aggregate/Board";
+import { StyledButton } from "../component/importedViewComponent/AppButton";
+import SimpleCard from "../component/importedViewComponent/SimpleCard";
 import { useStore } from "../store/RootStore";
 
 const StyledTable = styled(Table)(() => ({
@@ -30,7 +33,7 @@ const StyledTable = styled(Table)(() => ({
 
 const PaginationTable = (props) => {
 
-  const {onFetchBoardAndPosting, clubName} = props;
+  const {onFetchBoardAndPosting, clubName, onSetPosting} = props;
   const [board, setBoard] = useState(defaultSnapshotBoard);
   const boardStore = useStore().boardStore;
 
@@ -47,22 +50,27 @@ const PaginationTable = (props) => {
     setPage(0);
   };
 
-  //urlParams(routing)
-  const params = useParams();
+
+  //url Routing
+  const urlparams = useParams();
+  const clubId  = urlparams.clubId;
+  const boardKind  = urlparams.boardKind;
+
 
   useEffect( () => {  
-    onFetchBoardAndPosting(params.clubId, params.boardKind);
+    onFetchBoardAndPosting(clubId, boardKind);
     setBoard(castToSnapshot(boardStore.getBoard));
     // eslint-disable-next-line
-  },[params.boardKind])
+  },[boardKind])
  
 
 
   return (
     <Box width="100%" overflow="auto">
+
     <TableContainer component={Paper}>
       <StyledTable>
-        <TableHead>
+        <TableHead component={Card} >
           <TableRow>
             <TableCell align="left">{board.boardKind}</TableCell>
             <TableCell align="center">{clubName}</TableCell>
@@ -79,7 +87,7 @@ const PaginationTable = (props) => {
           {boardStore.getPostings.length !==0 ? boardStore.getPostings()
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((posting, index) => (
-              <TableRow key={index}>
+              <TableRow key={posting.id} hover onClick={()=> onSetPosting(`/${board.id}`, posting.id)}>
                 <TableCell align="left">{posting.title}</TableCell>
                 <TableCell align="center">{posting.writtenDate}</TableCell>
                 <TableCell align="right">${posting.readCount}</TableCell>
@@ -105,6 +113,17 @@ const PaginationTable = (props) => {
         </TableBody>
       </StyledTable>
 
+      <SimpleCard title="outlined buttons">
+        <StyledButton variant="outlined">
+          Write
+        </StyledButton>
+        {/* <StyledButton variant="outlined" color="primary">
+          Primary
+        </StyledButton>
+        <StyledButton variant="outlined" color="secondary">
+          Secondary
+        </StyledButton> */}
+      </SimpleCard>
       <TablePagination
         sx={{ px: 2 }}
         page={page}
