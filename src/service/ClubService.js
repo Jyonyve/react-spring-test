@@ -61,7 +61,6 @@ class ClubService {
                 }
             )
             .then(club => clubs.push(club.data));
-          console.log(clubs)
         } catch (error) {
             console.error(error.message);
         }

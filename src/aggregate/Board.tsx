@@ -4,15 +4,15 @@ import { BoardKind } from './BoardKind';
 export const Board = types.model({
     id : types.identifier,
     name : types.string,
-    boardKind : types.number,
-    createDate : types.number,
+    boardKind : types.string,
+    createDate : types.string,
     clubId : types.string,
 });
 
 export const defaultSnapshotBoard = {
         id:'',
         name:'',
-        boardKind: BoardKind.FAQBOARD,
-        createDate:0,
+        boardKind: BoardKind[1],
+        createDate: Date.now().toString(),
         clubId : ''
 }

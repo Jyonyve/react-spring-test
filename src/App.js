@@ -3,8 +3,8 @@ import ClubRouter from './router/ClubRouter';
 import MemberRouter from './router/MemberRouter';
 import { LinkSelector } from './router/LinkSelector';
 import GoogleLoginTokenAndView from './views/GoogleLoginTokenAndView';
-import PaginationTable from './views/PaginationTable';
 import { useState } from 'react';
+import PostingListContainer from './containers/PostingListContainer';
 
 
 const App = (props) => {
@@ -31,7 +31,7 @@ const App = (props) => {
 
           <Route exact path="/board/:clubId/:boardKind" element={
             id_token !== '' //나중에 클럽별 권한 검사 추가...
-            ? <PaginationTable {...props}/>
+            ? <PostingListContainer {...props}/>
             : `unproven route!`
             }/>
         </Routes>

@@ -28,7 +28,6 @@ class ClubListContainer extends Component {
     
     let searchText = this.clubStore.searchText;
     let clubs = getSnapshot(this.clubStore.clubs)
-    console.log(clubs)
     clubs = clubs.filter( club => club.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);
 
     return (

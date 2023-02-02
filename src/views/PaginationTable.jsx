@@ -1,7 +1,8 @@
 import {
   Box,
-  Icon,
-  IconButton,
+  Paper,
+  // Icon, IconButton,
+  TableContainer,
   styled,
   Table,
   TableBody,
@@ -10,8 +11,12 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
-import { useState } from "react";
+import { castToSnapshot } from "mobx-state-tree";
+import moment from "moment";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { defaultSnapshotBoard } from "../aggregate/Board";
+import { useStore } from "../store/RootStore";
 
 const StyledTable = styled(Table)(() => ({
   whiteSpace: "pre",
@@ -22,73 +27,13 @@ const StyledTable = styled(Table)(() => ({
     "& tr": { "& td": { paddingLeft: 0, textTransform: "capitalize" } },
   },
 }));
-const subscribarList = [
-  {
-    name: "john doe",
-    date: "18 january, 2019",
-    amount: 1000,
-    status: "close",
-    company: "ABC Fintech LTD.",
-  },
-  {
-    name: "kessy bryan",
-    date: "10 january, 2019",
-    amount: 9000,
-    status: "open",
-    company: "My Fintech LTD.",
-  },
-  {
-    name: "kessy bryan",
-    date: "10 january, 2019",
-    amount: 9000,
-    status: "open",
-    company: "My Fintech LTD.",
-  },
-  {
-    name: "james cassegne",
-    date: "8 january, 2019",
-    amount: 5000,
-    status: "close",
-    company: "Collboy Tech LTD.",
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD.",
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD.",
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD.",
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD.",
-  },
-  {
-    name: "lucy brown",
-    date: "1 january, 2019",
-    amount: 89000,
-    status: "open",
-    company: "ABC Fintech LTD.",
-  },
-];
 
 const PaginationTable = (props) => {
+
+  const {onFetchBoardAndPosting, clubName} = props;
+  const [board, setBoard] = useState(defaultSnapshotBoard);
+  const boardStore = useStore().boardStore;
+
   //Pagenation
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -104,38 +49,59 @@ const PaginationTable = (props) => {
 
   //urlParams(routing)
   const params = useParams();
-  console.log("params : "+ JSON.stringify(params));
+
+  useEffect( () => {  
+    onFetchBoardAndPosting(params.clubId, params.boardKind);
+    setBoard(castToSnapshot(boardStore.getBoard));
+    // eslint-disable-next-line
+  },[params.boardKind])
+ 
+
 
   return (
     <Box width="100%" overflow="auto">
+    <TableContainer component={Paper}>
       <StyledTable>
         <TableHead>
           <TableRow>
-            <TableCell align="left">Name</TableCell>
-            <TableCell align="center">Company</TableCell>
-            <TableCell align="center">Start Date</TableCell>
-            <TableCell align="center">Status</TableCell>
-            <TableCell align="center">Amount</TableCell>
-            <TableCell align="right">Action</TableCell>
+            <TableCell align="left">{board.boardKind}</TableCell>
+            <TableCell align="center">{clubName}</TableCell>
+            <TableCell align="right">{moment(Number(board.createDate)).format("DD MMM YYYY")}</TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell align="left">title</TableCell>
+            <TableCell align="center">writtenDate</TableCell>
+            <TableCell align="right">readCount</TableCell>
+            {/* <TableCell align="right">Action</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
-          {subscribarList
+          {boardStore.getPostings.length !==0 ? boardStore.getPostings()
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((subscriber, index) => (
+            .map((posting, index) => (
               <TableRow key={index}>
-                <TableCell align="left">{subscriber.name}</TableCell>
-                <TableCell align="center">{subscriber.company}</TableCell>
-                <TableCell align="center">{subscriber.date}</TableCell>
-                <TableCell align="center">{subscriber.status}</TableCell>
-                <TableCell align="center">${subscriber.amount}</TableCell>
-                <TableCell align="right">
+                <TableCell align="left">{posting.title}</TableCell>
+                <TableCell align="center">{posting.writtenDate}</TableCell>
+                <TableCell align="right">${posting.readCount}</TableCell>
+                {/* <TableCell align="right">
                   <IconButton>
-                    <Icon color="error">close</Icon>
+                    <Icon fontSize="small" color="error">close</Icon>
                   </IconButton>
-                </TableCell>
+                </TableCell> */}
               </TableRow>
-            ))}
+            ))
+              :
+            <TableRow>
+              <TableCell align="left">empty</TableCell>
+              <TableCell align="center">empty</TableCell>
+              <TableCell align="right">empty</TableCell>
+              {/* <TableCell align="right">
+                <IconButton>
+                  <Icon fontSize="small" color="error">close</Icon>
+                </IconButton>
+              </TableCell> */}
+            </TableRow>  
+          }
         </TableBody>
       </StyledTable>
 
@@ -144,13 +110,14 @@ const PaginationTable = (props) => {
         page={page}
         component="div"
         rowsPerPage={rowsPerPage}
-        count={subscribarList.length}
+        count={boardStore.getPostings.length}
         onPageChange={handleChangePage}
         rowsPerPageOptions={[5, 10, 25]}
         onRowsPerPageChange={handleChangeRowsPerPage}
         nextIconButtonProps={{ "aria-label": "Next Page" }}
         backIconButtonProps={{ "aria-label": "Previous Page" }}
       />
+    </TableContainer>
     </Box>
   );
 };

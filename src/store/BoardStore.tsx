@@ -1,6 +1,7 @@
 import {  castToSnapshot, types } from 'mobx-state-tree';
 import { Board, defaultSnapshotBoard } from '../aggregate/Board';
 import { BoardKind } from '../aggregate/BoardKind';
+import posting from '../aggregate/Posting';
 import BoardService from '../service/BoardService';
 
 
@@ -8,20 +9,28 @@ export const BoardStore = types
 .model(('boardStore'), {
     board : types.optional(Board, castToSnapshot(defaultSnapshotBoard)),
     boards : types.array(Board),
+    postings : types.array(posting),
     boardService : types.optional(BoardService, {})
 })
 .views(self => ({
-    getMember(){
+    getBoard(){
         const board = {...self.board}
         return board;
     },
 
-    getMembers() {
+    getBoards() {
         const boards = {...self.boards}
         return boards;
     },
+    getPostings() {
+        const postings = {...self.postings}
+        return postings;
+    },
 }))
 .actions((self => ({
+    setBoard (board :any) {
+        self.board = {...board};
+    },
 
     clearBoard() {
         self.board = castToSnapshot(defaultSnapshotBoard);
@@ -42,14 +51,26 @@ export const BoardStore = types
         }
     },
 
-    async fetchBoard(clubId:string, boardKind: BoardKind){
+    async fetchBoardAndPosting(clubId:string, boardKind: BoardKind){
         try{
-            let dbBoard : any[] = await self.boardService.fetchBoard(clubId, boardKind);
-            dbBoard.length !== 0 && !!dbBoard ? 
-            self.board = castToSnapshot(dbBoard) : self.board = defaultSnapshotBoard;
+            let dbBoardAndPostings : Map<string, object>|undefined = await self.boardService.fetchBoard(clubId, boardKind);
+            const dbBoardAndPostingsString = JSON.stringify(dbBoardAndPostings);
+            if (!!dbBoardAndPostings && dbBoardAndPostings.size !== 0 ){
+                this.setBoard({...castToSnapshot(JSON.parse(dbBoardAndPostingsString)['board'])})
+                const dbPostings :[] = JSON.parse(dbBoardAndPostingsString)['postings'];
+                return dbPostings;
+            }
+            else {
+                throw new Error(`cannot define board info in fetchBoardAndPosting/boardservice`)
+            }
         } catch (error) {
             console.error(error);
         }
+    },
+
+    async setPostings (clubId:string, boardKind: BoardKind) {
+        let dbPostings = await this.fetchBoardAndPosting(clubId, boardKind);
+        dbPostings!.flatMap(posting => self.postings.push(castToSnapshot(posting)))
     }
 
     // async setBoards() {

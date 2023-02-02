@@ -18,9 +18,9 @@ import { BoardKind } from "../aggregate/BoardKind";
 
 function BoardListViewAndNavlink(props) {
   // eslint-disable-next-line
-  const {clubId, boards} = props;
+  const {clubId, clubName} = props;
   // eslint-disable-next-line
-  const {NOTICEBOARD, SOCIALBOARD, QNABOARD, FAQBOARD} = BoardKind;
+  // const {NOTICEBOARD, SOCIALBOARD, QNABOARD, FAQBOARD} = BoardKind;
   
   
   
@@ -57,13 +57,15 @@ function BoardListViewAndNavlink(props) {
         transformOrigin={{ vertical: "top", horizontal: "center" }}
         sx={{ border: "1px solid #d3d4d5" }}
       >
-        <NavLink to={`/board/${clubId}/${NOTICEBOARD}`}>
+        {localStorage.setItem('clubName', clubName)}
+        
+        <NavLink to={`/board/${clubId}/${BoardKind[0]}`}>
           <ListItemText secondary="Notice Board"/>
         </NavLink>
-        <NavLink to={`/board/${clubId}/${SOCIALBOARD}`}>
+        <NavLink to={`/board/${clubId}/${BoardKind[1]}`}>
           <ListItemText secondary="Social Board" />
         </NavLink>
-        <NavLink to={`/board/${clubId}/${QNABOARD}`}>
+        <NavLink to={`/board/${clubId}/${BoardKind[2]}`}>
           <ListItemText secondary="QnA Board"/>
         </NavLink>
       </Menu>

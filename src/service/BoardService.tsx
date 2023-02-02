@@ -32,7 +32,7 @@ const BoardService = types.model(
     },
 
     fetchBoard :async (clubId:string, boardKind:BoardKind) => {
-        let board : any;
+        let boardAndPostings : Map<string, object> = new Map();
         try{
             await axios.get(
                 BASE_URL + "/" + clubId + "/" + boardKind,
@@ -44,16 +44,18 @@ const BoardService = types.model(
                 }
             )
             .then(
-                fetchBoard => board = fetchBoard.data
+                fetchBoard => boardAndPostings = fetchBoard.data
             )
-            if(board !== undefined){
-                return board;
+            if(boardAndPostings.size !== 0){
+                console.log(`service: fetchboard : ${JSON.stringify(boardAndPostings)}`)
+                return boardAndPostings;
             } else {
-                throw new Error(`axios fail to get one board.`)
+                throw new Error(`axios fail to get board info and postings.`)
             }
         }catch(error){
             console.error(`fetchBoard: one board fetchs error.`)
         }
     },
+
 }));
 export default BoardService;

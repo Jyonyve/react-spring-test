@@ -1,5 +1,5 @@
 import { NavLink} from "react-router-dom"
-import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper } from '@material-ui/core';
+import { Table, TableContainer, TableBody, TableRow, TableCell, Paper } from '@material-ui/core';
 import { GoogleLoginButtonContainer } from "../containers/GoogleLoginButtonContainer";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
@@ -15,20 +15,11 @@ export const LinkSelector = (props:any) => {
         </GoogleOAuthProvider>
             <TableContainer component={Paper}>
                 <Table>
-                    <TableHead></TableHead>
                     <TableBody>
-                        <TableRow>
-                            <TableCell>
-                                <ul className="nav-links">
-                                    <li><NavLink to='/'>App Main</NavLink></li>
-                                    <li >
-                                        Member's feature : <NavLink to='/club'>Travel Clubs</NavLink>
-                                    </li>
-                                    <li>
-                                        Member's feature : <NavLink to='/member'>For Members</NavLink>
-                                    </li>
-                                </ul>
-                            </TableCell>
+                        <TableRow className="nav-links">
+                            <TableCell><NavLink to='/'>App Main</NavLink></TableCell>
+                            <TableCell> <NavLink to='/club'>Travel Clubs</NavLink></TableCell>
+                            <TableCell><NavLink to='/member'>For Members</NavLink></TableCell>
                         </TableRow>
                     </TableBody>
                 </Table>

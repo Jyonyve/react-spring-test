@@ -42,7 +42,7 @@ class ClubListView extends PureComponent {
             <TableRow key={element.id} hover onClick={()=> onSetClub(element)}>
               <TableCell>{element.name}</TableCell>
               <TableCell>{element.intro}</TableCell>
-              <TableCell><BoardContainer clubId={element.id}/></TableCell>
+              <TableCell><BoardContainer clubName = { element.name} clubId={element.id}/></TableCell>
             </TableRow>
             ))  
             :

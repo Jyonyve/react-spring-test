@@ -4,13 +4,12 @@ import BoardListViewAndNavlink from "../views/BoardListViewAndNavlink";
 
 const BoardContainer = (observer((props:any) => {
     //
-    const clubId : string = props.clubId;
-    // const boards = useStore().boardStore.fetchBoards(clubId);
+    const {clubId, clubName} = props;
 
     return(
         <BoardListViewAndNavlink
             clubId={clubId}
-            // boards = {boards}
+            clubName={clubName}
         />
     )
 

@@ -27,7 +27,6 @@ const ClubStore = types
 
     clearClub: () => {
         self.club = defaultSnapshot;
-        console.log('club cleaning' + JSON.stringify(self.club));
     },
     
     clearClubs : () => {
@@ -46,7 +45,6 @@ const ClubStore = types
     },
 
     pushClubs : (JSonclubs) => {
-        console.log(JSonclubs);
         let clubList = JSON.parse(JSonclubs);
         clubList.map(club => self.clubs.push(castToReferenceSnapshot(club)));
     },
@@ -56,7 +54,6 @@ const ClubStore = types
             this.clearClubs();
             let dbClubs = [];
             dbClubs = await ClubService.fetchClubs();
-            console.log(`dbClubs ${dbClubs}`);
             return dbClubs;
         } catch (error) {
             console.error(error);
@@ -66,7 +63,6 @@ const ClubStore = types
     async setClubs(){
         let dbClubs = await this.fetchClubs();
         dbClubs = dbClubs.flat(Infinity);
-        console.log(dbClubs)
         this.pushClubs(JSON.stringify(dbClubs))
     },
 
@@ -79,9 +75,7 @@ const ClubStore = types
             ...insertClub,
             'id' : id
         }
-        console.log(JSON.stringify(insertClub) + '    1')
         this.setClubProps('id', id);
-        console.log('2')
         } catch(error){
             console.error(error);
         }
@@ -89,9 +83,7 @@ const ClubStore = types
 
     async addClub(){
         await this.addIdToClub();
-        console.log('3')
         this.setClubs();
-        console.log('4')
     },
 
 
