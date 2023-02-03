@@ -16,7 +16,7 @@ export const defaultSnapshotPosting = {
     title: '',
     contents: '',
     writerEmail: '',
-    writtenDate : '',
+    writtenDate : Date.now().toString(),
     readCount : 0,
     boardId :''
 }

@@ -1,16 +1,17 @@
-import autobind from "autobind-decorator";
 import axios from "axios";
+import { types } from "mobx-state-tree";
 
-@autobind
-class ClubService {
-    
-    BASE_URL = '';
+const BASE_URL = '/club';
 
-    async addClub(club){
+const ClubService = types.model()
+.actions(() =>({
 
+    addClub : async (club) => {
+
+        try {
         let id = '';
         await axios.post(
-            this.BASE_URL,
+            BASE_URL,
             JSON.stringify(club),
             {headers: {
                 "Content-Type" : `application/json`,
@@ -21,12 +22,15 @@ class ClubService {
             
         ).then( res => {id = res.data;});
         return id;
-
+    }   catch(error){
+        console.error(error);
     }
 
-    editClub(id, club){
+    },
+
+    editClub : (id, club) => {
         axios.put(
-            this.BASE_URL + '/' + id,
+            BASE_URL + '/' + id,
             JSON.stringify(club),
             {
                 headers: {
@@ -36,21 +40,22 @@ class ClubService {
                 withCredentials : true,        
             }
         );
-    }
+    },
 
-    deleteClub(id){
-        axios.delete(this.BASE_URL+ '/' + id,
+    deleteClub :(id) =>{
+        axios.delete(BASE_URL+ '/' + id,
         {headers: {
             "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
             },
             withCredentials : true,
         }
         );
-    }
+    },
 
-    async fetchClubs(){
+    fetchClubs : async () => {
         let clubs = [];
         try {
+            console.log(`fetchclubs`)
           await axios.get(
           this.BASE_URL, 
                 {headers: {
@@ -61,11 +66,11 @@ class ClubService {
                 }
             )
             .then(club => clubs.push(club.data));
+            return clubs;   
         } catch (error) {
-            console.error(error.message);
+            throw new Error(`fetchClub does not work.`)
         }
-        return clubs;       
+            
     }
-}
-// eslint-disable-next-line
-export default new ClubService();
+}));
+export default ClubService;

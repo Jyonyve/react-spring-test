@@ -1,9 +1,9 @@
 import ClubService from '../service/ClubService';
 import { club, defaultSnapshot } from '../aggregate/Club';
-import { types, castToReferenceSnapshot } from 'mobx-state-tree';
+import { types, castToSnapshot } from 'mobx-state-tree';
 
 const ClubStore = types
-.model('clubStore',{
+.model(('clubStore'),{
     club : types.optional(club, defaultSnapshot),
     clubs: types.array(club),
     searchText : types.string
@@ -45,8 +45,9 @@ const ClubStore = types
     },
 
     pushClubs : (JSonclubs) => {
+        console.log(JSonclubs)
         let clubList = JSON.parse(JSonclubs);
-        clubList.map(club => self.clubs.push(castToReferenceSnapshot(club)));
+        clubList.map(club => self.clubs.push(castToSnapshot(club)));
     },
 
     async fetchClubs(){

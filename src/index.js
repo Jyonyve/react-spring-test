@@ -11,13 +11,11 @@ axios.defaults.withCredentials = true;
 
 ReactDOM.render(
   
-    <Provider rootStore ={rootStore} >
       <StoreProvider value={rootStore}>
         <BrowserRouter>
           <App/>
         </BrowserRouter>
-      </StoreProvider>
-    </Provider>,
+      </StoreProvider>,
     
   document.getElementById('root')
 );

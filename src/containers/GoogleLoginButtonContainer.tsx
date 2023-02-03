@@ -1,7 +1,8 @@
 import { Button } from "@material-ui/core";
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
+import { observer } from "mobx-react";
 
-export const GoogleLoginButtonContainer = (props:any) => {
+export const GoogleLoginButtonContainer = (observer((props:any) => {
   
     let {id_token, setId_token }= props;
 
@@ -24,14 +25,14 @@ export const GoogleLoginButtonContainer = (props:any) => {
     return (
       <div>
         {!id_token ?
-        <Button variant="contained" color="primary" onClick={() => {login()}}>
+        <Button variant="text" size="small" color="primary" onClick={() => {login()}}>
           Sign in with Google 🚀
         </Button>
         
         : 
-        <Button variant="contained" color="secondary" onClick={() => {logout(props)}}>
+        <Button variant="text" size="small" color="secondary" onClick={() => {logout(props)}}>
           Sign out
         </Button>}
       </div>
     );
-}
+}))

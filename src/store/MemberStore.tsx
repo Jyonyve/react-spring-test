@@ -91,12 +91,9 @@ export const MemberStore = types
 
     async addMember(){
         try {
-            console.log(`addMember ran.`)
             await this.addIdToMember();
-            console.log(`addIdMember ran.`)
-            console.log(`${JSON.stringify({...self.member})}`)
+            console.log(`memberStore : addmember : ${JSON.stringify({...self.member})}`)
             this.setMembers();
-            console.log(`setMembers ran.`)
         } catch (error) {
             console.error(error);
         }

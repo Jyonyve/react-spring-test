@@ -1,33 +1,42 @@
-import { Box, Paper } from "@material-ui/core";
+import { Box } from "@material-ui/core";
 import { observer } from "mobx-react";
 import { BoardKind } from "../aggregate/BoardKind";
 import { useStore } from "../store/RootStore";
 import PaginationTable from "../views/PaginationTable";
-import { PostingEditFormView } from "../views/PostingEditFormView";
 
 const PostingListContainer = (observer((props:any) =>{
 
     const boardStore = useStore().boardStore;
     const postingStore = useStore().postingStore;
 
-    const onFetchBoardAndPosting= (clubId :string, boardKind: BoardKind) => {
-        boardStore.setPostings(clubId, boardKind);
-    }
-    const onSetPosting=( postingId :string)=>{
+    const onFetchBoardAndPosting= async (clubId :string, boardKind : BoardKind) => {
+        const dbPostings :string|undefined = await boardStore.fetchBoardAndPosting(clubId, boardKind);
+        postingStore.fetchPostings(dbPostings!);
+    };
+
+    const onFetchPosting=( postingId :string)=>{
         postingStore.fetchPosting(postingId);
+    };
+
+    const onAddPosting = (boardId : string) =>{
+        console.log(boardId)
+        postingStore.addPostingAndSetId(boardId);
+        postingStore.addOnePostingtoPostings();
+    };
+
+    const onSetPostingProps =(name:string, value:string) =>{
+        postingStore.setPostingProps(name, value);
     }
 
     return(
-        <Box component={Paper}>
-            <PostingEditFormView
-            boardStore = {boardStore}
-            postingStore={postingStore}
-            />
-        
-            < PaginationTable
+        <Box >      
+            < PaginationTable 
             onFetchBoardAndPosting={onFetchBoardAndPosting}
             clubName={localStorage.getItem('clubName')}
-            onSetPosting={onSetPosting} 
+            onFetchPosting={onFetchPosting} 
+            onAddPosting={onAddPosting}
+            onSetPostingProps={onSetPostingProps}
+            posting={postingStore.posting}
         />
         </Box>
     )

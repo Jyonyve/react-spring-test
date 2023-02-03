@@ -1,5 +1,4 @@
 import {
-  Box,
   Paper,
   Card,
   // Icon, IconButton,
@@ -12,14 +11,14 @@ import {
   TablePagination,
   TableRow,
 } from "@mui/material";
+import { observer } from "mobx-react";
 import { castToSnapshot } from "mobx-state-tree";
-import moment from "moment";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { defaultSnapshotBoard } from "../aggregate/Board";
 import { StyledButton } from "../component/importedViewComponent/AppButton";
-import SimpleCard from "../component/importedViewComponent/SimpleCard";
 import { useStore } from "../store/RootStore";
+import { PostingEditFormView } from "./PostingEditFormView";
 
 const StyledTable = styled(Table)(() => ({
   whiteSpace: "pre",
@@ -31,11 +30,16 @@ const StyledTable = styled(Table)(() => ({
   },
 }));
 
-const PaginationTable = (props) => {
+const PaginationTable = (observer((props) => {
 
-  const {onFetchBoardAndPosting, clubName, onSetPosting} = props;
+  const {onFetchBoardAndPosting, clubName, onFetchPosting} = props;
+
   const [board, setBoard] = useState(defaultSnapshotBoard);
+  const [renderWriting, setRenderWriting] = useState(false);
+  const [postings, setPostings] = useState([]);
+
   const boardStore = useStore().boardStore;
+  const postingStore = useStore().postingStore;
 
   //Pagenation
   const [page, setPage] = useState(0);
@@ -56,89 +60,86 @@ const PaginationTable = (props) => {
   const clubId  = urlparams.clubId;
   const boardKind  = urlparams.boardKind;
 
-
-  useEffect( () => {  
-    onFetchBoardAndPosting(clubId, boardKind);
-    setBoard(castToSnapshot(boardStore.getBoard));
-    // eslint-disable-next-line
-  },[boardKind])
+  useEffect(  () => {  
+      onFetchBoardAndPosting(clubId, boardKind); //fetch board info and posting list to state
+      setBoard(castToSnapshot(boardStore.getBoard));
+      setPostings({...postingStore.getPostings()});
+      // eslint-disable-next-line
+  },[postingStore.posting])
  
 
-
   return (
-    <Box width="100%" overflow="auto">
-
-    <TableContainer component={Paper}>
-      <StyledTable>
-        <TableHead component={Card} >
-          <TableRow>
-            <TableCell align="left">{board.boardKind}</TableCell>
-            <TableCell align="center">{clubName}</TableCell>
-            <TableCell align="right">{moment(Number(board.createDate)).format("DD MMM YYYY")}</TableCell>
-          </TableRow>
-          <TableRow>
-            <TableCell align="left">title</TableCell>
-            <TableCell align="center">writtenDate</TableCell>
-            <TableCell align="right">readCount</TableCell>
-            {/* <TableCell align="right">Action</TableCell> */}
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {boardStore.getPostings.length !==0 ? boardStore.getPostings()
-            .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-            .map((posting, index) => (
-              <TableRow key={posting.id} hover onClick={()=> onSetPosting(`/${board.id}`, posting.id)}>
-                <TableCell align="left">{posting.title}</TableCell>
-                <TableCell align="center">{posting.writtenDate}</TableCell>
-                <TableCell align="right">${posting.readCount}</TableCell>
-                {/* <TableCell align="right">
-                  <IconButton>
-                    <Icon fontSize="small" color="error">close</Icon>
-                  </IconButton>
-                </TableCell> */}
-              </TableRow>
-            ))
-              :
+    
+    // <Box width="100%" overflow="auto">
+    <nav>
+      <TableContainer component={Paper}>
+        <StyledTable>
+          <TableHead >
+            <TableRow component={Card}>
+              <TableCell align="center">{board.boardKind}</TableCell>
+              <TableCell align="center">Club Name : {clubName}</TableCell>
+              <TableCell align="center">{board.createDate}</TableCell>
+            </TableRow>
             <TableRow>
-              <TableCell align="left">empty</TableCell>
-              <TableCell align="center">empty</TableCell>
-              <TableCell align="right">empty</TableCell>
-              {/* <TableCell align="right">
-                <IconButton>
-                  <Icon fontSize="small" color="error">close</Icon>
-                </IconButton>
-              </TableCell> */}
-            </TableRow>  
-          }
-        </TableBody>
-      </StyledTable>
+              <TableCell align="center">title</TableCell>
+              <TableCell align="center">writtenDate</TableCell>
+              <TableCell align="center">readCount</TableCell>
+              {/* <TableCell align="right">Action</TableCell> */}
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            { postings && Array.isArray(postings) ? postings
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              .map((posting) => (
+                <TableRow key={posting.id} hover onClick={()=> onFetchPosting(`/${board.id}`, posting.id)}>
+                  <TableCell align="center">{posting.title}</TableCell>
+                  <TableCell align="center">{posting.writtenDate}</TableCell>
+                  <TableCell align="center">${posting.readCount}</TableCell>
+    
+                </TableRow>
+              ))
+                :
+              <TableRow>
+                <TableCell align="center">empty</TableCell>
+                <TableCell align="center">empty</TableCell>
+                <TableCell align="center">empty</TableCell>
+    
+              </TableRow>  
+            }
+          </TableBody>
+        </StyledTable>
 
-      <SimpleCard title="outlined buttons">
-        <StyledButton variant="outlined">
-          Write
-        </StyledButton>
-        {/* <StyledButton variant="outlined" color="primary">
-          Primary
-        </StyledButton>
-        <StyledButton variant="outlined" color="secondary">
-          Secondary
-        </StyledButton> */}
-      </SimpleCard>
-      <TablePagination
-        sx={{ px: 2 }}
-        page={page}
-        component="div"
-        rowsPerPage={rowsPerPage}
-        count={boardStore.getPostings.length}
-        onPageChange={handleChangePage}
-        rowsPerPageOptions={[5, 10, 25]}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-        nextIconButtonProps={{ "aria-label": "Next Page" }}
-        backIconButtonProps={{ "aria-label": "Previous Page" }}
-      />
-    </TableContainer>
-    </Box>
+        <TablePagination
+          sx={{ px: 2 }}
+          page={page}
+          component="div"
+          rowsPerPage={rowsPerPage}
+          count={postingStore.getPostings.length}
+          onPageChange={handleChangePage}
+          rowsPerPageOptions={[5, 10, 25]}
+          onRowsPerPageChange={handleChangeRowsPerPage}
+          nextIconButtonProps={{ "aria-label": "Next Page" }}
+          backIconButtonProps={{ "aria-label": "Previous Page" }}
+        />
+
+        
+        <StyledButton variant="text" onClick={() => renderWriting===true ? setRenderWriting(false) : setRenderWriting(true)}>          
+            Write
+        </StyledButton> 
+            {
+              renderWriting===true  ?
+              <PostingEditFormView 
+              clubId={clubId}
+              boardKind={boardKind}
+              {...props}
+            />
+              :
+              null
+            }
+      </TableContainer>
+    </nav>
+    // </Box>
   );
-};
+}));
 
 export default PaginationTable;

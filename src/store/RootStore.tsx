@@ -17,8 +17,8 @@ export const rootStore = types.model({
 }).create({
     memberStore : { member : castToSnapshot(defaultSnapshotMember), members : [], searchText:'' },
     clubStore : { club : castToSnapshot(defaultSnapshot), clubs:[], searchText:''},
-    boardStore : { board : castToSnapshot(defaultSnapshotBoard), boards : [], postings:[]},
-    postingStore : {posting: castToSnapshot(defaultSnapshotPosting)},
+    boardStore : { board : castToSnapshot(defaultSnapshotBoard), boards : []},
+    postingStore : {posting: castToSnapshot(defaultSnapshotPosting), postings:[]},
 });
 
 const RootStoreContext = createContext<Instance<typeof rootStore>|null>(null);

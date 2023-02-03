@@ -38,6 +38,7 @@
     "react-material-ui-form-validator": "^3.0.1",
     "react-router-dom": "^6.6.1",
     "react-scripts": "^5.0.1",
+    "reactjs-popup": "^2.0.5",
     "stream": "^0.0.2",
     "typescript": "^4.9.4",
     "web-vitals": "^0.2.4",

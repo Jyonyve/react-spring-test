@@ -3,8 +3,9 @@ import {Container, Box} from '@material-ui/core';
 import SearchbarContainer from '../containers/SearchbarContainer';
 import React from 'react';
 import { MemberListContainer } from '../containers/MemberListContainer';
+import { observer } from 'mobx-react';
 
-function MemberRouter (props:any) {
+const MemberRouter =(observer((props:any) =>{
 
     return(
         <Container >
@@ -18,5 +19,5 @@ function MemberRouter (props:any) {
       </Container>
     )
 
-}
+}))
 export default MemberRouter;

@@ -1,31 +1,24 @@
-import React, { PureComponent} from 'react';
+import React, {  useEffect} from 'react';
 import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper } from '@material-ui/core';
 import { observer } from 'mobx-react';
-import { action } from 'mobx';
-import autobind from 'autobind-decorator';
 import BoardContainer from '../containers/BoardContainer';
 
-@observer
-@autobind
-class ClubListView extends PureComponent {
 
-  constructor(props){
-    super(props);
-    this.props.onSetClubs();
-  }
+const ClubListView = observer((props) => {
 
-  @action
-  clubsFlatter(){
-    const clubs = this.props.clubs;
+  const {onSetClubs, onSetClub, clubs}  = props;
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(()=>{
+    onSetClubs()
+  },[]);
+
+  function clubsFlatter(){
     return clubs.flat(Infinity);
   }
 
-  authorization = Object.values(JSON.parse(localStorage.getItem('userRoles')));
-  
-  render(){
+  const authorization = Object.values(JSON.parse(localStorage.getItem('userRoles')));
     
-    let onSetClub = this.props.onSetClub;
-    const clubsFlat = this.clubsFlatter();  
       
     return (
       <TableContainer component={Paper} >
@@ -38,7 +31,7 @@ class ClubListView extends PureComponent {
             </TableRow>
           </TableHead>
         <TableBody>
-          {clubsFlat.length && Array.isArray(clubsFlat) ? clubsFlat.map((element) => (
+          {clubsFlatter().length && Array.isArray(clubsFlatter()) ? clubsFlatter().map((element) => (
             <TableRow key={element.id} hover onClick={()=> onSetClub(element)}>
               <TableCell>{element.name}</TableCell>
               <TableCell>{element.intro}</TableCell>
@@ -57,7 +50,6 @@ class ClubListView extends PureComponent {
       </TableContainer>
       
     )
-  }
-}
-
+  
+})
 export default ClubListView;

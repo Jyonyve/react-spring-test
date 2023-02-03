@@ -1,8 +1,7 @@
 import axios from "axios";
 import { types } from "mobx-state-tree";
-import { posting } from "../aggregate/Posting";
 
-const BASE_URL: string = "/"+window.location.pathname
+const BASE_URL: string = "/board"
 
 const PostingService = types.model(
 )
@@ -25,11 +24,11 @@ const PostingService = types.model(
         }
     },
 
-    addPosting : async (posting :any) => {
+    addPosting : async (boardId:string, posting :any) => {
         try{
             let id:string = '';
             await axios.post(
-                BASE_URL,
+                BASE_URL+"/"+boardId,
                 JSON.stringify(posting),
                 {
                     data : localStorage.getItem('userRoles'),

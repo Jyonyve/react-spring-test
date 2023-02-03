@@ -1,18 +1,15 @@
-import React, { Component } from 'react';
+import React  from 'react';
 import { TextField, InputAdornment  } from '@material-ui/core';
 import  SearchIcon  from '@material-ui/icons/Search';
 import { observer} from 'mobx-react'
-import autobind from 'autobind-decorator'
 import { rootStore } from '../store/RootStore';
 
-@observer
-@autobind
-class SearchbarContainer extends Component {
+const SearchbarContainer = observer((props)=> {
 
-  locationNow = window.location.pathname;
+  const locationNow = window.location.pathname;
 
-  onChangeSearchText(searchText){
-    switch(this.locationNow){
+  function onChangeSearchText(searchText){
+    switch(locationNow){
       case `/club` :
         rootStore.clubStore.setSearchText(searchText);
         break;
@@ -24,7 +21,6 @@ class SearchbarContainer extends Component {
     }
   }
 
-  render(){
     return (
       <TextField
         InputProps={{
@@ -34,9 +30,9 @@ class SearchbarContainer extends Component {
             </InputAdornment>
           ),
         }}
-        onChange = {(event) => this.onChangeSearchText(event.target.value)}
+        onChange = {(event) => onChangeSearchText(event.target.value)}
       />
-    )}
-}
+    )
+})
 
 export default SearchbarContainer;

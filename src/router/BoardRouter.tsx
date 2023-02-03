@@ -1,7 +1,8 @@
 import { Box, Container } from "@material-ui/core";
+import { observer } from "mobx-react";
 import BoardContainer from "../containers/BoardContainer";
 
-function BoardRouter (props:any){
+const BoardRouter = (observer((props:any) =>{
     return(
         <Container>
             <Box width="100%" overflow="auto" m={3}>
@@ -9,5 +10,5 @@ function BoardRouter (props:any){
             </Box>
       </Container>
     )
-}
+}))
 export default BoardRouter

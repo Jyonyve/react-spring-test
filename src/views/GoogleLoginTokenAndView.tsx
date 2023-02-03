@@ -3,8 +3,9 @@ import { LoginView } from "./LoginView";
 import axios from "axios";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { observer } from "mobx-react";
 
-function GoogleLoginTokenAndView (props:any) {
+const  GoogleLoginTokenAndView = observer((props:any) =>{
 
     let {id_token, setId_token} = props;
 
@@ -57,8 +58,12 @@ function GoogleLoginTokenAndView (props:any) {
     },[id_token])
 
     return(
-        <LoginView/>
+        
+        <h2>
+          Welcome~!
+          {window.history.replaceState({}, document.title)}
+        </h2>
     );
 
-}
+})
 export default GoogleLoginTokenAndView;

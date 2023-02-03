@@ -1,10 +1,11 @@
 import {Container, Box} from '@material-ui/core';
+import { observer } from 'mobx-react';
 import React from 'react';
 import ClubEditFormContainer from '../containers/ClubEditFormContainer';
 import ClubListContainer from '../containers/ClubListContainer';
 import SearchbarContainer from '../containers/SearchbarContainer';
 
-function ClubRouter (props:any) {
+const ClubRouter = (observer((props:any) =>{
 
   let id_token = props.id_token;
 
@@ -20,5 +21,5 @@ function ClubRouter (props:any) {
         </Container>
     )
 
-}
+}))
 export default ClubRouter;

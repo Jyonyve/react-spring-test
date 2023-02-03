@@ -1,45 +1,29 @@
-import Button from "@mui/material/Button";
-import ListItemText from "@mui/material/ListItemText";
-import Menu from "@mui/material/Menu";
-// import MenuItem from "@mui/material/MenuItem";
-// import { styled } from "@mui/system";
+import { Box, Button, Menu, MenuItem } from "@mui/material";
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { BoardKind } from "../aggregate/BoardKind";
 import { observer } from "mobx-react";
 
-// const StyledMenuItem = styled(MenuItem)(({ theme }) => ({
-//   "&:focus": {
-//     backgroundColor: theme.palette.primary.main,
-//     "& .MuiListItemIcon-root, & .MuiListItemText-primary": {
-//       color: theme.palette.common.white,
-//     },
-//   },
-// }));
 
 const BoardListViewAndNavlink = (observer((props)=> {
-  // eslint-disable-next-line
   const {clubId, clubName} = props;
-  // eslint-disable-next-line
-  // const {NOTICEBOARD, SOCIALBOARD, QNABOARD, FAQBOARD} = BoardKind;
-  
-  
+ 
   
   // CSS Funtion
   const [anchorEl, setAnchorEl] = React.useState(null);
+
   function handleClick(event) {
     setAnchorEl(event.currentTarget);
   }
+
   function handleClose() {
     setAnchorEl(null);
   }
-
   return (
-    <div>
       <nav className="navBoard">
+        <Box>
       <Button
-        color="inherit"
-        variant="contained"
+        variant="text"
         aria-haspopup="true"
         onClick={handleClick}
         aria-owns={anchorEl ? "simple-menu" : undefined}
@@ -47,31 +31,22 @@ const BoardListViewAndNavlink = (observer((props)=> {
         Board List
       </Button>
 
-      <Menu
-        elevation={0}
-        id="simple-menu"
-        anchorEl={anchorEl}
-        onClose={handleClose}
-        open={Boolean(anchorEl)}
-        // getContentAnchorEl={null}
-        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
-        transformOrigin={{ vertical: "top", horizontal: "center" }}
-        sx={{ border: "1px solid #d3d4d5" }}
-      >
+      <Menu id="simple-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         {localStorage.setItem('clubName', clubName)}
-        
+
         <NavLink to={`/board/${clubId}/${BoardKind[0]}`}>
-          <ListItemText secondary="Notice Board"/>
+          <MenuItem onClick={handleClose}>Notice Board</MenuItem>
         </NavLink>
         <NavLink to={`/board/${clubId}/${BoardKind[1]}`}>
-          <ListItemText secondary="Social Board" />
+          <MenuItem onClick={handleClose}>Social Board</MenuItem>
         </NavLink>
         <NavLink to={`/board/${clubId}/${BoardKind[2]}`}>
-          <ListItemText secondary="QnA Board"/>
+         <MenuItem onClick={handleClose}>QnA Board</MenuItem>
         </NavLink>
+        
       </Menu>
+    </Box>
     </nav>
-  </div>
   );
 }))
 

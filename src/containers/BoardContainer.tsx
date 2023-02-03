@@ -1,5 +1,4 @@
 import { observer } from "mobx-react";
-// import { useStore } from "../store/RootStore";
 import BoardListViewAndNavlink from "../views/BoardListViewAndNavlink";
 
 const BoardContainer = (observer((props:any) => {
@@ -7,10 +6,10 @@ const BoardContainer = (observer((props:any) => {
     const {clubId, clubName} = props;
 
     return(
-        <BoardListViewAndNavlink
-            clubId={clubId}
-            clubName={clubName}
-        />
+            <BoardListViewAndNavlink
+                clubId={clubId}
+                clubName={clubName}
+            />
     )
 
 }));

@@ -5,7 +5,7 @@ import { LinkSelector } from './router/LinkSelector';
 import GoogleLoginTokenAndView from './views/GoogleLoginTokenAndView';
 import { useState } from 'react';
 import PostingListContainer from './containers/PostingListContainer';
-
+import Popup from 'reactjs-popup';
 
 const App = (props) => {
     
@@ -31,9 +31,17 @@ const App = (props) => {
 
           <Route exact path="/board/:clubId/:boardKind" element={
             id_token !== '' //나중에 클럽별 권한 검사 추가...
-            ? <PostingListContainer {...props}/>
+            ? 
+            <Popup position="bottom left" open={true} children={
+              <PostingListContainer {...props}/>
+            }/>            
             : `unproven route!`
             }/>
+          {/* <Route exact path="/board/write" element={
+            id_token !== '' //나중에 클럽별 권한 검사 추가...
+            ? <WriteContainer {...props}/>
+            : `unproven route!`
+          }/> */}
         </Routes>
       </div>
   );
