@@ -6,8 +6,7 @@ const BASE_URL = '/club';
 const ClubService = types.model()
 .actions(() =>({
 
-    addClub : async (club) => {
-
+    async addClub (club) {
         try {
         let id = '';
         await axios.post(
@@ -28,7 +27,7 @@ const ClubService = types.model()
 
     },
 
-    editClub : (id, club) => {
+    editClub (id, club) {
         axios.put(
             BASE_URL + '/' + id,
             JSON.stringify(club),
@@ -42,7 +41,7 @@ const ClubService = types.model()
         );
     },
 
-    deleteClub :(id) =>{
+    deleteClub(id) {
         axios.delete(BASE_URL+ '/' + id,
         {headers: {
             "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
@@ -52,12 +51,11 @@ const ClubService = types.model()
         );
     },
 
-    fetchClubs : async () => {
+    async fetchClubs () {
         let clubs = [];
         try {
-            console.log(`fetchclubs`)
           await axios.get(
-          this.BASE_URL, 
+                BASE_URL, 
                 {headers: {
                 "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
                 "Content-type": `application/json` ,

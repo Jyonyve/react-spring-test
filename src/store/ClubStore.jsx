@@ -1,12 +1,13 @@
-import ClubService from '../service/ClubService';
 import { club, defaultSnapshot } from '../aggregate/Club';
 import { types, castToSnapshot } from 'mobx-state-tree';
+import ClubService from '../service/ClubService';
 
 const ClubStore = types
 .model(('clubStore'),{
     club : types.optional(club, defaultSnapshot),
     clubs: types.array(club),
-    searchText : types.string
+    searchText : types.string,
+    clubService : types.optional(ClubService, {})
     })
 .views( self => ({
     getClub(){
@@ -44,7 +45,7 @@ const ClubStore = types
         self.searchText = searchText;
     },
 
-    pushClubs : (JSonclubs) => {
+    pushClubs (JSonclubs) {
         console.log(JSonclubs)
         let clubList = JSON.parse(JSonclubs);
         clubList.map(club => self.clubs.push(castToSnapshot(club)));
@@ -54,7 +55,7 @@ const ClubStore = types
         try {
             this.clearClubs();
             let dbClubs = [];
-            dbClubs = await ClubService.fetchClubs();
+            dbClubs = await self.clubService.fetchClubs();
             return dbClubs;
         } catch (error) {
             console.error(error);
@@ -63,7 +64,9 @@ const ClubStore = types
 
     async setClubs(){
         let dbClubs = await this.fetchClubs();
-        dbClubs = dbClubs.flat(Infinity);
+        if(dbClubs && Array.isArray(dbClubs)){
+            dbClubs = dbClubs.flat(Infinity);
+        }
         this.pushClubs(JSON.stringify(dbClubs))
     },
 
@@ -71,7 +74,7 @@ const ClubStore = types
         try{
         let insertClub = {};
         insertClub = {...self.club};
-        let id = await ClubService.addClub(insertClub)
+        let id = await self.clubService.addClub(insertClub)
         insertClub = {
             ...insertClub,
             'id' : id
@@ -93,7 +96,7 @@ const ClubStore = types
         let i = self.clubs.findIndex(club => club.id === self.club.id);
         self.clubs.splice(i, 1, {...self.club});
         console.log(`club ID : ${self.club.id}`)
-        ClubService.editClub(self.club.id, self.club);
+        self.clubService.editClub(self.club.id, self.club);
         }catch(error){
             console.error(error);
         }
@@ -109,7 +112,7 @@ const ClubStore = types
         try{
             let i = self.clubs.findIndex(club => club.id === self.club.id);
             self.clubs.splice(i, 1);
-            ClubService.deleteClub(self.club.id);
+            self.clubService.deleteClub(self.club.id);
         }
         catch (error) {
             console.error(error);
