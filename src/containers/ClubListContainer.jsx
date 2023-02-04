@@ -8,7 +8,6 @@ import ClubListView from '../views/ClubListView';
 const  ClubListContainer =(observer((props) =>{
 
   const clubStore = useStore().clubStore;
-  const id_token= props.id_token;
   
   function onSetClub(club){
     clubStore.setClub(club);
@@ -18,11 +17,7 @@ const  ClubListContainer =(observer((props) =>{
     clubStore.setClubs();
   }
 
-  function flatClubs(){
-    return clubStore.getClubs().flat(Infinity);
-  }
-
-    
+     
     let searchText = clubStore.searchText;
     let clubs = getSnapshot(clubStore.clubs)
     clubs = clubs.filter( club => club.name.toLowerCase().indexOf(searchText.toLowerCase()) !== -1);

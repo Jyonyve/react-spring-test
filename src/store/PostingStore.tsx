@@ -39,11 +39,17 @@ const PostingStore = types
         self.posting = castToSnapshot(defaultSnapshotPosting);
     },
 
+    clearPostings(){
+        self.postings.clear();
+    },
+
     fetchPostings (dbPostings : string) {
+        this.clearPostings();
         const jsonPostings :any[] = JSON.parse(dbPostings);
-        if(dbPostings)
-        {
-            jsonPostings.map(posting => self.postings.push(castToSnapshot(posting)));
+        if(jsonPostings && Array.isArray(jsonPostings))
+        {// eslint-disable-next-line 
+            jsonPostings.map(posting => {
+                self.postings.push(castToSnapshot(posting))});
         };
     },
 

@@ -47,7 +47,7 @@ export const BoardStore = types
             if (!!dbBoardAndPostings && dbBoardAndPostings.size !== 0 ){
                 this.setBoard({...castToSnapshot(JSON.parse(dbBoardAndPostingsString)['board'])})
                 const dbPostings :[] = JSON.parse(dbBoardAndPostingsString)['postings'];
-                console.log(JSON.stringify(dbPostings))
+                // console.log(JSON.stringify(dbPostings))
                 return JSON.stringify(dbPostings);
             }
             else {

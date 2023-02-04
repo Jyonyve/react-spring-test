@@ -11,13 +11,14 @@ const ClubListView = observer((props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(()=>{
     onSetClubs()
+    // eslint-disable-next-line 
   },[]);
 
   function clubsFlatter(){
     return clubs.flat(Infinity);
   }
 
-  const authorization = Object.values(JSON.parse(localStorage.getItem('userRoles')));
+  // const authorization = Object.values(JSON.parse(localStorage.getItem('userRoles')));
     
       
     return (

@@ -1,4 +1,5 @@
 import {
+  Box,
   Paper,
   Card,
   // Icon, IconButton,
@@ -13,6 +14,7 @@ import {
 } from "@mui/material";
 import { observer } from "mobx-react";
 import { castToSnapshot } from "mobx-state-tree";
+import moment from "moment";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { defaultSnapshotBoard } from "../aggregate/Board";
@@ -36,7 +38,8 @@ const PaginationTable = (observer((props) => {
 
   const [board, setBoard] = useState(defaultSnapshotBoard);
   const [renderWriting, setRenderWriting] = useState(false);
-  const [postings, setPostings] = useState([]);
+  const [frontPostings, setFrontPostings] = useState([]);
+  const [writeNewPosting, setWriteNewPosting] = useState(0);
 
   const boardStore = useStore().boardStore;
   const postingStore = useStore().postingStore;
@@ -60,17 +63,23 @@ const PaginationTable = (observer((props) => {
   const clubId  = urlparams.clubId;
   const boardKind  = urlparams.boardKind;
 
-  useEffect(  () => {  
-      onFetchBoardAndPosting(clubId, boardKind); //fetch board info and posting list to state
-      setBoard(castToSnapshot(boardStore.getBoard));
-      setPostings({...postingStore.getPostings()});
+  async function af () {
+    await onFetchBoardAndPosting(clubId, boardKind); //fetch board info and posting list to state
+    setBoard(castToSnapshot(boardStore.getBoard));
+    setFrontPostings(postingStore.postings)
+  } 
+    
+
+  useEffect(  () => {
+    af();
+    console.log(`useEffect`)
       // eslint-disable-next-line
-  },[postingStore.posting])
+  },[writeNewPosting])
  
 
   return (
     
-    // <Box width="100%" overflow="auto">
+    <Box width="100%" overflow="auto">
     <nav>
       <TableContainer component={Paper}>
         <StyledTable>
@@ -88,13 +97,13 @@ const PaginationTable = (observer((props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            { postings && Array.isArray(postings) ? postings
+            { frontPostings && Array.isArray(frontPostings) ? frontPostings
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-              .map((posting) => (
-                <TableRow key={posting.id} hover onClick={()=> onFetchPosting(`/${board.id}`, posting.id)}>
+              .map((posting, index) => (
+                <TableRow key={index} hover onClick={()=> onFetchPosting(`/${board.id}`, posting.id)}>
                   <TableCell align="center">{posting.title}</TableCell>
-                  <TableCell align="center">{posting.writtenDate}</TableCell>
-                  <TableCell align="center">${posting.readCount}</TableCell>
+                  <TableCell align="center">{moment(`${posting.writtenDate}`, "x").format("DD MMM YYYY hh:mm a")}</TableCell>
+                  <TableCell align="center">{posting.readCount}</TableCell>
     
                 </TableRow>
               ))
@@ -114,7 +123,7 @@ const PaginationTable = (observer((props) => {
           page={page}
           component="div"
           rowsPerPage={rowsPerPage}
-          count={postingStore.getPostings.length}
+          count={frontPostings.length}
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}
           onRowsPerPageChange={handleChangeRowsPerPage}
@@ -131,6 +140,11 @@ const PaginationTable = (observer((props) => {
               <PostingEditFormView 
               clubId={clubId}
               boardKind={boardKind}
+              writeNewPosting={writeNewPosting}
+              setWriteNewPosting={setWriteNewPosting}
+              postings={frontPostings}
+              setPostings = {setFrontPostings}
+              setRenderWriting={setRenderWriting}
               {...props}
             />
               :
@@ -138,7 +152,7 @@ const PaginationTable = (observer((props) => {
             }
       </TableContainer>
     </nav>
-    // </Box>
+   </Box>
   );
 }));
 

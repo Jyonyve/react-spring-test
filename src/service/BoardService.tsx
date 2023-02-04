@@ -25,7 +25,7 @@ const BoardService = types.model(
                 fetchBoard => boardAndPostings = fetchBoard.data
             )
             if(boardAndPostings.size !== 0){
-                console.log(`boardService: fetchBoardAndPosting : ${JSON.stringify(boardAndPostings)}`)
+                // console.log(`boardService: fetchBoardAndPosting : ${JSON.stringify(boardAndPostings)}`)
                 return boardAndPostings;
             } else {
                 throw new Error(`axios fail to get board info and postings.`)

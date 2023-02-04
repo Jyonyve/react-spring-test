@@ -7,7 +7,6 @@ import { useStore } from '../store/RootStore';
 const ClubEditFormContainer =(observer((props) =>{
 
   const clubStore = useStore().clubStore;
-  const id_token= props.id_token;
   
   function onSetClubProps(name, value){
     clubStore.setClubProps(name, value);
