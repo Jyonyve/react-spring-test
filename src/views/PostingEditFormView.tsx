@@ -4,7 +4,13 @@ import React from 'react';
 
 export const PostingEditFormView = (observer((props:any) => {
 
-  const { setRenderWriting, onAddPosting, posting, onSetPostingProps, clubId, boardKind, setWriteNewPosting, writeNewPosting} = props;
+  const {writeNewPosting, setWriteNewPosting, setRenderWriting, onAddPosting, posting, onSetPostingProps, clubId, boardKind } = props;
+
+  const onClickEvent =async (props:any) => {
+    await onAddPosting(`${clubId}/${boardKind}`);
+    setRenderWriting(false);
+    setWriteNewPosting(writeNewPosting+1);
+  }
 
     return(
       <form noValidate> 
@@ -33,10 +39,8 @@ export const PostingEditFormView = (observer((props:any) => {
             <Grid item xs={4}>
               <Button variant='outlined' color='primary' 
                 onClick={ async () => { 
-                  await onAddPosting(`${clubId}/${boardKind}`);
-                  setRenderWriting(false);
-                  setWriteNewPosting(writeNewPosting+1);}
-                }
+                  await onClickEvent(props)
+                }}
               > Add </Button>
             </Grid>
             <Grid item xs={4} >
