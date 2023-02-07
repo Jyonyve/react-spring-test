@@ -44,5 +44,39 @@ const PostingService = types.model(
         }
     },
 
+    editPosting : async (targetPosting: any) => {
+        try {
+            if(!targetPosting){
+                throw new Error('no member to for service!');
+            }
+            console.log(`posting edit`)
+            axios.put(
+                BASE_URL + "/" + targetPosting.id,
+                JSON.stringify(targetPosting),
+                {
+                    headers:{
+                        "Content-Type" : `application/json`,
+                        "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
+                    },withCredentials: true,
+    
+                }
+            )
+        } catch (error) {
+            console.error(error)
+        }
+    },
+
+    deletePosting : (id:string) => {
+        console.log(`posting delete ID : ${id}`)
+        axios.delete(BASE_URL + "/" + id,
+        {
+            headers: {
+                "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
+            },
+            withCredentials: true,
+        }
+        );
+    },
+
 }));
 export default PostingService;

@@ -74,6 +74,29 @@ const PostingStore = types
         }
     },
 
+   editPosting ()  {
+    try{
+        const targetPosting = {...self.posting}
+        console.log(`edit targetPosting: ${JSON.stringify(targetPosting)}`)
+        const id :string = targetPosting.id
+        let i = self.postings.findIndex(posting => posting.id === id);
+        self.postingService.editPosting(targetPosting);
+        self.postings.splice(i, 1, targetPosting);
+    } catch(error){
+        console.log(error);
+    }
+   },
+
+   deletePosting(){
+    try{
+        const postingId = self.getPosting().id;
+        let i = self.postings.findIndex(posting => posting.id === postingId);
+        self.postings.splice(i, 1);
+        self.postingService.deletePosting(postingId);
+    }catch(error){
+
+    }
+   }
 
 })));
 export default PostingStore;

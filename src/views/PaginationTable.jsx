@@ -72,20 +72,25 @@ const PaginationTable = (observer((props) => {
 
   useEffect( () => {
     af();
-    
-    console.log(`useEffect 1 : pagination => frontPostings setup`)
+    console.log(`useEffect 2 : pagination => writeNewPosting chaged, frontPostings setup`)
     // eslint-disable-next-line
   },[writeNewPosting])
 
-  useEffect(()=>{
-    console.log(`useEffect 2 : pagination => frontPostings change`)
-  }, [frontPostings])
+  // useEffect(()=>{
+  //   console.log(`useEffect 3 : pagination => frontPostings change`)
+  // }, [frontPostings])
+
+  useEffect(() =>{
+    console.log(`useEffect 1 : pagination => writeNewPosting +1 `)
+    setWriteNewPosting(writeNewPosting+1);
+    // eslint-disable-next-line
+  },[renderWriting])
  
 
   const navigate = useNavigate();
 
   function handleOnClick(posting, clubId, boardKind){
-    navigate(`/board/posting/${posting.id}`,{state:{postingId : `${posting.id}`, boardId:`${clubId}/${boardKind}`}} )
+    navigate(`/board/posting/${posting.id}`,{state:{postingId : `${posting.id}`, boardId:`${clubId}/${boardKind}`, location:window.location.pathname}} )
   }
 
   return (
@@ -150,19 +155,18 @@ const PaginationTable = (observer((props) => {
         </StyledButton> 
             {
               renderWriting===true  ?
-
+              (postingStore.clearPosting(),
               <PostingEditFormView 
                 clubId={clubId}
                 boardKind={boardKind}
                 writeNewPosting={writeNewPosting}
                 setWriteNewPosting={setWriteNewPosting}
-                postings = {postingStore.postings}
                 frontPostings={frontPostings}
                 setPostings = {setFrontPostings}
                 setRenderWriting={setRenderWriting}
                 setFrontPostings = {setFrontPostings}
                 {...props}
-              />
+              />)
               :
               null
             }

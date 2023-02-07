@@ -8,6 +8,9 @@ import { defaultSnapshotPosting } from "../aggregate/Posting";
 import { castToSnapshot } from "mobx-state-tree";
 import {  Edit } from "@material-ui/icons";
 import { CommentList } from "./CommentList";
+import Popup from 'reactjs-popup';
+import 'reactjs-popup/dist/index.css';
+import { PostingEditFormView } from "./PostingEditFormView";
 
 
 const PostingContentsView = observer((props:any) => {
@@ -20,7 +23,6 @@ const PostingContentsView = observer((props:any) => {
     const [showPosting, setShowPosting] = useState(defaultSnapshotPosting);
     const [showComments, setShowComments] = useState<any[]>();
     const [iconColor, setIconColor] = useState("primary");
-
 
     async function af() {
         if(location.pathname === `/board/posting/${postingId}`){
@@ -39,12 +41,6 @@ const PostingContentsView = observer((props:any) => {
         // eslint-disable-next-line
     },[location.pathname])
     
-
-    useEffect(()=>{
-        console.log(`showComments : ${JSON.stringify(showComments)}`)
-    },[showComments])
-
-
     const onSetCommentProps = (name: string, value:string) => {
         commentStore.setCommentProps(`${name}`, value);
     }
@@ -52,7 +48,7 @@ const PostingContentsView = observer((props:any) => {
     return(
         <Box width="100%" overflow="auto">
         <nav>
-        <Grid container component={Paper} alignContent="center" spacing={1}>
+        <Grid container component={Paper} alignContent="center" spacing={2}>
         
             <Grid item xs={12}>
                 <TextField 
@@ -80,20 +76,20 @@ const PostingContentsView = observer((props:any) => {
                 />
             </Grid>
             <Grid item xs={12} >
-            { Array.isArray(showComments) && showComments.length !== 0? 
-                showComments.map( comment1 => 
-                    <CommentList key={comment1.id} comment={comment1} onSetCommentProps={onSetCommentProps} commentStore={commentStore}
-                                postingId={postingId} setShowComments={setShowComments} iconColor={iconColor} setIconColor={setIconColor}
+                { Array.isArray(showComments) && showComments.length !== 0? 
+                    showComments.map( comment1 => 
+                        <CommentList key={comment1.id} comment={comment1} onSetCommentProps={onSetCommentProps} commentStore={commentStore}
+                                    postingId={postingId} setShowComments={setShowComments} iconColor={iconColor} setIconColor={setIconColor}
+                        />
+                    )
+                :
+                    <TextField 
+                        margin="dense"
+                        disabled
+                        variant="outlined"
+                        defaultValue={`no comments now.`}
                     />
-                )
-            :
-                <TextField 
-                    margin="dense"
-                    disabled
-                    variant="outlined"
-                    defaultValue={`no comments now.`}
-                />
-            }
+                }
             </Grid> 
             <Grid item xs={12}>
                 <TextField 
@@ -118,9 +114,9 @@ const PostingContentsView = observer((props:any) => {
             <Grid item xs={6}>
             </Grid>
             <Grid item xs={6}>
-                    <StyledButton size="small" variant="outlined" color="success">
-                        Update
-                    </StyledButton>
+                    <Popup trigger={<StyledButton size="small" variant="outlined" color="success"> Update</StyledButton>} position="bottom center" modal nested >
+                        <PostingEditFormView showPosting={showPosting}{...props}/>
+                    </Popup>
                     <StyledButton size="small" variant="outlined" color="error">
                         Delete
                     </StyledButton>
