@@ -55,8 +55,9 @@ const PostingStore = types
 
     async fetchPosting(postingId: string){
         try{
-            let posting = await self.postingService.fetchPosting(postingId);
+            let posting :[] = await self.postingService.fetchPosting(postingId);
             this.setPosting(castToSnapshot(posting));
+            return castToSnapshot(posting)
         } catch (error) {
             console.error(error);
         }

@@ -10,14 +10,14 @@ const PostingService = types.model(
         let dbPosting : any; //배열타입 명시해주지 않으면 never라고 인식해서 초기화가 제대로 안됨
         try {
             await axios.get(
-                BASE_URL+"/"+postingId,
+                BASE_URL + "/posting/" +postingId,
                 {
                     headers: {
                         "Authorization" : `Bearer ${localStorage.getItem('id_token')}`,
                         },
                     withCredentials: true,
                 })
-            .then(posting => dbPosting = posting);
+            .then(posting => dbPosting = posting.data);
             return dbPosting;
         } catch (error) {
             console.error(error);

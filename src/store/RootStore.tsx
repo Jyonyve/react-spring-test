@@ -8,17 +8,21 @@ import { BoardStore } from "./BoardStore";
 import { defaultSnapshotBoard } from "../aggregate/Board";
 import PostingStore from "./PostingStore";
 import { defaultSnapshotPosting } from "../aggregate/Posting";
+import CommentStore from "./CommentStore";
+import { defaultSnapshotComment } from "../aggregate/Comment";
 
 export const rootStore = types.model({
     memberStore : MemberStore,
     clubStore : ClubStore,
     boardStore : BoardStore,
     postingStore : PostingStore,
+    commentStore : CommentStore,
 }).create({
     memberStore : { member : castToSnapshot(defaultSnapshotMember), members : [], searchText:'' },
     clubStore : { club : castToSnapshot(defaultSnapshot), clubs:[], searchText:''},
     boardStore : { board : castToSnapshot(defaultSnapshotBoard), boards : []},
     postingStore : {posting: castToSnapshot(defaultSnapshotPosting), postings:[]},
+    commentStore : {comment:castToSnapshot(defaultSnapshotComment), comments:[]},
 });
 
 const RootStoreContext = createContext<Instance<typeof rootStore>|null>(null);
