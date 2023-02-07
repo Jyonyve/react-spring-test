@@ -39,9 +39,6 @@ const PostingContentsView = observer((props:any) => {
         // eslint-disable-next-line
     },[location.pathname])
     
-    // useEffect(() => {
-    //     console.log(`showposting`)
-    // },[showPosting])
 
     useEffect(()=>{
         console.log(`showComments : ${JSON.stringify(showComments)}`)
@@ -93,6 +90,7 @@ const PostingContentsView = observer((props:any) => {
                 <TextField 
                     margin="dense"
                     disabled
+                    variant="outlined"
                     defaultValue={`no comments now.`}
                 />
             }

@@ -100,10 +100,10 @@ const PaginationTable = (observer((props) => {
               <TableCell align="center">Club Name : {clubName}</TableCell>
               <TableCell align="center">{board.createDate}</TableCell>
             </TableRow>
-            <TableRow>
-              <TableCell align="center">title</TableCell>
-              <TableCell align="center">writtenDate</TableCell>
-              <TableCell align="center">readCount</TableCell>
+            <TableRow >
+              <TableCell variant="head" align="center">title</TableCell>
+              <TableCell variant="head" align="center">writtenDate</TableCell>
+              <TableCell variant="head" align="center">readCount</TableCell>
               {/* <TableCell align="right">Action</TableCell> */}
             </TableRow>
           </TableHead>
@@ -150,18 +150,19 @@ const PaginationTable = (observer((props) => {
         </StyledButton> 
             {
               renderWriting===true  ?
+
               <PostingEditFormView 
-              clubId={clubId}
-              boardKind={boardKind}
-              writeNewPosting={writeNewPosting}
-              setWriteNewPosting={setWriteNewPosting}
-              postings = {postingStore.postings}
-              frontPostings={frontPostings}
-              setPostings = {setFrontPostings}
-              setRenderWriting={setRenderWriting}
-              setFrontPostings = {setFrontPostings}
-              {...props}
-            />
+                clubId={clubId}
+                boardKind={boardKind}
+                writeNewPosting={writeNewPosting}
+                setWriteNewPosting={setWriteNewPosting}
+                postings = {postingStore.postings}
+                frontPostings={frontPostings}
+                setPostings = {setFrontPostings}
+                setRenderWriting={setRenderWriting}
+                setFrontPostings = {setFrontPostings}
+                {...props}
+              />
               :
               null
             }

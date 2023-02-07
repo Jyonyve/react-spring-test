@@ -85,6 +85,17 @@ const CommentStore = types
             console.error(error);
         }
 
+    },
+
+    deleteComment(){
+        try{
+            const commentId = self.getComment().id;
+            let i = self.comments.findIndex(comment => comment.id === commentId);
+            self.comments.splice(i, 1);
+            self.commentService.deleteComment(commentId);
+        }catch(error){
+
+        }
     }
 
 

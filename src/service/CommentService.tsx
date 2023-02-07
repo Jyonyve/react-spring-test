@@ -70,6 +70,7 @@ const CommentService = types.model(
     },
 
     deleteComment : (id:string) => {
+        console.log(`comment delete ID : ${id}`)
         axios.delete(BASE_URL + "/" + id,
         {
             headers: {
