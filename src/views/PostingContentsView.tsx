@@ -126,10 +126,13 @@ const PostingContentsView = observer((props:any) => {
                                 <Container >
                                     <Typography align="center" color="textPrimary"> Rly wanna deletin'? </Typography>
                                     <Box textAlign="center">
+                                        <NavLink to ={`/board/${boardId}`} >
                                         <StyledButton size="small" variant="contained" color="error" onClick={ () => 
                                             {postingStore.deletePosting()
-                                             close()}
+                                             close()
+                                            }
                                         }> Delete </StyledButton>
+                                        </NavLink>
                                         <NavLink to ={`/board/${boardId}`} >
                                             <StyledButton size="small" variant="contained" color="inherit"
                                             onClick={() => {

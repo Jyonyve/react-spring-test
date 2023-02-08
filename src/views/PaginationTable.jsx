@@ -42,6 +42,7 @@ const PaginationTable = (observer((props) => {
   const [board, setBoard] = useState(defaultSnapshotBoard);
   const [renderWriting, setRenderWriting] = useState(false);
   const [writeNewPosting, setWriteNewPosting] = useState(0);
+  const [postingsLength, setPostingsLength] = useState(postings.length)
 
   
 
@@ -67,17 +68,20 @@ const PaginationTable = (observer((props) => {
   async function af () {
     await onFetchBoardAndPosting(clubId, boardKind); //fetch board info and posting list to state
     setBoard(castToSnapshot(boardStore.getBoard));
+    return postings.length
   } 
 
+  useEffect(()=>{
+  },[postingsLength])
+
   useEffect( () => {
-    af();
-    console.log(`useEffect 2 : pagination => writeNewPosting chaged, frontPostings setup`)
+    const length = af();
+    setPostingsLength(length);
     // eslint-disable-next-line
   },[writeNewPosting])
 
 
   useEffect(() =>{
-    console.log(`useEffect 1 : pagination => writeNewPosting +1 `)
     setWriteNewPosting(writeNewPosting+1);
     // eslint-disable-next-line
   },[renderWriting])
