@@ -103,6 +103,40 @@ const PaginationTable = (observer((props) => {
       location:window.location.pathname}} )
   }
 
+  function writeButton(boardKind){
+    if(localStorage.getItem('userRoles').includes("ADMIN")){
+      return(
+      <StyledButton variant="text" onClick={() => renderWriting===true ? setRenderWriting(false) : setRenderWriting(true)}>          
+          Write
+      </StyledButton>
+      )
+    } else {
+      switch(boardKind){
+        case 'NOTICEBOARD' :
+          return;
+        case 'SOCIALBOARD' :
+          return(
+            <StyledButton variant="text" onClick={() => renderWriting===true ? setRenderWriting(false) : setRenderWriting(true)}>          
+                Write
+            </StyledButton>
+            )
+        case 'QNABOARD' : 
+          return(
+            <StyledButton variant="text" onClick={() => renderWriting===true ? setRenderWriting(false) : setRenderWriting(true)}>          
+                Write
+            </StyledButton>
+            )
+        case 'FAQBOARD':
+          return;
+        default :
+          break;
+      }
+    }
+
+    
+  }
+
+
   return (
      <nav>
     <Box width="100%" overflow="auto">
@@ -165,14 +199,13 @@ const PaginationTable = (observer((props) => {
             bgcolor: 'background.paper',
             // borderRadius: 1,
         }}>
-          <StyledButton variant="text" onClick={() => renderWriting===true ? setRenderWriting(false) : setRenderWriting(true)}>          
-              Write
-          </StyledButton> 
+          {writeButton(boardKind)}
           <IconButton children={<Cached/>} size="small" onClick={ async () => await af()}/>
         </Box> 
       </TableContainer>
    </Box>
-   {
+
+            {      
               renderWriting===true  ?
               (postingStore.clearPosting(),
               <PostingEditFormView 
