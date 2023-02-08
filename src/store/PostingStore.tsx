@@ -24,7 +24,7 @@ const PostingStore = types
         self.posting = {...posting};
     },
 
-    setPostingProps(name:string, value:string){
+    setPostingProps(name:string, value:string|number){
         self.posting = {
             ...self.posting,
             [name] : value

@@ -24,19 +24,19 @@ const ClubListView = observer((props) => {
     return (
       <TableContainer component={Paper} >
         <Table m={3}>
-          <TableHead>
+          <TableHead >
             <TableRow>
               <TableCell align='center'>Name</TableCell>
               <TableCell align='center'>Intro</TableCell>
               <TableCell align='center'>Board</TableCell>
             </TableRow>
           </TableHead>
-        <TableBody>
+        <TableBody >
           {clubsFlatter().length && Array.isArray(clubsFlatter()) ? clubsFlatter().map((element) => (
             <TableRow key={element.id} hover onClick={()=> onSetClub(element)}>
-              <TableCell>{element.name}</TableCell>
-              <TableCell>{element.intro}</TableCell>
-              <TableCell><BoardContainer clubName = { element.name} clubId={element.id}/></TableCell>
+              <TableCell align='center'>{element.name}</TableCell>
+              <TableCell align='center'>{element.intro}</TableCell>
+              <TableCell align='center'><BoardContainer clubName = { element.name} clubId={element.id}/></TableCell>
             </TableRow>
             ))  
             :

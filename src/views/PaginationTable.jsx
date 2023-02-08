@@ -39,11 +39,13 @@ const PaginationTable = (observer((props) => {
   const boardStore = useStore().boardStore;
   const postingStore = useStore().postingStore;
   const postings = postingStore.postings
+  const posting = postingStore.posting;
+  const setPostingProps = postingStore.setPostingProps;
 
   const [board, setBoard] = useState(defaultSnapshotBoard);
   const [renderWriting, setRenderWriting] = useState(false);
 
-  
+  const navigate = useNavigate();
 
   //Pagenation
   const [page, setPage] = useState(0);
@@ -75,19 +77,30 @@ const PaginationTable = (observer((props) => {
   },[renderWriting])
 
   useEffect(() => {
-    const posting = postingStore.posting;
+    af()
     if(posting.id){
       navigate(`/board/posting/${posting.id}`, {state:{postingId : `${posting.id}`, boardId:`${clubId}/${boardKind}`}})
     }
     // eslint-disable-next-line
   },[postingStore.posting.id])
 
-
-
-  const navigate = useNavigate();
-
   function handleOnClick(posting, clubId, boardKind){
-    navigate(`/board/posting/${posting.id}`,{state:{postingId : `${posting.id}`, boardId:`${clubId}/${boardKind}`, location:window.location.pathname}} )
+    setPostingProps('title', posting.title)
+    setPostingProps('contents', posting.contents)
+    setPostingProps('writerEmail', posting.writerEmail)
+    setPostingProps('id', posting.id)
+    setPostingProps("readCount", posting.readCount+1 )
+    setPostingProps("boardId", `${clubId}/${boardKind}`)
+    postingStore.editPosting();
+
+    navigate(`/board/posting/${posting.id}`,{state:{
+      postingId : `${posting.id}`, 
+      title : `${posting.title}`, 
+      contents : `${posting.contents}`, 
+      writerEmail : `${posting.writerEmail}`, 
+      readCount : `${posting.readCount}`, 
+      boardId:`${clubId}/${boardKind}`, 
+      location:window.location.pathname}} )
   }
 
   return (

@@ -24,10 +24,8 @@ const SearchbarContainer = observer((props)=> {
     return (
       <TextField
         InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <SearchIcon />
-            </InputAdornment>
+          endAdornment: (
+            <InputAdornment position="start" children={<SearchIcon />}></InputAdornment>
           ),
         }}
         onChange = {(event) => onChangeSearchText(event.target.value)}

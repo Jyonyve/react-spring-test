@@ -1,4 +1,4 @@
-import {Container, Box} from '@material-ui/core';
+import { Box, Grid} from '@material-ui/core';
 // import { MemberEditFormContainer } from '../containers/MemberEditFormContainer';
 import SearchbarContainer from '../containers/SearchbarContainer';
 import React from 'react';
@@ -8,15 +8,12 @@ import { observer } from 'mobx-react';
 const MemberRouter =(observer((props:any) =>{
 
     return(
-        <Container >
-          {/* <Box m={3}>
-            <MemberEditFormContainer {...props}/>
-          </Box> */}
-          <Box width="100%" overflow="auto" m={3}>
-            <SearchbarContainer />
+          <Box>
             <MemberListContainer {...props}/>
+            <Grid container alignItems="flex-end" justifyContent="flex-end">
+            <SearchbarContainer />
+            </Grid>
           </Box>
-      </Container>
     )
 
 }))

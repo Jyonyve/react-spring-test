@@ -129,6 +129,7 @@ const PostingContentsView = observer((props:any) => {
                                         <NavLink to ={`/board/${boardId}`} >
                                         <StyledButton size="small" variant="contained" color="error" onClick={ () => 
                                             {postingStore.deletePosting()
+                                                postingStore.clearPosting()
                                              close()
                                             }
                                         }> Delete </StyledButton>
@@ -149,7 +150,7 @@ const PostingContentsView = observer((props:any) => {
                         )) as unknown as ReactNode}
                     </Popup>
                         
-                    <StyledButton size="small" variant="outlined" color="warning">
+                    <StyledButton size="small" variant="outlined" color="warning" onClick={postingStore.clearPosting()}>
                         <NavLink to ={`/board/${boardId}` } >List</NavLink>
                     </StyledButton>
             </Grid>
