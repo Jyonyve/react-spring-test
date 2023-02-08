@@ -17,7 +17,6 @@ import { observer } from "mobx-react";
 import { castToSnapshot } from "mobx-state-tree";
 import moment from "moment";
 import { useEffect,  useState } from "react";
-import { NavLink } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import { defaultSnapshotBoard } from "../aggregate/Board";
 import { StyledButton } from "../component/importedViewComponent/AppButton";
@@ -80,6 +79,7 @@ const PaginationTable = (observer((props) => {
     if(posting.id){
       navigate(`/board/posting/${posting.id}`, {state:{postingId : `${posting.id}`, boardId:`${clubId}/${boardKind}`}})
     }
+    // eslint-disable-next-line
   },[postingStore.posting.id])
 
 
