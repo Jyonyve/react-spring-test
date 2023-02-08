@@ -150,7 +150,7 @@ const PostingContentsView = observer((props:any) => {
                     </Popup>
                         
                     <StyledButton size="small" variant="outlined" color="warning">
-                        <NavLink to ={`/board/${boardId}`} >List</NavLink>
+                        <NavLink to ={`/board/${boardId}` } >List</NavLink>
                     </StyledButton>
             </Grid>
         </Grid>

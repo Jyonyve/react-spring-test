@@ -67,7 +67,6 @@ const PostingStore = types
         try{
             let insertPosting = {...self.posting};
             let id : string|undefined = await self.postingService.addPosting(boardId, insertPosting);
-            console.log(`postingId : ${id}`);
             this.setPostingProps('id', id!)
         } catch(error){
             console.log(error);

@@ -8,12 +8,11 @@ export const PostingEditFormView = (observer((props:any) => {
 
   const {showPosting, setShowPosting, close, setRenderWriting, onAddPosting, onSetPostingProps, clubId, boardKind } = props;
 
-  const posting = useStore().postingStore.posting;
-  const setPostingProps = useStore().postingStore.setPostingProps;
-  const editPosting = useStore().postingStore.editPosting;
+  const posting :any = useStore().postingStore.posting;
+  const setPostingProps :any= useStore().postingStore.setPostingProps;
+  const editPosting :any= useStore().postingStore.editPosting;
 
   const onClickEvent =async (locationString: string) => {
-    console.log(locationString)
     if (locationString === `/board/${clubId}/${boardKind}`){
        await onAddPosting(`${clubId}/${boardKind}`);
         setRenderWriting(false);

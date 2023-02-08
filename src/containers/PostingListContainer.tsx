@@ -6,8 +6,9 @@ import PaginationTable from "../views/PaginationTable";
 
 const PostingListContainer = (observer((props:any) =>{
 
-    const boardStore = useStore().boardStore;
-    const postingStore = useStore().postingStore;
+    const boardStore  :any= useStore().boardStore;
+    const postingStore :any = useStore().postingStore;
+
 
     const onFetchBoardAndPosting= async (clubId :string, boardKind : BoardKind) => {
         const dbPostings :string|undefined = await boardStore.fetchBoardAndPosting(clubId, boardKind);
@@ -19,9 +20,8 @@ const PostingListContainer = (observer((props:any) =>{
     };
 
     const onAddPosting = (boardId : string) =>{
-        console.log(boardId)
         postingStore.addPostingAndSetId(boardId);
-        postingStore.addOnePostingtoPostings();
+        // postingStore.addOnePostingtoPostings();
     };
 
     const onSetPostingProps =(name:string, value:string) =>{

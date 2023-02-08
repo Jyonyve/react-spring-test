@@ -1,8 +1,9 @@
+import {  IconButton } from "@material-ui/core";
+import { Cached } from "@material-ui/icons";
 import {
   Box,
   Paper,
   Card,
-  // Icon, IconButton,
   TableContainer,
   styled,
   Table,
@@ -15,7 +16,8 @@ import {
 import { observer } from "mobx-react";
 import { castToSnapshot } from "mobx-state-tree";
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useEffect,  useState } from "react";
+import { NavLink } from "react-router-dom";
 import { useNavigate, useParams } from "react-router-dom";
 import { defaultSnapshotBoard } from "../aggregate/Board";
 import { StyledButton } from "../component/importedViewComponent/AppButton";
@@ -41,8 +43,6 @@ const PaginationTable = (observer((props) => {
 
   const [board, setBoard] = useState(defaultSnapshotBoard);
   const [renderWriting, setRenderWriting] = useState(false);
-  const [writeNewPosting, setWriteNewPosting] = useState(0);
-  const [postingsLength, setPostingsLength] = useState(postings.length)
 
   
 
@@ -68,24 +68,21 @@ const PaginationTable = (observer((props) => {
   async function af () {
     await onFetchBoardAndPosting(clubId, boardKind); //fetch board info and posting list to state
     setBoard(castToSnapshot(boardStore.getBoard));
-    return postings.length
   } 
 
-  useEffect(()=>{
-  },[postingsLength])
-
-  useEffect( () => {
-    const length = af();
-    setPostingsLength(length);
-    // eslint-disable-next-line
-  },[writeNewPosting])
-
-
   useEffect(() =>{
-    setWriteNewPosting(writeNewPosting+1);
+    af()
     // eslint-disable-next-line
   },[renderWriting])
- 
+
+  useEffect(() => {
+    const posting = postingStore.posting;
+    if(posting.id){
+      navigate(`/board/posting/${posting.id}`, {state:{postingId : `${posting.id}`, boardId:`${clubId}/${boardKind}`}})
+    }
+  },[postingStore.posting.id])
+
+
 
   const navigate = useNavigate();
 
@@ -96,7 +93,6 @@ const PaginationTable = (observer((props) => {
   return (
      <nav>
     <Box width="100%" overflow="auto">
-   
       <TableContainer component={Paper}>
         <StyledTable>
           <TableHead >
@@ -109,7 +105,6 @@ const PaginationTable = (observer((props) => {
               <TableCell variant="head" align="center">title</TableCell>
               <TableCell variant="head" align="center">writtenDate</TableCell>
               <TableCell variant="head" align="center">readCount</TableCell>
-              {/* <TableCell align="right">Action</TableCell> */}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -148,28 +143,35 @@ const PaginationTable = (observer((props) => {
           nextIconButtonProps={{ "aria-label": "Next Page" }}
           backIconButtonProps={{ "aria-label": "Previous Page" }}
         />
-
-        
-        <StyledButton variant="text" onClick={() => renderWriting===true ? setRenderWriting(false) : setRenderWriting(true)}>          
-            Write
-        </StyledButton> 
-            {
+        <Box container 
+          sx={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            // p: 1,
+            // m: 1,
+            bgcolor: 'background.paper',
+            // borderRadius: 1,
+        }}>
+          <StyledButton variant="text" onClick={() => renderWriting===true ? setRenderWriting(false) : setRenderWriting(true)}>          
+              Write
+          </StyledButton> 
+          <IconButton children={<Cached/>} size="small" onClick={ async () => await af()}/>
+        </Box> 
+      </TableContainer>
+   </Box>
+   {
               renderWriting===true  ?
               (postingStore.clearPosting(),
               <PostingEditFormView 
                 clubId={clubId}
                 boardKind={boardKind}
-                writeNewPosting={writeNewPosting}
-                setWriteNewPosting={setWriteNewPosting}
                 setRenderWriting={setRenderWriting}
                 {...props}
               />)
               :
               null
             }
-      </TableContainer>
-    
-   </Box></nav>
+   </nav>
   );
 }));
 
