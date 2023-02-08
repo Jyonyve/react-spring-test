@@ -1,11 +1,12 @@
 import { Box, Button, Card, Grid,  TextField } from "@material-ui/core";
 import { observer } from "mobx-react";
+import { castToSnapshot } from "mobx-state-tree";
 import React from 'react';
 import { useStore } from "../store/RootStore";
 
 export const PostingEditFormView = (observer((props:any) => {
 
-  const {showPosting, setRenderWriting, onAddPosting, onSetPostingProps, clubId, boardKind } = props;
+  const {showPosting, setShowPosting, close, setRenderWriting, onAddPosting, onSetPostingProps, clubId, boardKind } = props;
 
   const posting = useStore().postingStore.posting;
   const setPostingProps = useStore().postingStore.setPostingProps;
@@ -19,15 +20,16 @@ export const PostingEditFormView = (observer((props:any) => {
     } 
     else {
       editPosting();
+      close();
+      setShowPosting(castToSnapshot(posting));
     }
-    window.close()
+    
   }
 
     return(
       window.location.pathname ===  `/board/${clubId}/${boardKind}` ? 
 
       <form noValidate> 
-      {console.log(`insert new posting, path : ${window.location.pathname}`)}
         <Box>
           <Grid container spacing={2} component={Card} alignContent="center" alignItems="center">
             <Grid item xs={12}>
@@ -66,11 +68,9 @@ export const PostingEditFormView = (observer((props:any) => {
       :
 
     <form noValidate> 
-    {console.log(`edit posting, path : ${window.location.pathname}`)}
-    {setPostingProps('title', showPosting.title)}
-    {setPostingProps('contents', showPosting.contents)}
-    {setPostingProps('writerEmail', showPosting.writerEmail)}
-    {setPostingProps('id', showPosting.id)}
+    {posting.title && posting.contents && posting.writerEmail && posting.id === '' ? (setPostingProps('title', showPosting.title),
+    setPostingProps('contents', showPosting.contents), setPostingProps('writerEmail', showPosting.writerEmail), setPostingProps('id', showPosting.id))
+    : void(0)}
       <Box>
         <Grid container spacing={2} component={Card} alignContent="center" alignItems="center">
           <Grid item xs={12}>

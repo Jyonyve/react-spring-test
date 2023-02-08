@@ -37,10 +37,10 @@ const PaginationTable = (observer((props) => {
   const {onFetchBoardAndPosting, clubName} = props;
   const boardStore = useStore().boardStore;
   const postingStore = useStore().postingStore;
+  const postings = postingStore.postings
 
   const [board, setBoard] = useState(defaultSnapshotBoard);
   const [renderWriting, setRenderWriting] = useState(false);
-  const [frontPostings, setFrontPostings] = useState([]);
   const [writeNewPosting, setWriteNewPosting] = useState(0);
 
   
@@ -67,7 +67,6 @@ const PaginationTable = (observer((props) => {
   async function af () {
     await onFetchBoardAndPosting(clubId, boardKind); //fetch board info and posting list to state
     setBoard(castToSnapshot(boardStore.getBoard));
-    setFrontPostings(postingStore.postings)
   } 
 
   useEffect( () => {
@@ -76,9 +75,6 @@ const PaginationTable = (observer((props) => {
     // eslint-disable-next-line
   },[writeNewPosting])
 
-  // useEffect(()=>{
-  //   console.log(`useEffect 3 : pagination => frontPostings change`)
-  // }, [frontPostings])
 
   useEffect(() =>{
     console.log(`useEffect 1 : pagination => writeNewPosting +1 `)
@@ -113,8 +109,8 @@ const PaginationTable = (observer((props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            { frontPostings && Array.isArray(frontPostings) ? frontPostings
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+            { postings && Array.isArray(postings) ? postings
+              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).sort((a, b) => b.writtenDate - a.writtenDate)
               .map((posting, index) => (
                 <TableRow key={index} hover onClick={()=> {
                   handleOnClick(posting, clubId, boardKind)
@@ -141,7 +137,7 @@ const PaginationTable = (observer((props) => {
           page={page}
           component="div"
           rowsPerPage={rowsPerPage}
-          count={frontPostings.length}
+          count={postings.length}
           onPageChange={handleChangePage}
           rowsPerPageOptions={[5, 10, 25]}
           onRowsPerPageChange={handleChangeRowsPerPage}
@@ -161,10 +157,7 @@ const PaginationTable = (observer((props) => {
                 boardKind={boardKind}
                 writeNewPosting={writeNewPosting}
                 setWriteNewPosting={setWriteNewPosting}
-                frontPostings={frontPostings}
-                setPostings = {setFrontPostings}
                 setRenderWriting={setRenderWriting}
-                setFrontPostings = {setFrontPostings}
                 {...props}
               />)
               :

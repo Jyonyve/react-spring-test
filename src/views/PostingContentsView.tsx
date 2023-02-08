@@ -1,7 +1,7 @@
 import { observer } from "mobx-react";
 import { TextField, Grid, Paper, Box, InputAdornment } from '@material-ui/core';
 import { NavLink, useLocation } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useStore } from "../store/RootStore";
 import { StyledButton } from "../component/importedViewComponent/AppButton";
 import { defaultSnapshotPosting } from "../aggregate/Posting";
@@ -115,10 +115,12 @@ const PostingContentsView = observer((props:any) => {
             </Grid>
             <Grid item xs={6}>
                     <Popup trigger={<StyledButton size="small" variant="outlined" color="success"> Update</StyledButton>} position="bottom center" modal nested >
-                        <PostingEditFormView showPosting={showPosting}{...props}/>
+                        {((close: any) => (
+                        <PostingEditFormView showPosting={showPosting} setShowPosting={setShowPosting} close ={close} {...props}/>
+                        )) as unknown as ReactNode}
                     </Popup>
                     <StyledButton size="small" variant="outlined" color="error">
-                        Delete
+                        <NavLink to ={`/board/${boardId}`} >Delete</NavLink>
                     </StyledButton>
                     <StyledButton size="small" variant="outlined" color="warning">
                         <NavLink to ={`/board/${boardId}`} >List</NavLink>
