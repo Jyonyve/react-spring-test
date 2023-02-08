@@ -1,5 +1,5 @@
 import { observer } from "mobx-react";
-import { TextField, Grid, Paper, Box, InputAdornment } from '@material-ui/core';
+import { TextField, Grid, Paper, Box, InputAdornment, Container, Typography } from '@material-ui/core';
 import { NavLink, useLocation } from "react-router-dom";
 import { ReactNode, useEffect, useState } from "react";
 import { useStore } from "../store/RootStore";
@@ -119,9 +119,33 @@ const PostingContentsView = observer((props:any) => {
                         <PostingEditFormView showPosting={showPosting} setShowPosting={setShowPosting} close ={close} {...props}/>
                         )) as unknown as ReactNode}
                     </Popup>
-                    <StyledButton size="small" variant="outlined" color="error">
-                        <NavLink to ={`/board/${boardId}`} >Delete</NavLink>
-                    </StyledButton>
+
+                    <Popup trigger={<StyledButton size="small" variant="outlined" color="error"> Delete</StyledButton>} position="top center" modal nested >
+                        {((close: any) => (
+                            <Box className="modal">
+                                <Container >
+                                    <Typography align="center" color="textPrimary"> Rly wanna deletin'? </Typography>
+                                    <Box textAlign="center">
+                                        <StyledButton size="small" variant="contained" color="error" onClick={ () => 
+                                            {postingStore.deletePosting()
+                                             close()}
+                                        }> Delete </StyledButton>
+                                        <NavLink to ={`/board/${boardId}`} >
+                                            <StyledButton size="small" variant="contained" color="inherit"
+                                            onClick={() => {
+                                            console.log('modal closed ');
+                                            close();
+                                            }}
+                                            >
+                                            close
+                                            </StyledButton>
+                                        </NavLink>
+                                    </Box>
+                                </Container>
+                          </Box>
+                        )) as unknown as ReactNode}
+                    </Popup>
+                        
                     <StyledButton size="small" variant="outlined" color="warning">
                         <NavLink to ={`/board/${boardId}`} >List</NavLink>
                     </StyledButton>
