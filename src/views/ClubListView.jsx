@@ -29,8 +29,7 @@ const ClubListView = observer((props) => {
             <TableRow>
               <TableCell align='center'>Name</TableCell>
               <TableCell align='center'>Intro</TableCell>
-              <TableCell align='center'>Join</TableCell>
-              <TableCell align='center'>Board</TableCell>
+              <TableCell align='center'>Menu</TableCell>
             </TableRow>
           </TableHead>
         <TableBody >
@@ -38,8 +37,11 @@ const ClubListView = observer((props) => {
             <TableRow key={element.id} hover onClick={()=> onSetClub(element)}>
               <TableCell align='center'>{element.name}</TableCell>
               <TableCell align='center'>{element.intro}</TableCell>
-              <TableCell align='center'><JoinButton clubId={element.id}/></TableCell>
-              <TableCell align='center'><BoardContainer clubName = { element.name} clubId={element.id}/></TableCell>
+                <TableCell align='center'>{
+                localStorage.getItem('clubRoles').includes(element.id) ?
+                <BoardContainer clubName = { element.name} clubId={element.id}/> :
+                <JoinButton clubId={element.id}/>
+                }</TableCell>
             </TableRow>
             ))  
             :
