@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 
 export const GoogleLoginButtonContainer = (observer((props:any) => {
   
-    let {id_token, setId_token }= props;
+    let {id_token, setId_token ,setAdminChecker, setLogin}= props;
 
     //send a request for getting code
     const login = useGoogleLogin({
@@ -20,6 +20,8 @@ export const GoogleLoginButtonContainer = (observer((props:any) => {
       localStorage.clear()
       googleLogout()
       setId_token('')
+      setLogin(false)
+      setAdminChecker(false)
     };
 
     return (

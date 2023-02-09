@@ -7,22 +7,30 @@ import { useState } from 'react';
 import PostingListContainer from './containers/PostingListContainer';
 import PostingContentsView from './views/PostingContentsView';
 import { CommentEdit } from './views/CommentEdit';
+import JoinFormView from './views/JoinFormView';
 
 const App = (props) => {
     
     const [id_token, setId_token] = useState('');
+    const [adminChecker, setAdminChecker] = useState(false)
+    const [login, setLogin] = useState(false)
 
     return (
       <div className='App'>       
-      <LinkSelector id_token = {id_token} setId_token = {setId_token}/> 
+      <LinkSelector id_token = {id_token} setId_token = {setId_token} adminChecker={adminChecker} setAdminChecker={setAdminChecker} setLogin={setLogin} login={login}/> 
         <Routes>
-          <Route path='/login/oauth2/code/google' element = {<GoogleLoginTokenAndView id_token = {id_token} setId_token = {setId_token}/>} />
+          <Route path='/login/oauth2/code/google' element = {<GoogleLoginTokenAndView 
+          id_token = {id_token} setId_token = {setId_token}
+          adminChecker={adminChecker}
+          setAdminChecker={setAdminChecker}
+          setLogin={setLogin}
+          />} />
           
           <Route exact path='/club' element={
             id_token !== ''
-            ? <ClubRouter/>
+            ? <ClubRouter adminChecker={adminChecker}/>
             : `this service is only for members. please login`
-          }/>
+          } />
           <Route exact path='/member' element={
             id_token !== ''
             ? <MemberRouter/>
@@ -46,6 +54,12 @@ const App = (props) => {
             localStorage.getItem('id_token') !== '' 
             ? 
               <CommentEdit/>
+            : `unproven route! one comment edit`
+            }/>
+          <Route path='/membership/:clubId' element={
+            localStorage.getItem('id_token') !== '' 
+            ? 
+              <JoinFormView/>
             : `unproven route! one comment edit`
             }/>
         </Routes>

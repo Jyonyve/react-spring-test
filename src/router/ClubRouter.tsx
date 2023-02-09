@@ -7,13 +7,15 @@ import SearchbarContainer from '../containers/SearchbarContainer';
 
 const ClubRouter = (observer((props:any) =>{
 
-  let id_token = props.id_token;
+  const {id_token, adminChecker} = props;
 
     return(
         // <Container >
           <Grid >
             <Grid container alignItems="center" justifyContent="center"></Grid>
+            { adminChecker ? 
             <ClubEditFormContainer id_token={id_token} />
+            : null}
             <ClubListContainer id_token={id_token}/>
             <Grid container alignItems="flex-end" justifyContent="flex-end">
               <SearchbarContainer />

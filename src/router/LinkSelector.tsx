@@ -5,10 +5,28 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import SimpleCard from "../component/importedViewComponent/SimpleCard";
 import { StyledButton } from "../component/importedViewComponent/AppButton";
 import { observer } from "mobx-react";
+import { useStore } from "../store/RootStore";
+import { useEffect } from "react";
 
 
 export const LinkSelector = (observer((props:any) => {
 
+    const membershipStore = useStore().membershipStore;
+    const {adminChecker, login} = props;
+
+    async function af() {
+        await membershipStore.fetchClubIdAndRole()
+    }
+
+    useEffect(()=>{
+        af();
+        // eslint-disable-next-line
+    },[login])
+
+    useEffect(() => {
+    },[adminChecker])
+
+    
     return(
     <Box sx={{ flexGrow: 1 }}>
         <nav className="navtop">
@@ -26,9 +44,12 @@ export const LinkSelector = (observer((props:any) => {
                     <StyledButton  variant="outlined" color="primary">
                         <NavLink to='/club'>Travel Clubs</NavLink>
                     </StyledButton>
+                    { adminChecker ? 
                     <StyledButton variant="outlined" color="secondary">
                         <NavLink to='/member'>Member List</NavLink>
                     </StyledButton>
+                    :
+                    null}
                 </Grid>
                 </SimpleCard>
             </AppBar>

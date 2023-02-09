@@ -10,6 +10,8 @@ import PostingStore from "./PostingStore";
 import { defaultSnapshotPosting } from "../aggregate/Posting";
 import CommentStore from "./CommentStore";
 import { defaultSnapshotComment } from "../aggregate/Comment";
+import MembershipStore from "./MembershipStore";
+import { defaultSnapshotMembership } from "../aggregate/Membership";
 
 export const rootStore = types.model({
     memberStore : MemberStore,
@@ -17,12 +19,14 @@ export const rootStore = types.model({
     boardStore : BoardStore,
     postingStore : PostingStore,
     commentStore : CommentStore,
+    membershipStore : MembershipStore,
 }).create({
     memberStore : { member : castToSnapshot(defaultSnapshotMember), members : [], searchText:'' },
     clubStore : { club : castToSnapshot(defaultSnapshot), clubs:[], searchText:''},
     boardStore : { board : castToSnapshot(defaultSnapshotBoard), boards : []},
     postingStore : {posting: castToSnapshot(defaultSnapshotPosting), postings:[]},
     commentStore : {comment:castToSnapshot(defaultSnapshotComment), comments:[]},
+    membershipStore : {membership:castToSnapshot(defaultSnapshotMembership), memberships:[]},
 });
 
 const RootStoreContext = createContext<Instance<typeof rootStore>|null>(null);

@@ -2,6 +2,7 @@ import React, {  useEffect} from 'react';
 import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper } from '@material-ui/core';
 import { observer } from 'mobx-react';
 import BoardContainer from '../containers/BoardContainer';
+import JoinButton from './JoinButton';
 
 
 const ClubListView = observer((props) => {
@@ -23,11 +24,12 @@ const ClubListView = observer((props) => {
       
     return (
       <TableContainer component={Paper} >
-        <Table m={3}>
+        <Table m={4}>
           <TableHead >
             <TableRow>
               <TableCell align='center'>Name</TableCell>
               <TableCell align='center'>Intro</TableCell>
+              <TableCell align='center'>Join</TableCell>
               <TableCell align='center'>Board</TableCell>
             </TableRow>
           </TableHead>
@@ -36,6 +38,7 @@ const ClubListView = observer((props) => {
             <TableRow key={element.id} hover onClick={()=> onSetClub(element)}>
               <TableCell align='center'>{element.name}</TableCell>
               <TableCell align='center'>{element.intro}</TableCell>
+              <TableCell align='center'><JoinButton clubId={element.id}/></TableCell>
               <TableCell align='center'><BoardContainer clubName = { element.name} clubId={element.id}/></TableCell>
             </TableRow>
             ))  

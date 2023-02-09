@@ -3,10 +3,12 @@ import axios from "axios";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { observer } from "mobx-react";
+import { adminChecker } from "../component/Rolechecker";
+import { Box } from "@material-ui/core";
 
 const  GoogleLoginTokenAndView = observer((props:any) =>{
 
-    let {id_token, setId_token} = props;
+    let {id_token, setId_token, setAdminChecker, setLogin} = props;
 
     //getting code from queryURL and issuing accesstoken
     const useQuery = () => new URLSearchParams(useLocation().search);
@@ -37,7 +39,8 @@ const  GoogleLoginTokenAndView = observer((props:any) =>{
           userRoles = res.data;
           console.log(userRoles);
           localStorage.setItem('userRoles', userRoles.toString());
-                      
+          setLogin(true);      
+          adminChecker() ? setAdminChecker(true) : setAdminChecker(false)               
         })
       }
       catch(error){
@@ -57,11 +60,9 @@ const  GoogleLoginTokenAndView = observer((props:any) =>{
     },[id_token])
 
     return(
-        
-        <h2>
-          Welcome~!
-          {window.history.replaceState({}, document.title)}
-        </h2>
+      <Box alignContent="center">
+        <h2> Welcome~!</h2>
+      </Box>
     );
 
 })
