@@ -5,7 +5,6 @@ import { castToSnapshot } from "mobx-state-tree";
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { defaultSnapshotBoard } from "../aggregate/Board";
-import { adminChecker } from "../component/Rolechecker";
 import { useStore } from "../store/RootStore";
 import { PostingInsertFormView } from "./PostingInsertFormView";
 import WriteButton from "./WriteButton";
