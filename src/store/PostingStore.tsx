@@ -86,9 +86,8 @@ const PostingStore = types
     }
    },
 
-   deletePosting(){
+   deletePosting(postingId : string){
     try{
-        const postingId = self.getPosting().id;
         let i = self.postings.findIndex(posting => posting.id === postingId);
         self.postings.splice(i, 1);
         self.postingService.deletePosting(postingId);

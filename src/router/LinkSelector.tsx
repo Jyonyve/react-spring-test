@@ -12,10 +12,11 @@ import { useEffect } from "react";
 export const LinkSelector = (observer((props:any) => {
 
     const membershipStore = useStore().membershipStore;
-    const {adminChecker, login} = props;
+    const {adminChecker, login, setCurrentEmail} = props;
 
     async function af() {
-        await membershipStore.fetchMembershipIdAndRole()
+        const email :string |undefined = await membershipStore.fetchMembershipIdAndRole()
+        setCurrentEmail(email!);
     }
 
     useEffect(()=>{
@@ -27,14 +28,19 @@ export const LinkSelector = (observer((props:any) => {
     <Box sx={{ flexGrow: 1 }}>
         <nav className="navtop">
             <AppBar position="static">
-                <SimpleCard title={<NavLink to='/'>
-                    <Typography variant="h4" color="primary" gutterBottom> Let's travel! club </Typography>
-                    </NavLink>} subtitle={
-                    <GoogleOAuthProvider
-                        clientId="642225847404-je5i44c2t5d6jskll3sk82nqh233ejlk.apps.googleusercontent.com">
-                        <GoogleLoginButtonContainer {...props}/>
-                    </GoogleOAuthProvider>
-                    } icon={undefined}>
+                <SimpleCard 
+                    title={
+                        <NavLink to='/'>
+                            <Typography variant="h4" color="primary" gutterBottom> Let's travel! club </Typography>
+                        </NavLink>} 
+                    subtitle={
+                        <GoogleOAuthProvider
+                            clientId="642225847404-je5i44c2t5d6jskll3sk82nqh233ejlk.apps.googleusercontent.com">
+                            <GoogleLoginButtonContainer {...props} />
+                        </GoogleOAuthProvider>
+                    } 
+                    icon={undefined
+                    }>
 
                 <Grid container alignItems="flex-end" justifyContent="flex-end">        
                     <StyledButton  variant="outlined" color="primary">
@@ -46,6 +52,7 @@ export const LinkSelector = (observer((props:any) => {
                     </StyledButton>
                     :
                     null}
+                    
                 </Grid>
                 </SimpleCard>
             </AppBar>

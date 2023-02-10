@@ -17,23 +17,24 @@ import { adminChecker } from "../component/Rolechecker";
 const PostingContentsView = observer((props:any) => {
     // const {posting} = props;
     const location = useLocation();
-    const {postingId, boardId} = location.state;
+    const {postingId, boardId ,pathlocation} = location.state;
     const postingStore :any = useStore().postingStore;
     const commentStore:any = useStore().commentStore;
 
     const [showPosting, setShowPosting] = useState(defaultSnapshotPosting);
     const [showComments, setShowComments] = useState<any[]>();
     const [iconColor, setIconColor] = useState("primary");
+    const clubId = (boardId as string).split("/")[0]
 
     async function af() {
-        if(location.pathname === `/board/posting/${postingId}`){
+        // if(location.pathname === `/board/posting/${postingId}`){
             let posting = await postingStore.fetchPosting(postingId);
             setShowPosting(castToSnapshot(posting));
             let comments :[] = await commentStore.fetchComments(postingId)
             setShowComments(comments)
-        }else{
-            postingStore.clearPosting();
-        }
+        // }else{
+        //     postingStore.clearPosting();
+        // }
     }
 
     useEffect(() => {
@@ -50,7 +51,6 @@ const PostingContentsView = observer((props:any) => {
             {console.log(`postingContentsView`)}
         <nav>
         <Grid container component={Paper} alignContent="center" spacing={2}>
-        
             <Grid item xs={12}>
                 <TextField 
                     InputProps={{
@@ -72,16 +72,17 @@ const PostingContentsView = observer((props:any) => {
                     variant="outlined"
                     fullWidth
                     value={showPosting.contents}
-                    label="contents"     
+                    label={`Author : ${showPosting.writerEmail}`}
                     size='medium'   
                 />
             </Grid>
             <Grid item xs={12} >
                 { Array.isArray(showComments) && showComments.length !== 0? 
                     showComments.map( comment1 => 
-                        <CommentList key={comment1.id} comment={comment1} onSetCommentProps={onSetCommentProps} commentStore={commentStore}
-                                    postingId={postingId} setShowComments={setShowComments} iconColor={iconColor} setIconColor={setIconColor}
-                        />
+                        (console.log(comment1.id),
+                        <CommentList key={comment1.id} comment={comment1} onSetCommentProps={onSetCommentProps} commentStore={commentStore} clubid={clubId}
+                                    postingId={postingId} setShowComments={setShowComments} iconColor={iconColor} setIconColor={setIconColor} pathlocation={pathlocation}
+                        />)
                     )
                 :
                     <TextField 
@@ -93,6 +94,9 @@ const PostingContentsView = observer((props:any) => {
                 }
             </Grid> 
             <Grid item xs={12}>
+                {
+                !`${pathlocation}`.includes("NOTICEBOARD")
+                ?
                 <TextField 
                     multiline
                     variant="standard"
@@ -100,7 +104,7 @@ const PostingContentsView = observer((props:any) => {
                     defaultValue=" write new comment here"
                     color="secondary"      
                     size='medium' 
-                    label="new Comment"     
+                    label="new comment"     
                     InputProps={{
                         endAdornment: <InputAdornment position="end" children={<Edit style={{ color: `${iconColor}` }}/>} onClick={ async () =>{
                             setIconColor("secondary")
@@ -111,6 +115,9 @@ const PostingContentsView = observer((props:any) => {
                     }}
                     onChange={(event) => onSetCommentProps('contents', event.target.value)}
                 />
+                :
+                void(0)
+                }
             </Grid>
             <Grid item xs={7}>
             </Grid>
@@ -120,7 +127,7 @@ const PostingContentsView = observer((props:any) => {
                     ?
                     <><Popup trigger={<StyledButton size="small" variant="outlined" color="success"> Update</StyledButton>} position="bottom center" modal nested>
                                     {((close: any) => (
-                                        <PostingEditFormView showPosting={showPosting} setShowPosting={setShowPosting} close={close} {...props} />
+                                        <PostingEditFormView showPosting = {castToSnapshot(showPosting)} setShowPosting={setShowPosting} close={close} {...props} />
                                     )) as unknown as ReactNode}
                                 </Popup><Popup trigger={<StyledButton size="small" variant="outlined" color="error"> Delete</StyledButton>} position="top center" modal nested>
                                         {((close: any) => (
@@ -130,7 +137,7 @@ const PostingContentsView = observer((props:any) => {
                                                     <Box textAlign="center">
                                                         <NavLink to={`/board/${boardId}`}>
                                                             <StyledButton size="small" variant="contained" color="error" onClick={() => {
-                                                                postingStore.deletePosting();
+                                                                postingStore.deletePosting(postingId);
                                                                 postingStore.clearPosting();
                                                                 close();
                                                             } }> Delete </StyledButton>

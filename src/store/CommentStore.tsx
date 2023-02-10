@@ -51,6 +51,7 @@ const CommentStore = types
         this.clearComments();
         const dbComments: []|undefined = await self.commentService.fetchComments(postingId)
         this.setComments(dbComments!);
+        console.log(JSON.stringify(dbComments))
         return self.comments
     },
     

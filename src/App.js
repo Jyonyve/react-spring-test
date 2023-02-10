@@ -14,10 +14,12 @@ const App = (props) => {
     const [id_token, setId_token] = useState('');
     const [adminChecker, setAdminChecker] = useState(false)
     const [login, setLogin] = useState(false)
+    const [currentEmail, setCurrentEmail] = useState('')
 
     return (
       <div className='App'>       
-      <LinkSelector id_token = {id_token} setId_token = {setId_token} adminChecker={adminChecker} setAdminChecker={setAdminChecker} setLogin={setLogin} login={login}/> 
+      <LinkSelector id_token = {id_token} setId_token = {setId_token} adminChecker={adminChecker} 
+                    setAdminChecker={setAdminChecker} setLogin={setLogin} login={login} setCurrentEmail={setCurrentEmail} currentEmail={currentEmail}/> 
         <Routes>
           <Route path='/login/oauth2/code/google' element = {<GoogleLoginTokenAndView 
           id_token = {id_token} setId_token = {setId_token}
@@ -53,7 +55,7 @@ const App = (props) => {
           <Route path='/board/posting/:postingId/:commentNumber' element={
             localStorage.getItem('id_token') !== '' 
             ? 
-              <CommentEdit/>
+              <CommentEdit currentEmail = {currentEmail} />
             : `unproven route! one comment edit`
             }/>
           <Route path='/membership/:clubId' element={

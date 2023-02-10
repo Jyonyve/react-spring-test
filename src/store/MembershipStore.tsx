@@ -80,41 +80,17 @@ const MembershipStore = types
    async fetchMembershipIdAndRole () {
     localStorage.removeItem('clubRoles')
     let infoMapString :string = '';
+    let email : string = '';
     try{
         infoMapString = await self.membershipService.fetchMembershipRole();
         const clubRoles :string = `${JSON.stringify(infoMapString)}`;
         localStorage.setItem('clubRoles', clubRoles);
+        email =localStorage.getItem('clubRoles')?.match(/\/.+?"/)![0].slice(1, -1)!
+        return email;
     } catch(error){
         console.log(error);
     }
    },
-
-
-    // editComment(){
-    //     try{
-    //         const targetComment = {...self.comment}
-    //         console.log(`editTargetComment : ${JSON.stringify(targetComment)}`)
-    //         const id : string = targetComment.id;
-    //         let i = self.comments.findIndex(comment => comment.id === id);
-    //         self.commentService.editComment(targetComment);
-    //         self.comments.splice(i, 1, targetComment);
-    //     }catch(error){
-    //         console.error(error);
-    //     }
-
-    // },
-
-    // deleteComment(){
-    //     try{
-    //         const commentId = self.getComment().id;
-    //         let i = self.comments.findIndex(comment => comment.id === commentId);
-    //         self.comments.splice(i, 1);
-    //         self.commentService.deleteComment(commentId);
-    //     }catch(error){
-
-    //     }
-    // }
-
 
 })));
 export default MembershipStore;
