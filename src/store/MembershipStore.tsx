@@ -77,7 +77,7 @@ const MembershipStore = types
         }
     },
 
-   async fetchClubIdAndRole () {
+   async fetchMembershipIdAndRole () {
     localStorage.removeItem('clubRoles')
     let infoMapString :string = '';
     try{
@@ -87,7 +87,8 @@ const MembershipStore = types
     } catch(error){
         console.log(error);
     }
-   }
+   },
+
 
     // editComment(){
     //     try{

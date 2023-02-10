@@ -2,7 +2,7 @@ import { types } from "mobx-state-tree";
 
 export const posting = types.model({
 
-    id : types.identifier,
+    id : types.string,
     title: types.string,
     contents: types.optional(types.string,''),
     writerEmail : types.string,

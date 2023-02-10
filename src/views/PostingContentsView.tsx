@@ -11,6 +11,7 @@ import { CommentList } from "./CommentList";
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import { PostingEditFormView } from "./PostingEditFormView";
+import { adminChecker } from "../component/Rolechecker";
 
 
 const PostingContentsView = observer((props:any) => {
@@ -37,7 +38,6 @@ const PostingContentsView = observer((props:any) => {
 
     useEffect(() => {
        af();
-       console.log(`location-pathname`)
         // eslint-disable-next-line
     },[location.pathname])
     
@@ -47,6 +47,7 @@ const PostingContentsView = observer((props:any) => {
 
     return(
         <Box width="100%" overflow="auto">
+            {console.log(`postingContentsView`)}
         <nav>
         <Grid container component={Paper} alignContent="center" spacing={2}>
         
@@ -111,46 +112,49 @@ const PostingContentsView = observer((props:any) => {
                     onChange={(event) => onSetCommentProps('contents', event.target.value)}
                 />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={7}>
             </Grid>
-            <Grid item xs={6}>
-                    <Popup trigger={<StyledButton size="small" variant="outlined" color="success"> Update</StyledButton>} position="bottom center" modal nested >
-                        {((close: any) => (
-                        <PostingEditFormView showPosting={showPosting} setShowPosting={setShowPosting} close ={close} {...props}/>
-                        )) as unknown as ReactNode}
-                    </Popup>
+            <Grid item xs={5}>
+                    {
+                        adminChecker()||localStorage.getItem('clubRoles')?.includes(showPosting.writerEmail)
+                    ?
+                    <><Popup trigger={<StyledButton size="small" variant="outlined" color="success"> Update</StyledButton>} position="bottom center" modal nested>
+                                    {((close: any) => (
+                                        <PostingEditFormView showPosting={showPosting} setShowPosting={setShowPosting} close={close} {...props} />
+                                    )) as unknown as ReactNode}
+                                </Popup><Popup trigger={<StyledButton size="small" variant="outlined" color="error"> Delete</StyledButton>} position="top center" modal nested>
+                                        {((close: any) => (
+                                            <Box className="modal">
+                                                <Container>
+                                                    <Typography align="center" color="textPrimary"> Rly wanna deletin'? </Typography>
+                                                    <Box textAlign="center">
+                                                        <NavLink to={`/board/${boardId}`}>
+                                                            <StyledButton size="small" variant="contained" color="error" onClick={() => {
+                                                                postingStore.deletePosting();
+                                                                postingStore.clearPosting();
+                                                                close();
+                                                            } }> Delete </StyledButton>
+                                                        </NavLink>
+                                                        <NavLink to={`/board/${boardId}`}>
+                                                            <StyledButton size="small" variant="contained" color="inherit"
+                                                                onClick={() => {
+                                                                    console.log('modal closed ');
+                                                                    close();
+                                                                } }
+                                                            >
+                                                                close
+                                                            </StyledButton>
+                                                        </NavLink>
+                                                    </Box>
+                                                </Container>
+                                            </Box>
+                                        )) as unknown as ReactNode}
+                                    </Popup></>
+                    :
+                    <StyledButton size="small" variant="outlined" color="warning">Not my post</StyledButton>
+                    }
 
-                    <Popup trigger={<StyledButton size="small" variant="outlined" color="error"> Delete</StyledButton>} position="top center" modal nested >
-                        {((close: any) => (
-                            <Box className="modal">
-                                <Container >
-                                    <Typography align="center" color="textPrimary"> Rly wanna deletin'? </Typography>
-                                    <Box textAlign="center">
-                                        <NavLink to ={`/board/${boardId}`} >
-                                        <StyledButton size="small" variant="contained" color="error" onClick={ () => 
-                                            {postingStore.deletePosting()
-                                                postingStore.clearPosting()
-                                             close()
-                                            }
-                                        }> Delete </StyledButton>
-                                        </NavLink>
-                                        <NavLink to ={`/board/${boardId}`} >
-                                            <StyledButton size="small" variant="contained" color="inherit"
-                                            onClick={() => {
-                                            console.log('modal closed ');
-                                            close();
-                                            }}
-                                            >
-                                            close
-                                            </StyledButton>
-                                        </NavLink>
-                                    </Box>
-                                </Container>
-                          </Box>
-                        )) as unknown as ReactNode}
-                    </Popup>
-                        
-                    <StyledButton size="small" variant="outlined" color="warning" onClick={postingStore.clearPosting()}>
+                    <StyledButton size="small" variant="outlined" color="secondary" onClick={postingStore.clearPosting()}>
                         <NavLink to ={`/board/${boardId}` } >List</NavLink>
                     </StyledButton>
             </Grid>

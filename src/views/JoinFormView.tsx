@@ -27,7 +27,7 @@ const JoinFormView = observer((props:any) => {
         <Grid>
           <IconButton children={<><Typography color="primary"><Save fontSize="large" /></Typography></>} onClick={async () => 
             { await membershipStore.addMembershipAndSetMembershipId(clubId!)
-              await membershipStore.fetchClubIdAndRole();
+              await membershipStore.fetchMembershipIdAndRole();
               navigate("/club")
             }}/>
         </Grid>

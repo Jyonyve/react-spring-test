@@ -49,7 +49,7 @@ const MembershipService = types.model(
         } catch(error) {
             console.error(error);
         }
-    }
+    },
 
     // editMember : async (id:string, targetMember:any) => {
     //     try {

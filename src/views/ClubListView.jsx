@@ -3,6 +3,7 @@ import { Table, TableContainer, TableHead, TableBody, TableRow, TableCell, Paper
 import { observer } from 'mobx-react';
 import BoardContainer from '../containers/BoardContainer';
 import JoinButton from './JoinButton';
+import { adminChecker } from '../component/Rolechecker';
 
 
 const ClubListView = observer((props) => {
@@ -37,10 +38,12 @@ const ClubListView = observer((props) => {
             <TableRow key={element.id} hover onClick={()=> onSetClub(element)}>
               <TableCell align='center'>{element.name}</TableCell>
               <TableCell align='center'>{element.intro}</TableCell>
-                <TableCell align='center'>{
-                localStorage.getItem('clubRoles').includes(element.id) ?
+                <TableCell align='center'>{ 
+                adminChecker() ? 
                 <BoardContainer clubName = { element.name} clubId={element.id}/> :
-                <JoinButton clubId={element.id}/>
+                (localStorage.getItem('clubRoles').includes(element.id) ?
+                <BoardContainer clubName = { element.name} clubId={element.id}/> :
+                <JoinButton clubId={element.id}/>)
                 }</TableCell>
             </TableRow>
             ))  

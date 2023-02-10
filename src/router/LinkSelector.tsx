@@ -15,17 +15,13 @@ export const LinkSelector = (observer((props:any) => {
     const {adminChecker, login} = props;
 
     async function af() {
-        await membershipStore.fetchClubIdAndRole()
+        await membershipStore.fetchMembershipIdAndRole()
     }
 
     useEffect(()=>{
-        af();
+        login ?  af() : void(0)
         // eslint-disable-next-line
     },[login])
-
-    useEffect(() => {
-    },[adminChecker])
-
     
     return(
     <Box sx={{ flexGrow: 1 }}>

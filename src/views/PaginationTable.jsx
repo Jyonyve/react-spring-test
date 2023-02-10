@@ -21,7 +21,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { defaultSnapshotBoard } from "../aggregate/Board";
 import { StyledButton } from "../component/importedViewComponent/AppButton";
 import { useStore } from "../store/RootStore";
-import { PostingEditFormView } from "./PostingEditFormView";
+import { PostingInsertFormView } from "./PostingInsertFormView";
 
 const StyledTable = styled(Table)(() => ({
   whiteSpace: "pre",
@@ -79,7 +79,14 @@ const PaginationTable = (observer((props) => {
   useEffect(() => {
     af()
     if(posting.id){
-      navigate(`/board/posting/${posting.id}`, {state:{postingId : `${posting.id}`, boardId:`${clubId}/${boardKind}`}})
+      navigate(`/board/posting/${posting.id}`, {state:{
+        postingId : `${posting.id}`,
+        writerEmail :`${posting.writerEmail}`,
+        title: `${posting.title}`,
+        contents:`${posting.contents}`,
+        readCount :`${posting.readCount}`,
+        writtenDate :`${posting.writtenDate}`,
+        boardId:`${clubId}/${boardKind}`}})
     }
     // eslint-disable-next-line
   },[postingStore.posting.id])
@@ -92,15 +99,6 @@ const PaginationTable = (observer((props) => {
     setPostingProps("readCount", posting.readCount+1 )
     setPostingProps("boardId", `${clubId}/${boardKind}`)
     postingStore.editPosting();
-
-    navigate(`/board/posting/${posting.id}`,{state:{
-      postingId : `${posting.id}`, 
-      title : `${posting.title}`, 
-      contents : `${posting.contents}`, 
-      writerEmail : `${posting.writerEmail}`, 
-      readCount : `${posting.readCount}`, 
-      boardId:`${clubId}/${boardKind}`, 
-      location:window.location.pathname}} )
   }
 
   function writeButton(boardKind){
@@ -159,7 +157,16 @@ const PaginationTable = (observer((props) => {
               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).sort((a, b) => b.writtenDate - a.writtenDate)
               .map((posting, index) => (
                 <TableRow key={index} hover onClick={()=> {
-                  handleOnClick(posting, clubId, boardKind)
+                  const copyPosting = {...posting}
+                  handleOnClick(copyPosting, clubId, boardKind)
+                  navigate(`/board/posting/${copyPosting.id}`,{state:{
+                    postingId : `${copyPosting.id}`, 
+                    title : `${copyPosting.title}`, 
+                    contents : `${copyPosting.contents}`, 
+                    writerEmail : `${copyPosting.writerEmail}`, 
+                    readCount : `${copyPosting.readCount}`, 
+                    boardId:`${clubId}/${boardKind}`, 
+                    location:window.location.pathname}} )
                 }}>
                   <TableCell align="center">{posting.title}</TableCell>
                   <TableCell align="center">{moment(`${posting.writtenDate}`, "x").format("DD MMM YYYY hh:mm a")}</TableCell>
@@ -190,14 +197,14 @@ const PaginationTable = (observer((props) => {
           nextIconButtonProps={{ "aria-label": "Next Page" }}
           backIconButtonProps={{ "aria-label": "Previous Page" }}
         />
-        <Box container 
+        <Box  
           sx={{
             display: 'flex',
             justifyContent: 'space-between',
-            // p: 1,
-            // m: 1,
+            p: 1,
+            m: 1,
             bgcolor: 'background.paper',
-            // borderRadius: 1,
+            borderRadius: 1,
         }}>
           {writeButton(boardKind)}
           <IconButton children={<Cached/>} size="small" onClick={ async () => await af()}/>
@@ -208,7 +215,7 @@ const PaginationTable = (observer((props) => {
             {      
               renderWriting===true  ?
               (postingStore.clearPosting(),
-              <PostingEditFormView 
+              <PostingInsertFormView 
                 clubId={clubId}
                 boardKind={boardKind}
                 setRenderWriting={setRenderWriting}
