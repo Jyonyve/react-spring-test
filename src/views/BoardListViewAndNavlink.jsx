@@ -43,6 +43,9 @@ const BoardListViewAndNavlink = (observer((props)=> {
         <NavLink to={`/board/${clubId}/${BoardKind[2]}`}>
          <MenuItem onClick={handleClose}>QnA Board</MenuItem>
         </NavLink>
+        <NavLink to={`/board/${clubId}/${BoardKind[3]}`}>
+         <MenuItem onClick={handleClose}>FaQ Board</MenuItem>
+        </NavLink>
         
       </Menu>
     </Box>

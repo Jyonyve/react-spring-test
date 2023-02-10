@@ -19,9 +19,9 @@ import moment from "moment";
 import { useEffect,  useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { defaultSnapshotBoard } from "../aggregate/Board";
-import { StyledButton } from "../component/importedViewComponent/AppButton";
 import { useStore } from "../store/RootStore";
 import { PostingInsertFormView } from "./PostingInsertFormView";
+import WriteButton from "./WriteButton";
 
 const StyledTable = styled(Table)(() => ({
   whiteSpace: "pre",
@@ -103,38 +103,6 @@ const PaginationTable = (observer((props) => {
     postingStore.editPosting(postingStore.getPosting()) //조회수 업데이트 
   }
 
-  function writeButton(boardKind){
-    if(localStorage.getItem('userRoles').includes("ADMIN")){
-      return(
-      <StyledButton variant="text" onClick={() => renderWriting===true ? setRenderWriting(false) : setRenderWriting(true)}>          
-          Write
-      </StyledButton>
-      )
-    } else {
-      switch(boardKind){
-        case 'NOTICEBOARD' :
-          return;
-        case 'SOCIALBOARD' :
-          return(
-            <StyledButton variant="text" onClick={() => renderWriting===true ? setRenderWriting(false) : setRenderWriting(true)}>          
-                Write
-            </StyledButton>
-            )
-        case 'QNABOARD' : 
-          return(
-            <StyledButton variant="text" onClick={() => renderWriting===true ? setRenderWriting(false) : setRenderWriting(true)}>          
-                Write
-            </StyledButton>
-            )
-        case 'FAQBOARD':
-          return;
-        default :
-          break;
-      }
-    }
-
-    
-  }
 
 
   return (
@@ -208,7 +176,7 @@ const PaginationTable = (observer((props) => {
             bgcolor: 'background.paper',
             borderRadius: 1,
         }}>
-          {writeButton(boardKind)}
+          {WriteButton(boardKind, renderWriting, setRenderWriting)}
           <IconButton children={<Cached/>} size="small" onClick={ async () => await af()}/>
         </Box> 
       </TableContainer>

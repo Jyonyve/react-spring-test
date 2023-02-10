@@ -79,10 +79,9 @@ const PostingContentsView = observer((props:any) => {
             <Grid item xs={12} >
                 { Array.isArray(showComments) && showComments.length !== 0? 
                     showComments.map( comment1 => 
-                        (console.log(comment1.id),
                         <CommentList key={comment1.id} comment={comment1} onSetCommentProps={onSetCommentProps} commentStore={commentStore} clubid={clubId}
                                     postingId={postingId} setShowComments={setShowComments} iconColor={iconColor} setIconColor={setIconColor} pathlocation={pathlocation}
-                        />)
+                        />
                     )
                 :
                     <TextField 
