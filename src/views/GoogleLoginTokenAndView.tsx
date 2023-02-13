@@ -1,7 +1,7 @@
 
 import axios from "axios";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { observer } from "mobx-react";
 import { adminChecker } from "../component/Rolechecker";
 import { Box } from "@material-ui/core";
@@ -20,6 +20,8 @@ const  GoogleLoginTokenAndView = observer((props:any) =>{
     const url :string = 'http://localhost:8080/login/oauth2/code/google?code=' + code + '&scope=' + scope;
     let bearerId_token :string|undefined ='';
     let userRoles : string[];
+
+    const navigate  = useNavigate();
 
     const redirection = async () => 
     {
@@ -60,7 +62,9 @@ const  GoogleLoginTokenAndView = observer((props:any) =>{
     },[id_token])
 
     return(
+      
       <Box alignContent="center">
+        {navigate("/")}
         <h2> Welcome~!</h2>
       </Box>
     );

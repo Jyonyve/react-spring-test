@@ -8,6 +8,7 @@ import PostingListContainer from './containers/PostingListContainer';
 import PostingContentsView from './views/PostingContentsView';
 import { CommentEdit } from './views/CommentEdit';
 import JoinFormView from './views/JoinFormView';
+import NotFound from './component/importedViewComponent/NotFound';
 
 const App = (props) => {
     
@@ -18,9 +19,12 @@ const App = (props) => {
 
     return (
       <div className='App'>       
-      <LinkSelector id_token = {id_token} setId_token = {setId_token} adminChecker={adminChecker} 
-                    setAdminChecker={setAdminChecker} setLogin={setLogin} login={login} setCurrentEmail={setCurrentEmail} currentEmail={currentEmail}/> 
+      
+        <LinkSelector id_token = {id_token} setId_token = {setId_token} adminChecker={adminChecker} 
+                    setAdminChecker={setAdminChecker} setLogin={setLogin} login={login} setCurrentEmail={setCurrentEmail} currentEmail={currentEmail}/>
         <Routes>
+          <Route path="/" />
+          
           <Route path='/login/oauth2/code/google' element = {<GoogleLoginTokenAndView 
           id_token = {id_token} setId_token = {setId_token}
           adminChecker={adminChecker}
@@ -64,6 +68,8 @@ const App = (props) => {
               <JoinFormView/>
             : `unproven route! one comment edit`
             }/>
+          <Route path="/error" element={NotFound}/>
+          <Route element={NotFound}/>
         </Routes>
       </div>
   );
