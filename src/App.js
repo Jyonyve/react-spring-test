@@ -40,7 +40,7 @@ const App = (props) => {
             }/>
 
           <Route  path="/board/:clubId/:boardKind" element={
-            id_token !== '' //나중에 클럽별 권한 검사 추가...
+            id_token !== ''
             ? 
               <PostingListContainer {...props}/>
             : `unproven route!`

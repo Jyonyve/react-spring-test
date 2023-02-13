@@ -19,6 +19,7 @@ import moment from "moment";
 import { useEffect,  useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { defaultSnapshotBoard } from "../aggregate/Board";
+import { getCurrentEmail } from "../component/Rolechecker";
 import { useStore } from "../store/RootStore";
 import { PostingInsertFormView } from "./PostingInsertFormView";
 import WriteButton from "./WriteButton";
@@ -124,8 +125,9 @@ const PaginationTable = (observer((props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            { postings && Array.isArray(postings) ? postings
-              .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).sort((a, b) => b.writtenDate - a.writtenDate)
+            { postings && Array.isArray(postings) ? 
+              (boardKind !== "QNABOARD" || localStorage.getItem('userRoles').includes("ADMIN") ? 
+              postings.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).sort((a, b) => b.writtenDate - a.writtenDate)
               .map((posting, index) => (
                 <TableRow key={index} hover onClick={()=> {
                   const copyPosting = {...posting}
@@ -142,8 +144,27 @@ const PaginationTable = (observer((props) => {
                   <TableCell align="center">{moment(`${posting.writtenDate}`, "x").format("YYYY MMM DD hh:mm a")}</TableCell>
                   <TableCell align="center">{posting.readCount}</TableCell>
     
-                </TableRow>
-              ))
+                </TableRow>))
+              :
+              postings.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).sort((a, b) => b.writtenDate - a.writtenDate)
+              .filter(posting => posting.writerEmail === getCurrentEmail()).map((posting, index) => (
+                <TableRow key={index} hover onClick={()=> {
+                  const copyPosting = {...posting}
+                  handleOnClick(copyPosting, clubId, boardKind)
+                  navigate(`/board/posting/${copyPosting.id}`,{state:{
+                    postingId : `${copyPosting.id}`, 
+                    title : `${copyPosting.title}`, 
+                    contents : `${copyPosting.contents}`, 
+                    writerEmail : `${copyPosting.writerEmail}`, 
+                    boardId:`${clubId}/${boardKind}`, 
+                    pathlocation:window.location.pathname}} )
+                }}>
+                  <TableCell align="center">{posting.title}</TableCell>
+                  <TableCell align="center">{moment(`${posting.writtenDate}`, "x").format("YYYY MMM DD hh:mm a")}</TableCell>
+                  <TableCell align="center">{posting.readCount}</TableCell>
+    
+                </TableRow>))
+              )
                 :
               <TableRow>
                 <TableCell align="center">empty</TableCell>
