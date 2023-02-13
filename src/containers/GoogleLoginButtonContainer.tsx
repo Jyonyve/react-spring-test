@@ -15,7 +15,7 @@ export const GoogleLoginButtonContainer = (observer((props:any) => {
       },
       flow: 'auth-code',
       ux_mode: 'redirect',
-      redirect_uri : 'http://localhost:3000/login/oauth2/code/google',
+      redirect_uri : 'http://localhost:8080/login/oauth2/code/google',
     });
 
     const logout = () => {

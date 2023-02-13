@@ -23,7 +23,8 @@ const App = (props) => {
         <LinkSelector id_token = {id_token} setId_token = {setId_token} adminChecker={adminChecker} 
                     setAdminChecker={setAdminChecker} setLogin={setLogin} login={login} setCurrentEmail={setCurrentEmail} currentEmail={currentEmail}/>
         <Routes>
-          <Route path="/" />
+          <Route path="/" element={<LinkSelector id_token = {id_token} setId_token = {setId_token} adminChecker={adminChecker} 
+                    setAdminChecker={setAdminChecker} setLogin={setLogin} login={login} setCurrentEmail={setCurrentEmail} currentEmail={currentEmail}/>} />
           
           <Route path='/login/oauth2/code/google' element = {<GoogleLoginTokenAndView 
           id_token = {id_token} setId_token = {setId_token}
