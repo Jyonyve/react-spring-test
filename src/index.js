@@ -1,15 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {Provider} from 'mobx-react'
-import ClubStore from './store/ClubStore'
-import ClubService from './service/ClubService';
+import { rootStore, StoreProvider } from './store/RootStore';
+import {BrowserRouter} from 'react-router-dom';
+import App from './App';
+import axios from 'axios';
+
+axios.defaults.withCredentials = true;
 
 ReactDOM.render(
-    <Provider clubStore = {ClubStore}>
-      <App  clubService = {ClubService}/>
-    </Provider>,
+  
+      <StoreProvider value={rootStore}>
+        <BrowserRouter>
+          <App/>
+        </BrowserRouter>
+      </StoreProvider>,
+    
   document.getElementById('root')
 );
 

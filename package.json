@@ -2,28 +2,48 @@
   "name": "todo-mobx",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "@date-io/date-fns": "^1.3.13",
+    "@emotion/react": "^11.10.5",
+    "@emotion/styled": "^11.10.5",
     "@material-ui/core": "^4.11.2",
     "@material-ui/icons": "^4.11.2",
     "@material-ui/pickers": "^3.2.10",
+    "@mui/icons-material": "^5.11.0",
+    "@mui/material": "^5.11.7",
+    "@react-oauth/google": "^0.6.1",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "@types/gapi": "^0.0.43",
+    "@types/react-router-dom": "^5.3.3",
     "autobind-decorator": "^2.4.0",
     "axios": "^1.2.1",
+    "bootstrap": "^5.2.3",
+    "browserify-zlib": "^0.2.0",
     "cors": "^2.8.5",
     "date-fns": "^2.16.1",
-    "http-proxy-middelware": "^0.0.1-security",
-    "http-proxy-middleware": "^2.0.6",
     "mobx": "^6.0.4",
     "mobx-react": "^7.0.5",
+    "mobx-state-tree": "^5.1.7",
     "mobx-utils": "^6.0.5",
     "moment": "^2.29.1",
+    "node-polyfill-webpack-plugin": "^2.0.1",
+    "npm": "^9.4.0",
+    "nvm": "^0.0.4",
+    "path": "^0.12.7",
+    "path-browserify": "^1.0.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-scripts": "4.0.1",
-    "web-vitals": "^0.2.4"
+    "react-material-ui-form-validator": "^3.0.1",
+    "react-router-dom": "^6.6.1",
+    "react-scripts": "^5.0.1",
+    "reactjs-popup": "^2.0.5",
+    "stream": "^0.0.2",
+    "typescript": "^4.9.4",
+    "web-vitals": "^0.2.4",
+    "yarn": "^1.22.19"
   },
   "scripts": {
     "start": "react-app-rewired start",
@@ -52,6 +72,7 @@
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.12.1",
     "@babel/plugin-proposal-decorators": "^7.20.5",
+    "@types/react-material-ui-form-validator": "^2.1.1",
     "core-decorators": "^0.20.0",
     "customize-cra": "^1.0.0",
     "react-app-rewired": "^2.2.1"
@@ -74,5 +95,9 @@
         }
       ]
     ]
-  }
+  },
+  "main": "index.js",
+  "repository": "https://github.com/Jyonyve/react-spring-test.git",
+  "author": "Jyonyve <key_neco@naver.com>",
+  "license": "MIT"
 }
