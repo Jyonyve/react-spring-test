@@ -9,6 +9,7 @@ import PostingContentsView from './views/PostingContentsView';
 import { CommentEdit } from './views/CommentEdit';
 import JoinFormView from './views/JoinFormView';
 import NotFound from './component/importedViewComponent/NotFound';
+import Welcome from './views/Welcome';
 
 const App = (props) => {
     
@@ -23,10 +24,9 @@ const App = (props) => {
         <LinkSelector id_token = {id_token} setId_token = {setId_token} adminChecker={adminChecker} 
                     setAdminChecker={setAdminChecker} setLogin={setLogin} login={login} setCurrentEmail={setCurrentEmail} currentEmail={currentEmail}/>
         <Routes>
-          <Route path="/" element={<LinkSelector id_token = {id_token} setId_token = {setId_token} adminChecker={adminChecker} 
-                    setAdminChecker={setAdminChecker} setLogin={setLogin} login={login} setCurrentEmail={setCurrentEmail} currentEmail={currentEmail}/>} />
+          <Route path="/" element={<Welcome/>} />
           
-          <Route path='/login/oauth2/code/google' element = {<GoogleLoginTokenAndView 
+          <Route path='/login/oauth2/setter' element = {<GoogleLoginTokenAndView 
           id_token = {id_token} setId_token = {setId_token}
           adminChecker={adminChecker}
           setAdminChecker={setAdminChecker}

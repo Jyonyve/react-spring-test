@@ -84,8 +84,10 @@ const MembershipStore = types
     try{
         infoMapString = await self.membershipService.fetchMembershipRole();
         const clubRoles :string = `${JSON.stringify(infoMapString)}`;
-        localStorage.setItem('clubRoles', clubRoles);
-        email =localStorage.getItem('clubRoles')?.match(/\/.+?"/)![0].slice(1, -1)!
+        if(clubRoles || clubRoles.length !==0){
+          localStorage.setItem('clubRoles', clubRoles);  
+          email =localStorage.getItem('clubRoles')?.match(/\/.+?"/)![0].slice(1, -1)!
+        }
         return email;
     } catch(error){
         console.log(error);
