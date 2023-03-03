@@ -10,6 +10,7 @@ import { CommentEdit } from './views/CommentEdit';
 import JoinFormView from './views/JoinFormView';
 import NotFound from './component/importedViewComponent/NotFound';
 import Welcome from './views/Welcome';
+import TestBoardListView from './views/TestBoardListView';
 
 const App = (props) => {
     
@@ -42,32 +43,34 @@ const App = (props) => {
             id_token !== ''
             ? <MemberRouter/>
             : `this service is only for members. please login`
-            }/>
+          }/>
+          <Route exact path='/board' element={<TestBoardListView clubId="sampleClubId" clubName="sampleClub"/>}/>
+          <Route exact path='/board/sampleClubId/:boardKind' element={<PostingListContainer {...props}/>}/>
 
           <Route  path="/board/:clubId/:boardKind" element={
             id_token !== ''
             ? 
               <PostingListContainer {...props}/>
-            : `unproven route!`
+            : `unproven route! get postings`
             }/>
 
           <Route path="/board/posting/:postingId" element={
             localStorage.getItem('id_token') !== '' 
             ? 
               <PostingContentsView {...props}/>
-            : `unproven route! one posting`
+            : `unproven route! get one posting`
             }/>
           <Route path='/board/posting/:postingId/:commentNumber' element={
             localStorage.getItem('id_token') !== '' 
             ? 
               <CommentEdit currentEmail = {currentEmail} />
-            : `unproven route! one comment edit`
+            : `unproven route! modify one comment `
             }/>
           <Route path='/membership/:clubId' element={
             localStorage.getItem('id_token') !== '' 
             ? 
               <JoinFormView/>
-            : `unproven route! one comment edit`
+            : `unproven route! no idToken for membership`
             }/>
           <Route path="/error" element={NotFound}/>
           <Route element={NotFound}/>
