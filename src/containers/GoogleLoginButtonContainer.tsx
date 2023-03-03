@@ -1,10 +1,8 @@
 import {  Button } from "@material-ui/core";
 import { Google } from "@mui/icons-material";
 import { googleLogout, useGoogleLogin } from '@react-oauth/google';
-import axios from "axios";
 import { observer } from "mobx-react";
 import { useEffect } from "react";
-import { useNavigate } from 'react-router-dom';
 
 export const GoogleLoginButtonContainer = (observer((props:any) => {
   
@@ -17,7 +15,7 @@ export const GoogleLoginButtonContainer = (observer((props:any) => {
       },
       flow: 'auth-code',
       ux_mode: 'redirect',
-      redirect_uri : 'http://localhost:8080/login/oauth2/code/google',
+      redirect_uri : 'http://localhost:3000/login/oauth2/code/google',
     });
 
 

@@ -26,7 +26,7 @@ const App = (props) => {
         <Routes>
           <Route path="/" element={<Welcome/>} />
           
-          <Route path='/login/oauth2/setter' element = {<GoogleLoginTokenAndView 
+          <Route path='/login/oauth2/code/google' element = {<GoogleLoginTokenAndView 
           id_token = {id_token} setId_token = {setId_token}
           adminChecker={adminChecker}
           setAdminChecker={setAdminChecker}
