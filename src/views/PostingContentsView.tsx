@@ -11,11 +11,10 @@ import { CommentList } from "./CommentList";
 import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import { PostingEditFormView } from "./PostingEditFormView";
-import { adminChecker } from "../component/Rolechecker";
+import { adminChecker, TestBoardChecker } from "../component/Rolechecker";
 
 
 const PostingContentsView = observer((props:any) => {
-    // const {posting} = props;
     const location = useLocation();
     const {postingId, boardId ,pathlocation} = location.state;
     const postingStore :any = useStore().postingStore;
@@ -27,18 +26,21 @@ const PostingContentsView = observer((props:any) => {
     const clubId = (boardId as string).split("/")[0]
 
     async function af() {
-        // if(location.pathname === `/board/posting/${postingId}`){
-            let posting = await postingStore.fetchPosting(postingId);
-            setShowPosting(castToSnapshot(posting));
-            let comments :[] = await commentStore.fetchComments(postingId)
-            setShowComments(comments)
-        // }else{
-        //     postingStore.clearPosting();
-        // }
+        let posting = await postingStore.fetchPosting(postingId);
+        setShowPosting(castToSnapshot(posting));
+        let comments :[] = await commentStore.fetchComments(postingId)
+        setShowComments(comments)
     }
 
+   async function samplePosting(){
+        await postingStore.fetchSamplePosting(postingId);
+        const posting = postingStore.getPosting()
+        console.log(JSON.stringify(posting))
+        setShowPosting(castToSnapshot(posting));
+   }
+
     useEffect(() => {
-       af();
+       TestBoardChecker() ? samplePosting() :  af();
         // eslint-disable-next-line
     },[location.pathname])
     
@@ -160,8 +162,10 @@ const PostingContentsView = observer((props:any) => {
                     <StyledButton size="small" variant="outlined" color="warning">Not my post</StyledButton>
                     }
 
-                    <StyledButton size="small" variant="outlined" color="secondary" onClick={postingStore.clearPosting()}>
-                        <NavLink to ={`/board/${boardId}` } >List</NavLink>
+                    <StyledButton size="small" variant="outlined" color="secondary" onClick={ () =>
+                        {postingStore.clearPosting();
+                        }}>
+                        <NavLink to ={TestBoardChecker() ? `/test/${showPosting.boardId}`: `/board/${showPosting.boardId}`} >List</NavLink>
                     </StyledButton>
             </Grid>
         </Grid>

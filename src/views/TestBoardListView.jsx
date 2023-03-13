@@ -1,16 +1,28 @@
 import { Box, Button, Menu, MenuItem } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { NavLink } from "react-router-dom";
 import { BoardKind } from "../aggregate/BoardKind";
 import { observer } from "mobx-react";
+import { useStore } from "../store/RootStore";
 
 
 const TestBoardListView = (observer((props)=> {
-  const {clubId, clubName} = props;
+  // 
+  const { clubName} = props;
+  const testService = useStore().boardStore.testService;
  
-  
   // CSS Funtion
   const [anchorEl, setAnchorEl] = React.useState(null);
+
+  async function addSampleBoard(boardKind){
+    await testService.addSampleBoard(boardKind)
+  }
+
+  useEffect(() => {
+    for (let index = 0; index < 3; index++) {
+      addSampleBoard(BoardKind[index]);
+    }
+  }, []);  
 
   function handleClick(event) {
     setAnchorEl(event.currentTarget);
@@ -34,16 +46,16 @@ const TestBoardListView = (observer((props)=> {
       <Menu id="simple-menu" anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
         {localStorage.setItem('clubName', clubName)}
 
-        <NavLink to={`/board/${clubId}/${BoardKind[0]}`}>
+        <NavLink to={`/test/${BoardKind[0]}`}>
           <MenuItem onClick={handleClose}>Notice Board</MenuItem>
         </NavLink>
-        <NavLink to={`/board/${clubId}/${BoardKind[1]}`}>
+        <NavLink to={`/test/${BoardKind[1]}`}>
           <MenuItem onClick={handleClose}>Social Board</MenuItem>
         </NavLink>
-        <NavLink to={`/board/${clubId}/${BoardKind[2]}`}>
+        <NavLink to={`/test/${BoardKind[2]}`}>
          <MenuItem onClick={handleClose}>QnA Board</MenuItem>
         </NavLink>
-        <NavLink to={`/board/${clubId}/${BoardKind[3]}`}>
+        <NavLink to={`/test/${BoardKind[3]}`}>
          <MenuItem onClick={handleClose}>FaQ Board</MenuItem>
         </NavLink>
         

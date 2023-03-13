@@ -19,7 +19,7 @@ import moment from "moment";
 import { useEffect,  useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { defaultSnapshotBoard } from "../aggregate/Board";
-import { getCurrentEmail } from "../component/Rolechecker";
+import {  adminChecker, getCurrentEmail, TestBoardChecker } from "../component/Rolechecker";
 import { useStore } from "../store/RootStore";
 import { PostingInsertFormView } from "./PostingInsertFormView";
 import WriteButton from "./WriteButton";
@@ -61,47 +61,60 @@ const PaginationTable = (observer((props) => {
     setPage(0);
   };
 
-
   //url Routing
   const urlparams = useParams();
   const clubId  = urlparams.clubId;
   const boardKind  = urlparams.boardKind;
 
   async function af () {
-    await onFetchBoardAndPosting(clubId, boardKind); //fetch board info and posting list to state
-    setBoard(castToSnapshot(boardStore.getBoard));
+      await onFetchBoardAndPosting(clubId, boardKind); //fetch board info and posting list to state
+      setBoard(castToSnapshot(boardStore.getBoard));
+      if(posting.id){
+        navigate(`/board/posting/${posting.id}`, {state:{
+          postingId : `${posting.id}`,
+          writerEmail :`${posting.writerEmail}`,
+          title: `${posting.title}`,
+          contents:`${posting.contents}`,
+          readCount :`${posting.readCount}`,
+          writtenDate :`${posting.writtenDate}`,
+          boardId:`${clubId}/${boardKind}`,
+          pathlocation:window.location.pathname
+        }})
+      }
   } 
 
+  async function sampleBoard(){
+    await postingStore.fetchTestPostings(boardKind);
+  }
+
   useEffect(() =>{
-    af()
+    TestBoardChecker() ? sampleBoard() : af()
     // eslint-disable-next-line
   },[renderWriting])
-
-  useEffect(() => {
-    af()
-    if(posting.id){
-      navigate(`/board/posting/${posting.id}`, {state:{
-        postingId : `${posting.id}`,
-        writerEmail :`${posting.writerEmail}`,
-        title: `${posting.title}`,
-        contents:`${posting.contents}`,
-        readCount :`${posting.readCount}`,
-        writtenDate :`${posting.writtenDate}`,
-        boardId:`${clubId}/${boardKind}`,
-        pathlocation:window.location.pathname
-      }})
-    }
-    // eslint-disable-next-line
-  },[postingStore.posting.id])
 
   function handleOnClick(posting, clubId, boardKind){
     setPostingProps('title', posting.title)
     setPostingProps('contents', posting.contents)
-    setPostingProps('writerEmail', posting.writerEmail)
     setPostingProps('id', posting.id)
-    setPostingProps("readCount", posting.readCount+1 )
-    setPostingProps("boardId", `${clubId}/${boardKind}`)
-    postingStore.editPosting(postingStore.getPosting()) //조회수 업데이트 
+    setPostingProps("readCount", posting.readCount+1)
+    setPostingProps("boardId", `${boardKind}`)
+
+    if(TestBoardChecker() === false){
+      setPostingProps('writerEmail', posting.writerEmail)
+      setPostingProps("boardId", `${clubId}/${boardKind}`)
+      postingStore.editPosting(postingStore.getPosting()) //조회수 업데이트 
+
+      navigate(`/board/posting/${posting.id}`,{state:{
+        postingId : `${posting.id}`, 
+        title : `${posting.title}`, 
+        contents : `${posting.contents}`, 
+        writerEmail : `${posting.writerEmail}`, 
+        boardId:`${clubId}/${boardKind}`, 
+        pathlocation:window.location.pathname}} )
+        
+    } else {
+        postingStore.editSamplePosting(postingStore.getPosting())
+    }
   }
 
 
@@ -126,13 +139,13 @@ const PaginationTable = (observer((props) => {
           </TableHead>
           <TableBody>
             { postings && Array.isArray(postings) ? 
-              (boardKind !== "QNABOARD" || localStorage.getItem('userRoles').includes("ADMIN") ? 
+              (boardKind !== "QNABOARD" || adminChecker() ? 
               postings.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).sort((a, b) => b.writtenDate - a.writtenDate)
               .map((posting, index) => (
                 <TableRow key={index} hover onClick={()=> {
                   const copyPosting = {...posting}
                   handleOnClick(copyPosting, clubId, boardKind)
-                  navigate(`/board/posting/${copyPosting.id}`,{state:{
+                  navigate(TestBoardChecker() ?  `/test/posting/${copyPosting.id}` : `/board/posting/${copyPosting.id}`,{state:{
                     postingId : `${copyPosting.id}`, 
                     title : `${copyPosting.title}`, 
                     contents : `${copyPosting.contents}`, 
@@ -151,13 +164,6 @@ const PaginationTable = (observer((props) => {
                 <TableRow key={index} hover onClick={()=> {
                   const copyPosting = {...posting}
                   handleOnClick(copyPosting, clubId, boardKind)
-                  navigate(`/board/posting/${copyPosting.id}`,{state:{
-                    postingId : `${copyPosting.id}`, 
-                    title : `${copyPosting.title}`, 
-                    contents : `${copyPosting.contents}`, 
-                    writerEmail : `${copyPosting.writerEmail}`, 
-                    boardId:`${clubId}/${boardKind}`, 
-                    pathlocation:window.location.pathname}} )
                 }}>
                   <TableCell align="center">{posting.title}</TableCell>
                   <TableCell align="center">{moment(`${posting.writtenDate}`, "x").format("YYYY MMM DD hh:mm a")}</TableCell>
@@ -198,7 +204,7 @@ const PaginationTable = (observer((props) => {
             borderRadius: 1,
         }}>
           {WriteButton(boardKind, renderWriting, setRenderWriting)}
-          <IconButton children={<Cached/>} size="small" onClick={ async () => await af()}/>
+          <IconButton children={<Cached/>} size="small" onClick={ async () => TestBoardChecker() ? await sampleBoard() : await af()}/>
         </Box> 
       </TableContainer>
    {/* </Box> */}

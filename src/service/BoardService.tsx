@@ -34,6 +34,5 @@ const BoardService = types.model(
             console.error(`fetchBoard: one board fetchs error.`)
         }
     },
-
 }));
 export default BoardService;

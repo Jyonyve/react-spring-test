@@ -44,11 +44,9 @@ export const LinkSelector = (observer((props:any) => {
 
                 <Grid container alignItems="flex-end" justifyContent="flex-end">  
                     {
-                    login ? 
                     <StyledButton  variant="outlined" color="primary">
-                        <NavLink to='/board'>Test Boards</NavLink>
+                        <NavLink to='/test'>Test Boards</NavLink>
                     </StyledButton>  
-                    : null
                     }    
                     <StyledButton  variant="outlined" color="primary">
                         <NavLink to='/club'>Travel Clubs</NavLink>

@@ -1,7 +1,8 @@
 import { StyledButton } from "../component/importedViewComponent/AppButton";
+import { adminChecker } from "../component/Rolechecker";
 
 export default function WriteButton(boardKind :any, renderWriting: boolean, setRenderWriting:any){
-    if(localStorage.getItem('userRoles')!.includes("ADMIN")){
+    if(adminChecker()){
       return(
       <StyledButton variant="text" onClick={() => renderWriting===true ? setRenderWriting(false) : setRenderWriting(true)}>          
           Write

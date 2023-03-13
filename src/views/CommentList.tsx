@@ -41,7 +41,6 @@ export const CommentList = observer((props:any) => {
                         readOnly: true,
                         endAdornment: <InputAdornment position="end" children={<BorderColor style={{ color: `${iconColor}` }}/>} onClick={ () =>{
                                 authorChecker(comment)
-                                // redirectToAbout();
                         } }></InputAdornment>
                         }}
                     />

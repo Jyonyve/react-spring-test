@@ -1,13 +1,16 @@
 import {  castToSnapshot, types } from 'mobx-state-tree';
+import { BoardKind } from '../aggregate/BoardKind';
 import {posting, defaultSnapshotPosting } from '../aggregate/Posting';
 import PostingService from '../service/PostingService';
+import TestService from '../service/TestService';
 
 
 const PostingStore = types
 .model(('postingStore'), {
     posting : types.optional(posting, castToSnapshot(defaultSnapshotPosting)),
     postings : types.array(posting),
-    postingService : types.optional(PostingService, {})
+    postingService : types.optional(PostingService, {}),
+    testService : types.optional(TestService, {})
 })
 .views(self => ({
     getPosting(){
@@ -73,7 +76,33 @@ const PostingStore = types
         }
     },
 
-   editPosting ()  {
+    async addSamplePostingAndSetId(boardId:string) {
+        try{
+            let insertPosting = {...self.posting};
+            let id : string|undefined = await self.testService.addPosting(boardId, insertPosting);
+            this.setPostingProps('id', id!)
+        } catch(error){
+            console.log(error);
+        }
+    },
+
+    async fetchTestPostings(boardKind : BoardKind){
+        this.clearPostings();
+        try{
+            let jsonPostings : string = await self.testService.fetchSamplePostings(boardKind);
+            console.log(jsonPostings)
+            if(jsonPostings && Array.isArray(jsonPostings))
+            {// eslint-disable-next-line 
+            jsonPostings.map(posting => {
+                this.setPosting(posting)
+                this.addOnePostingtoPostings()});
+            };
+        } catch(error){
+            console.log(error);
+        }
+    },
+
+    editPosting ()  {
     try{
         const targetPosting = {...self.posting}
         console.log(`edit targetPosting: ${JSON.stringify(targetPosting)}`)
@@ -92,9 +121,32 @@ const PostingStore = types
         self.postings.splice(i, 1);
         self.postingService.deletePosting(postingId);
     }catch(error){
-
+        console.error();
     }
-   }
+   },
 
+    async fetchSamplePosting(postingId : string) {
+        try{
+            let posting :[] = await self.testService.fetchSamplePosting(postingId);
+            posting = castToSnapshot(posting);
+            console.log(posting)
+            this.setPosting(posting);
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
+    editSamplePosting(){
+        try{
+            const targetPosting = {...self.posting}
+            console.log(`edit targetPosting: ${JSON.stringify(targetPosting)}`)
+            const id :string = targetPosting.id
+            let i = self.postings.findIndex(posting => posting.id === id);
+            self.testService.editPosting(targetPosting);
+            self.postings.splice(i, 1, targetPosting);
+        } catch(error){
+            console.log(error);
+        }
+       },
 })));
 export default PostingStore;

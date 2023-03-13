@@ -2,13 +2,15 @@ import {  castToSnapshot, types } from 'mobx-state-tree';
 import { Board, defaultSnapshotBoard } from '../aggregate/Board';
 import { BoardKind } from '../aggregate/BoardKind';
 import BoardService from '../service/BoardService';
+import TestService from '../service/TestService';
 
 
 export const BoardStore = types
 .model(('boardStore'), {
     board : types.optional(Board, castToSnapshot(defaultSnapshotBoard)),
     boards : types.array(Board),
-    boardService : types.optional(BoardService, {})
+    boardService : types.optional(BoardService, {}),
+    testService :  types.optional(TestService, {})
 })
 .views(self => ({
     getBoard(){
@@ -39,6 +41,14 @@ export const BoardStore = types
         self.boards.clear();
     },
 
+    async addBoard(boardKind : BoardKind) {
+        try{
+            self.testService.addSampleBoard(boardKind);
+        } catch (error) {
+            console.error(error);
+        }
+    },
+
     async fetchBoardAndPosting(clubId:string, boardKind: BoardKind){
         try{
             let dbBoardAndPostings : Map<string, object>|undefined = await self.boardService.fetchBoardAndPosting(clubId, boardKind);
@@ -56,9 +66,6 @@ export const BoardStore = types
         } catch (error) {
             console.error(error);
         }
-    },
-
-    
-
+    },  
 }
 )));

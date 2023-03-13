@@ -11,7 +11,7 @@ import WriteButton from "./WriteButton";
 
 const FaQBoardView = observer((props:any) => {
     
-    const {onFetchBoardAndPosting, clubName} = props;
+    const {onFetchBoardAndPosting, clubName, onFetchSamplePostings} = props;
 
     //url Routing
     const urlparams = useParams();
@@ -24,10 +24,14 @@ const FaQBoardView = observer((props:any) => {
     const boardStore = useStore().boardStore;
     const postingStore = useStore().postingStore;
     
-    async function af(){
-        await onFetchBoardAndPosting(clubId, boardKind);
-        setBoard(castToSnapshot(boardStore.getBoard))
-    }
+    async function af () {
+      if(clubId !== undefined){
+        await onFetchBoardAndPosting(clubId, boardKind); //fetch board info and posting list to state
+        setBoard(castToSnapshot(boardStore.getBoard));
+      } else {
+        await onFetchSamplePostings(boardKind);
+      }
+    } 
 
  
     useEffect(() =>{

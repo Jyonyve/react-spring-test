@@ -4,7 +4,7 @@ export const Comment = types.model({
 
     id : types.identifier,
     contents: types.optional(types.string,''),
-    writerEmail : types.string,
+    writerEmail : types.optional(types.string,''),
     writtenDate : types.string,
     postingId :types.string,
     commentNumber: types.number,

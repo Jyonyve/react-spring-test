@@ -4,9 +4,7 @@ import { observer } from "mobx-react";
 import { useStore } from "../store/RootStore";
 
 export const CommentEdit = observer((props:any) => {
-
-    // const location = useLocation();
-    // const { comment, postingId} = location.state;
+    //
     const commentStore = useStore().commentStore;
     const {comment,commentNumber, postingId, setReadOnly} = props;
 

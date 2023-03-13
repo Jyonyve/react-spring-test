@@ -44,8 +44,9 @@ const App = (props) => {
             ? <MemberRouter/>
             : `this service is only for members. please login`
           }/>
-          <Route exact path='/board' element={<TestBoardListView clubId="sampleClubId" clubName="sampleClub"/>}/>
-          <Route exact path='/board/sampleClubId/:boardKind' element={<PostingListContainer {...props}/>}/>
+          <Route exact path='/test' element={<TestBoardListView/>}/>
+          <Route exact path='/test/:boardKind' element={<PostingListContainer {...props}/>}/>
+          <Route exact path='test/posting/:boardKind/:postingNumber' element={<PostingContentsView {...props}/>}/>
 
           <Route  path="/board/:clubId/:boardKind" element={
             id_token !== ''

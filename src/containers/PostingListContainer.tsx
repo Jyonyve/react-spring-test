@@ -18,18 +18,25 @@ const PostingListContainer = (observer((props:any) =>{
         postingStore.fetchPostings(dbPostings!);
     };
 
+    const onFetchSamplePostings = async (boardKind:BoardKind) => {
+        await postingStore.fetchTestPostings(boardKind);
+    };
+
     const onFetchPosting=( postingId :string)=>{
         postingStore.fetchPosting(postingId);
+    };
+    
+    const onAddSamplePosting = (boardId : string) =>{
+        postingStore.addSamplePostingAndSetId(boardId);
     };
 
     const onAddPosting = (boardId : string) =>{
         postingStore.addPostingAndSetId(boardId);
-        // postingStore.addOnePostingtoPostings();
     };
 
     const onSetPostingProps =(name:string, value:string) =>{
         postingStore.setPostingProps(name, value);
-    }
+    };
 
     return(
         <Box >      
@@ -37,16 +44,20 @@ const PostingListContainer = (observer((props:any) =>{
             boardKind === "FAQBOARD"
         ?
             <FaQBoardView
+            onFetchSamplePostings={onFetchSamplePostings}
             onFetchBoardAndPosting={onFetchBoardAndPosting}
             clubName={localStorage.getItem('clubName')}
             onFetchPosting={onFetchPosting} 
             onAddPosting={onAddPosting}
+            onAddSamplePosting={onAddSamplePosting}
             onSetPostingProps={onSetPostingProps}
             posting={postingStore.posting}
             />
         :    
             <PaginationTable 
             onFetchBoardAndPosting={onFetchBoardAndPosting}
+            onFetchSamplePostings={onFetchSamplePostings}
+            onAddSamplePosting={onAddSamplePosting}
             clubName={localStorage.getItem('clubName')}
             onFetchPosting={onFetchPosting} 
             onAddPosting={onAddPosting}

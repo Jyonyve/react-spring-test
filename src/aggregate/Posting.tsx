@@ -5,7 +5,7 @@ export const posting = types.model({
     id : types.string,
     title: types.string,
     contents: types.optional(types.string,''),
-    writerEmail : types.string,
+    writerEmail : types.optional(types.string, ''),
     writtenDate : types.string,
     readCount : types.number,
     boardId :types.string,

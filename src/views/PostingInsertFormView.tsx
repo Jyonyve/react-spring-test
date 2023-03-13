@@ -1,18 +1,25 @@
 import { Box, Button, Card, Grid,  TextField } from "@material-ui/core";
 import { observer } from "mobx-react";
+import { TestBoardChecker } from "../component/Rolechecker";
 import { useStore } from "../store/RootStore";
 
 export const PostingInsertFormView = (observer((props:any) => {
 
-  const {setRenderWriting, onAddPosting, onSetPostingProps, clubId, boardKind } = props;
+  const {setRenderWriting, onAddPosting, onSetPostingProps, clubId, boardKind, onAddSamplePosting } = props;
 
   const posting :any = useStore().postingStore.posting;
   const setPostingProps :any= useStore().postingStore.setPostingProps;
 
   const onClickEvent =async (locationString: string) => {
-        setPostingProps('boardId', `${clubId}/${boardKind}`);
-       await onAddPosting(`${clubId}/${boardKind}`);
-        setRenderWriting(false);
+    setPostingProps('boardId', `${clubId}/${boardKind}`);
+    await onAddPosting(`${clubId}/${boardKind}`);
+    setRenderWriting(false);
+  }
+
+  const onClickEventTestBoard = async () => {
+    setPostingProps('boardId', `${boardKind}`);
+    await onAddSamplePosting(`${boardKind}`);
+    setRenderWriting(false);
   }
 
   
@@ -47,6 +54,9 @@ export const PostingInsertFormView = (observer((props:any) => {
             <Grid item xs={4}>
               <Button variant='outlined' color='primary' 
                 onClick={ async () => { 
+                  TestBoardChecker() ? 
+                  await onClickEventTestBoard()
+                  :
                   await onClickEvent(window.location.pathname)
                 }}
               > Add </Button>

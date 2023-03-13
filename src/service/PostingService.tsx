@@ -77,6 +77,5 @@ const PostingService = types.model(
         }
         );
     },
-
 }));
 export default PostingService;

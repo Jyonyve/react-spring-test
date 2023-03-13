@@ -5,9 +5,10 @@ export function adminChecker () {
     return roleString.includes('ADMIN');
 }
 
-export function clubRoleChecker(clubId :string){
-    const role = JSON.parse(localStorage.getItem('userRoles')!);
-    return role[clubId];
+export function TestBoardChecker(){
+    let location : string = window.location.pathname
+    console.log(location)
+    return location.includes("test") ? true : false; 
 }
 
 export function getCurrentEmail(){
