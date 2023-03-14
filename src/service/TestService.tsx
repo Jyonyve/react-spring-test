@@ -8,7 +8,7 @@ const TestService = types.model(
 )
 .actions(() => ({
 
-    addSampleBoard :async (boardKind:BoardKind) => {
+    addSampleBoard :async (boardKind: string) => {
         try{
             await axios.post(
                 BASE_URL +"/"+ boardKind,
@@ -101,6 +101,74 @@ const TestService = types.model(
             console.error(`fetchBoard: one board fetchs error.`)
         }
         return samplePosting;
-    }
+    },
+
+    fetchSampleComments : async(postingId: string) => {
+        let sampleComments : any;
+        try{
+            await axios.get(
+                BASE_URL + "/" + postingId + "/all",
+                {}
+            )
+            .then(
+                fetchComments => sampleComments = fetchComments.data   
+            )
+        }catch(error){
+            console.error(`fetchBoard: one board fetchs error.`)
+        }
+        
+        return sampleComments;
+    },
+
+    addComment :async(postingId: string, targetComment: any) =>{
+        let comment : any;
+        console.log(targetComment)
+        try{
+            await axios.post(
+                BASE_URL + "/" + postingId + "/comment",
+                JSON.stringify(targetComment),
+                {
+                    headers: {
+                        "Content-Type" : `application/json`,
+                    },
+                }
+            ).then(commentInfo => comment = commentInfo.data);
+            return comment;
+        }catch(error){
+            console.error(error)
+        }
+    },
+
+    editComment : async (targetComment:any) => {
+        try {
+            if(!targetComment){
+                throw new Error('no target comment to edit!');
+            }
+            axios.put(
+                BASE_URL + "/" + targetComment.id,
+                JSON.stringify(targetComment),
+                {
+                    headers:{
+                        "Content-Type" : `application/json`,
+                    }
+    
+                }
+            )
+        } catch (error) {
+            console.error(error)
+        }
+    },
+
+    deleteComment : (id:string) => {
+        console.log(`comment delete ID : ${id}`)
+        axios.delete(
+            BASE_URL + "/" + id,
+        {
+            headers: {
+                "Content-Type" : `application/json`,
+            },
+        }
+        );
+    },
 }));
 export default TestService;

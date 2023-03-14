@@ -1,13 +1,16 @@
 import {  castToSnapshot, types } from 'mobx-state-tree';
 import { Comment, defaultSnapshotComment } from '../aggregate/Comment';
+import { TestBoardChecker } from '../component/Rolechecker';
 import CommentService from '../service/CommentService';
+import TestService from '../service/TestService';
 
 
 const CommentStore = types
 .model(('commentStore'), {
     comment : types.optional(Comment, castToSnapshot(defaultSnapshotComment)),
     comments : types.array(Comment),
-    commentService : types.optional(CommentService, {})
+    commentService : types.optional(CommentService, {}),
+    testService: types.optional(TestService, {})
 })
 .views(self => ({
     getComment(){
@@ -80,12 +83,15 @@ const CommentStore = types
             console.log(`editTargetComment : ${JSON.stringify(targetComment)}`)
             const id : string = targetComment.id;
             let i = self.comments.findIndex(comment => comment.id === id);
-            self.commentService.editComment(targetComment);
+            if(TestBoardChecker()){
+                self.testService.editComment(targetComment)
+            } else{
+                self.commentService.editComment(targetComment);
+            }
             self.comments.splice(i, 1, targetComment);
         }catch(error){
             console.error(error);
         }
-
     },
 
     deleteComment(){
@@ -93,12 +99,33 @@ const CommentStore = types
             const commentId = self.getComment().id;
             let i = self.comments.findIndex(comment => comment.id === commentId);
             self.comments.splice(i, 1);
-            self.commentService.deleteComment(commentId);
+            if(TestBoardChecker()){
+                self.testService.deleteComment(commentId);
+            } else{
+                self.commentService.deleteComment(commentId);
+            }
+            
         }catch(error){
-
+            console.log(error)
         }
-    }
+    },
 
+    async fetchSampleComments(postingId: string){
+        this.clearComments();
+        const dbComments: []|undefined = await self.testService.fetchSampleComments(postingId)
+        this.setComments(dbComments!);
+        return self.comments;
+    },
 
+    async addSampleComment(postingId:string) {
+        try{
+            let comment = self.getComment();
+            comment = await self.testService.addComment(postingId, comment)
+            this.setComment(castToSnapshot(comment))
+            this.addOneCommentToComments();
+        } catch(error){
+            console.log(error);
+        }
+    },
 })));
 export default CommentStore;

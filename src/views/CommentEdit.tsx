@@ -8,6 +8,14 @@ export const CommentEdit = observer((props:any) => {
     const commentStore = useStore().commentStore;
     const {comment,commentNumber, postingId, setReadOnly} = props;
 
+    const modifyComment = () => {
+        commentStore.setCommentProps('id', comment.id)
+        commentStore.setCommentProps('writerEmail', comment.writerEmail)
+        commentStore.setCommentProps('postingId', postingId)
+        commentStore.setCommentProps('commentNumber', +commentNumber)
+        commentStore.editComment()
+        setReadOnly(true)
+    }
 
     return(
         <Container>
@@ -27,12 +35,7 @@ export const CommentEdit = observer((props:any) => {
                         <>
                             <InputAdornment position="start" 
                             children={<BorderColor fontSize="small" color="action"/>} onClick={ () =>{
-                                commentStore.setCommentProps('id', comment.id)
-                                commentStore.setCommentProps('writerEmail', comment.writerEmail)
-                                commentStore.setCommentProps('postingId', postingId)
-                                commentStore.setCommentProps('commentNumber', +commentNumber)
-                                commentStore.editComment()
-                                setReadOnly(true)
+                                modifyComment()
                             }
                             }></InputAdornment>
                             <InputAdornment position="end" children={<Delete fontSize="small" color="inherit"/>} 

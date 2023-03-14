@@ -1,4 +1,4 @@
-import { observer } from "mobx-react";
+import { observer, useStaticRendering } from "mobx-react";
 import { TextField, Grid, Paper, Box, InputAdornment, Container, Typography } from '@material-ui/core';
 import { NavLink, useLocation } from "react-router-dom";
 import { ReactNode, useEffect, useState } from "react";
@@ -12,20 +12,23 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import { PostingEditFormView } from "./PostingEditFormView";
 import { adminChecker, TestBoardChecker } from "../component/Rolechecker";
+import { BoardKind } from "../aggregate/BoardKind";
 
 
 const PostingContentsView = observer((props:any) => {
     const location = useLocation();
     const {postingId, boardId ,pathlocation} = location.state;
+    const boardStore: any = useStore().boardStore;
     const postingStore :any = useStore().postingStore;
     const commentStore:any = useStore().commentStore;
 
     const [showPosting, setShowPosting] = useState(defaultSnapshotPosting);
-    const [showComments, setShowComments] = useState<any[]>();
+    const [showComments, setShowComments] = useState<any[]>([]);
     const [iconColor, setIconColor] = useState("primary");
     const clubId = (boardId as string).split("/")[0]
 
     async function af() {
+        console.log('posting - af')
         let posting = await postingStore.fetchPosting(postingId);
         setShowPosting(castToSnapshot(posting));
         let comments :[] = await commentStore.fetchComments(postingId)
@@ -33,14 +36,21 @@ const PostingContentsView = observer((props:any) => {
     }
 
    async function samplePosting(){
+        console.log('samplePosting')
         await postingStore.fetchSamplePosting(postingId);
         const posting = postingStore.getPosting()
-        console.log(JSON.stringify(posting))
         setShowPosting(castToSnapshot(posting));
+        sampleComments();
    }
 
+   async function sampleComments() {
+        console.log('sampleComments')
+        let comments :[] = await commentStore.fetchSampleComments(postingId)
+        setShowComments(comments);
+   } 
+
     useEffect(() => {
-       TestBoardChecker() ? samplePosting() :  af();
+       TestBoardChecker() ? samplePosting() : af();
         // eslint-disable-next-line
     },[location.pathname])
     
@@ -50,7 +60,6 @@ const PostingContentsView = observer((props:any) => {
 
     return(
         <Box width="100%" overflow="auto">
-            {console.log(`postingContentsView`)}
         <nav>
         <Grid container component={Paper} alignContent="center" spacing={2}>
             <Grid item xs={12}>
@@ -79,7 +88,7 @@ const PostingContentsView = observer((props:any) => {
                 />
             </Grid>
             <Grid item xs={12} >
-                { Array.isArray(showComments) && showComments.length !== 0? 
+                { showComments && Array.isArray(showComments) ? 
                     showComments.map( comment1 => 
                         <CommentList key={comment1.id} comment={comment1} onSetCommentProps={onSetCommentProps} commentStore={commentStore} clubid={clubId}
                                     postingId={postingId} setShowComments={setShowComments} iconColor={iconColor} setIconColor={setIconColor} pathlocation={pathlocation}
@@ -109,13 +118,14 @@ const PostingContentsView = observer((props:any) => {
                     InputProps={{
                         endAdornment: <InputAdornment position="end" children={<Edit style={{ color: `${iconColor}` }}/>} onClick={ async () =>{
                             setIconColor("secondary")
-                            onSetCommentProps('postingId', postingId)
-                            await commentStore.addCommentAndSetCommentInfo(postingId)
-                            setShowComments(castToSnapshot(commentStore.comments))
+                            onSetCommentProps('postingId', postingId);
+                            (TestBoardChecker()
+                                ? await commentStore.addSampleComment(postingId)
+                                : await commentStore.addCommentAndSetCommentInfo(postingId));
                         }}></InputAdornment>
                     }}
                     onChange={(event) => onSetCommentProps('contents', event.target.value)}
-                />
+                    />
                 :
                 void(0)
                 }

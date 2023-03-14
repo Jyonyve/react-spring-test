@@ -9,20 +9,10 @@ import { useStore } from "../store/RootStore";
 const TestBoardListView = (observer((props)=> {
   // 
   const { clubName} = props;
-  const testService = useStore().boardStore.testService;
+  const boardStore = useStore().boardStore;
  
   // CSS Funtion
   const [anchorEl, setAnchorEl] = React.useState(null);
-
-  async function addSampleBoard(boardKind){
-    await testService.addSampleBoard(boardKind)
-  }
-
-  useEffect(() => {
-    for (let index = 0; index < 3; index++) {
-      addSampleBoard(BoardKind[index]);
-    }
-  }, []);  
 
   function handleClick(event) {
     setAnchorEl(event.currentTarget);
@@ -33,7 +23,7 @@ const TestBoardListView = (observer((props)=> {
   }
   return (
       <nav className="navBoard">
-        <Box>
+      <Box>
       <Button
         variant="text"
         aria-haspopup="true"

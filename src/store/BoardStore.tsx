@@ -41,7 +41,7 @@ export const BoardStore = types
         self.boards.clear();
     },
 
-    async addBoard(boardKind : BoardKind) {
+    async addBoard(boardKind : string) {
         try{
             self.testService.addSampleBoard(boardKind);
         } catch (error) {

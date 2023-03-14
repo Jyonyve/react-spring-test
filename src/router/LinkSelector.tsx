@@ -7,10 +7,12 @@ import { StyledButton } from "../component/importedViewComponent/AppButton";
 import { observer } from "mobx-react";
 import { useStore } from "../store/RootStore";
 import { useEffect } from "react";
+import { BoardKind } from "../aggregate/BoardKind";
 
 
 export const LinkSelector = (observer((props:any) => {
 
+    const boardStore = useStore().boardStore;
     const membershipStore = useStore().membershipStore;
     const {adminChecker, login, setCurrentEmail} = props;
 
@@ -24,6 +26,11 @@ export const LinkSelector = (observer((props:any) => {
         // eslint-disable-next-line
     },[login])
     
+    async function addSampleBoard(boardKind: string){
+        console.log('addSampleBoard');
+        await boardStore.testService.addSampleBoard("SOCIALBOARD");
+    }
+
     return(
     <Box sx={{ flexGrow: 1 }}>
         <nav className="navtop">
@@ -44,8 +51,10 @@ export const LinkSelector = (observer((props:any) => {
 
                 <Grid container alignItems="flex-end" justifyContent="flex-end">  
                     {
-                    <StyledButton  variant="outlined" color="primary">
-                        <NavLink to='/test'>Test Boards</NavLink>
+                    <StyledButton  variant="outlined" color="primary" onClick={() => {
+                        addSampleBoard(BoardKind[1])
+                    }}>
+                        <NavLink to='/test/SOCIALBOARD'>Test Boards</NavLink>
                     </StyledButton>  
                     }    
                     <StyledButton  variant="outlined" color="primary">
@@ -57,7 +66,6 @@ export const LinkSelector = (observer((props:any) => {
                     </StyledButton>
                     :
                     null}
-                    
                 </Grid>
                 </SimpleCard>
             </AppBar>

@@ -2,7 +2,7 @@ import { InputAdornment, TextField } from "@material-ui/core"
 import { BorderColor } from "@material-ui/icons";
 import { observer } from "mobx-react";
 import { useEffect, useState } from "react";
-import { getCurrentEmail } from "../component/Rolechecker";
+import { getCurrentEmail, TestBoardChecker } from "../component/Rolechecker";
 import { CommentEdit } from "./CommentEdit";
 
 export const CommentList = observer((props:any) => {
@@ -15,6 +15,8 @@ export const CommentList = observer((props:any) => {
     const [readOnly, setReadOnly] = useState(true);
 
     useEffect(()=>{
+        console.log(JSON.stringify(comment))
+        // eslint-disable-next-line
     },[readOnly])
 
     function authorChecker(comment :any){
@@ -31,7 +33,7 @@ export const CommentList = observer((props:any) => {
                     <TextField 
                     margin="dense"
                     multiline
-                    label={comment.writerEmail}
+                    label={comment.writerEmail ? comment.writerEmail : 'TEST'} 
                     variant="outlined"
                     fullWidth
                     value= {comment.contents}
@@ -40,7 +42,7 @@ export const CommentList = observer((props:any) => {
                         InputProps={{
                         readOnly: true,
                         endAdornment: <InputAdornment position="end" children={<BorderColor style={{ color: `${iconColor}` }}/>} onClick={ () =>{
-                                authorChecker(comment)
+                                TestBoardChecker() ? setReadOnly(false) : authorChecker(comment)
                         } }></InputAdornment>
                         }}
                     />

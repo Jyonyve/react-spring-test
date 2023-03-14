@@ -145,7 +145,7 @@ const PaginationTable = (observer((props) => {
                 <TableRow key={index} hover onClick={()=> {
                   const copyPosting = {...posting}
                   handleOnClick(copyPosting, clubId, boardKind)
-                  navigate(TestBoardChecker() ?  `/test/posting/${copyPosting.id}` : `/board/posting/${copyPosting.id}`,{state:{
+                  navigate(TestBoardChecker() ?  `/test/${copyPosting.id}` : `/board/posting/${copyPosting.id}`,{state:{
                     postingId : `${copyPosting.id}`, 
                     title : `${copyPosting.title}`, 
                     contents : `${copyPosting.contents}`, 
