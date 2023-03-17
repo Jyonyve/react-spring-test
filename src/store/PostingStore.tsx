@@ -148,5 +148,15 @@ const PostingStore = types
             console.log(error);
         }
        },
+
+    deleteSamplePosting(postingId :string){
+        try{
+            let i = self.postings.findIndex(posting => posting.id === postingId);
+            self.postings.splice(i, 1);
+            self.testService.deletePosting(postingId);
+        }catch(error){
+            console.error();
+        }
+    }
 })));
 export default PostingStore;

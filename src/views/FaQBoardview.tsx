@@ -25,7 +25,7 @@ const FaQBoardView = observer((props:any) => {
     const postingStore = useStore().postingStore;
     
     async function af () {
-      if(clubId !== undefined){
+      if(clubId){
         await onFetchBoardAndPosting(clubId, boardKind); //fetch board info and posting list to state
         setBoard(castToSnapshot(boardStore.getBoard));
       } else {
@@ -62,7 +62,7 @@ const FaQBoardView = observer((props:any) => {
             )}
 
             {      
-              renderWriting===true  ?
+              renderWriting  ?
               (postingStore.clearPosting(),
               <PostingInsertFormView 
                 clubId={clubId}

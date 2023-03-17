@@ -83,7 +83,7 @@ const PostingContentsView = observer((props:any) => {
                     variant="outlined"
                     fullWidth
                     value={showPosting.contents}
-                    label={`Author : ${showPosting.writerEmail}`}
+                    label={`${showPosting.writerEmail}` ? `Author : ${showPosting.writerEmail}` : "TEST" }
                     size='medium'   
                 />
             </Grid>
@@ -175,7 +175,8 @@ const PostingContentsView = observer((props:any) => {
                     <StyledButton size="small" variant="outlined" color="secondary" onClick={ () =>
                         {postingStore.clearPosting();
                         }}>
-                        <NavLink to ={TestBoardChecker() ? `/test/${showPosting.boardId}`: `/board/${showPosting.boardId}`} >List</NavLink>
+                        <NavLink to ={TestBoardChecker() ? `/test/${showPosting.boardId}`: `/board/${showPosting.boardId}`} >
+                            List</NavLink>
                     </StyledButton>
             </Grid>
         </Grid>

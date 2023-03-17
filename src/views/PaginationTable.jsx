@@ -70,16 +70,18 @@ const PaginationTable = (observer((props) => {
       await onFetchBoardAndPosting(clubId, boardKind); //fetch board info and posting list to state
       setBoard(castToSnapshot(boardStore.getBoard));
       if(posting.id){
-        navigate(`/board/posting/${posting.id}`, {state:{
-          postingId : `${posting.id}`,
-          writerEmail :`${posting.writerEmail}`,
-          title: `${posting.title}`,
-          contents:`${posting.contents}`,
-          readCount :`${posting.readCount}`,
-          writtenDate :`${posting.writtenDate}`,
-          boardId:`${clubId}/${boardKind}`,
-          pathlocation:window.location.pathname
-        }})
+        navigate(`/board/posting/${posting.id}`, {
+          state: {
+            postingId: `${posting.id}`,
+            writerEmail: `${posting.writerEmail}`,
+            title: `${posting.title}`,
+            contents: `${posting.contents}`,
+            readCount: `${posting.readCount}`,
+            writtenDate: `${posting.writtenDate}`,
+            boardId: `${clubId}/${boardKind}`,
+            pathlocation: window.location.pathname,
+          },
+        });
       }
   } 
 
@@ -88,6 +90,7 @@ const PaginationTable = (observer((props) => {
   }
 
   useEffect(() =>{
+    console.log('게시판 글목록 새로고침')
     TestBoardChecker() ? sampleBoard() : af()
     // eslint-disable-next-line
   },[renderWriting])
@@ -99,7 +102,7 @@ const PaginationTable = (observer((props) => {
     setPostingProps("readCount", posting.readCount+1)
     setPostingProps("boardId", `${boardKind}`)
 
-    if(TestBoardChecker() === false){
+    if(!TestBoardChecker()){
       setPostingProps('writerEmail', posting.writerEmail)
       setPostingProps("boardId", `${clubId}/${boardKind}`)
       postingStore.editPosting(postingStore.getPosting()) //조회수 업데이트 

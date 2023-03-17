@@ -46,7 +46,7 @@ const App = (props) => {
           }/>
           <Route exact path='/test' element={<TestBoardListView/>}/>
           <Route exact path='/test/:boardKind' element={<PostingListContainer {...props}/>}/>
-          <Route exact path='test/:boardKind/:postingNumber' element={<PostingContentsView {...props}/>}/>
+          <Route exact path='/test/:boardKind/:postingNumber' element={<PostingContentsView {...props}/>}/>
 
           <Route  path="/board/:clubId/:boardKind" element={
             id_token !== ''
