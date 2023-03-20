@@ -1,4 +1,4 @@
-import { observer, useStaticRendering } from "mobx-react";
+import { observer } from "mobx-react";
 import { TextField, Grid, Paper, Box, InputAdornment, Container, Typography } from '@material-ui/core';
 import { NavLink, useLocation } from "react-router-dom";
 import { ReactNode, useEffect, useState } from "react";
@@ -17,8 +17,9 @@ import { BoardKind } from "../aggregate/BoardKind";
 
 const PostingContentsView = observer((props:any) => {
     const location = useLocation();
-    const {postingId, boardId ,pathlocation} = location.state;
-    const boardStore: any = useStore().boardStore;
+
+    const {postingId , boardId ,pathlocation} = location.state;
+    
     const postingStore :any = useStore().postingStore;
     const commentStore:any = useStore().commentStore;
 

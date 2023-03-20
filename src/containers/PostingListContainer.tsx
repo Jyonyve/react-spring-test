@@ -27,11 +27,13 @@ const PostingListContainer = (observer((props:any) =>{
     };
     
     const onAddSamplePosting = (boardId : string) =>{
-        postingStore.addSamplePostingAndSetId(boardId);
+        const id :string = postingStore.addSamplePostingAndSetId(boardId);
+        return id;
     };
 
     const onAddPosting = (boardId : string) =>{
-        postingStore.addPostingAndSetId(boardId);
+        const id :string = postingStore.addPostingAndSetId(boardId);
+        return id;
     };
 
     const onSetPostingProps =(name:string, value:string) =>{

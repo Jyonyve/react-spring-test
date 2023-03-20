@@ -16,7 +16,8 @@ ReactDOM.render(
         </BrowserRouter>
       </StoreProvider>,
     
-  document.getElementById('root')
+  document.getElementById('root'),
+  localStorage.clear()
 );
 
 reportWebVitals();

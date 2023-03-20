@@ -71,6 +71,7 @@ const PostingStore = types
             let insertPosting = {...self.posting};
             let id : string|undefined = await self.postingService.addPosting(boardId, insertPosting);
             this.setPostingProps('id', id!)
+            return id;
         } catch(error){
             console.log(error);
         }
@@ -81,6 +82,7 @@ const PostingStore = types
             let insertPosting = {...self.posting};
             let id : string|undefined = await self.testService.addPosting(boardId, insertPosting);
             this.setPostingProps('id', id!)
+            return id;
         } catch(error){
             console.log(error);
         }

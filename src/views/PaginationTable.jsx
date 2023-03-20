@@ -111,7 +111,6 @@ const PaginationTable = (observer((props) => {
         postingId : `${posting.id}`, 
         title : `${posting.title}`, 
         contents : `${posting.contents}`, 
-        writerEmail : `${posting.writerEmail}`, 
         boardId:`${clubId}/${boardKind}`, 
         pathlocation:window.location.pathname}} )
         
@@ -207,11 +206,10 @@ const PaginationTable = (observer((props) => {
             borderRadius: 1,
         }}>
           {WriteButton(boardKind, renderWriting, setRenderWriting)}
-          <IconButton children={<Cached/>} size="small" onClick={ async () => TestBoardChecker() ? await sampleBoard() : await af()}/>
+          <IconButton children={<Cached/>} size="small" 
+          onClick={ async () => TestBoardChecker() ? await sampleBoard() : await af()}/>
         </Box> 
       </TableContainer>
-   {/* </Box> */}
-
             {      
               renderWriting===true  ?
               (postingStore.clearPosting(),

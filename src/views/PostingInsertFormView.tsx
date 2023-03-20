@@ -1,5 +1,6 @@
 import { Box, Button, Card, Grid,  TextField } from "@material-ui/core";
 import { observer } from "mobx-react";
+import { useNavigate } from "react-router-dom";
 import { TestBoardChecker } from "../component/Rolechecker";
 import { useStore } from "../store/RootStore";
 
@@ -7,19 +8,50 @@ export const PostingInsertFormView = (observer((props:any) => {
 
   const {setRenderWriting, onAddPosting, onSetPostingProps, clubId, boardKind, onAddSamplePosting } = props;
 
+  const navigate  = useNavigate();
   const posting :any = useStore().postingStore.posting;
   const setPostingProps :any= useStore().postingStore.setPostingProps;
 
-  const onClickEvent =async (locationString: string) => {
-    setPostingProps('boardId', `${clubId}/${boardKind}`);
-    await onAddPosting(`${clubId}/${boardKind}`);
-    setRenderWriting(false);
-  }
+  let postingId = '';
+
+  const onClickEvent = async (locationString: string) => {
+  setPostingProps('boardId', `${clubId}/${boardKind}`);
+  await onAddPosting(`${clubId}/${boardKind}`);
+  setRenderWriting(false);
+  };
+
+  const navigateToPosting = (postingId: string) => {
+    TestBoardChecker() ? navigate(`/test/${postingId}`, {
+      state: {
+        postingId: `${postingId}`,
+        title: `${posting.title}`,
+        contents: `${posting.contents}`,
+        readCount: `${posting.readCount}`,
+        writtenDate: `${posting.writtenDate}`,
+        boardId: `${clubId}/${boardKind}`,
+        pathlocation: window.location.pathname,
+      },
+    }) 
+    
+    : navigate(`/board/posting/${postingId}`,{
+      state: {
+        postingId: `${postingId}`,
+        writerEmail: `${posting.writerEmail}`,
+        title: `${posting.title}`,
+        contents: `${posting.contents}`,
+        readCount: `${posting.readCount}`,
+        writtenDate: `${posting.writtenDate}`,
+        boardId: `${clubId}/${boardKind}`,
+        pathlocation: window.location.pathname,
+      },
+    });
+  };
 
   const onClickEventTestBoard = async () => {
     setPostingProps('boardId', `${boardKind}`);
-    await onAddSamplePosting(`${boardKind}`);
+    postingId = await onAddSamplePosting(`${boardKind}`);
     setRenderWriting(false);
+    navigateToPosting(postingId);
   }
 
   
@@ -27,7 +59,6 @@ export const PostingInsertFormView = (observer((props:any) => {
       //insert case (not edit)
       <form noValidate> 
         <Box>
-          {console.log(`postingInsertFormView`)}
           <Grid container spacing={2} component={Card} alignContent="center" alignItems="center">
             <Grid item xs={12}>
             <TextField 
