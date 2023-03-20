@@ -24,7 +24,7 @@ export const CommentEdit = observer((props:any) => {
                 <TextField 
                     margin="dense"
                     multiline
-                    label={comment.writerEmail}
+                    label={comment.writerEmail ? comment.writerEmail : 'TEST'}
                     variant="outlined"
                     defaultValue={comment.contents}
                     size="medium"
