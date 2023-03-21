@@ -86,6 +86,7 @@ const PaginationTable = (observer((props) => {
   }, [location]);
 
   async function af () {
+      console.log('af')
       clear()
       await onFetchBoardAndPosting(clubId, boardKind); //fetch board info and posting list to state
       setBoard(castToSnapshot(boardStore.getBoard));
@@ -106,15 +107,10 @@ const PaginationTable = (observer((props) => {
   } 
 
   async function sampleBoard(){
+    console.log('sampleBoard')
     clear()
     await postingStore.fetchTestPostings(boardKind);
   }
-
-  useEffect(() =>{
-    console.log('게시판 글목록 새로고침 - renderwriting')
-    TestBoardChecker() ? sampleBoard() : af()
-    // eslint-disable-next-line
-  },[renderWriting])
 
   function handleOnClick(posting, clubId, boardKind){
     setPostingProps('title', posting.title)
