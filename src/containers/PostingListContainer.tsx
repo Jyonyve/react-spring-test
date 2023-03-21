@@ -1,6 +1,5 @@
 import { Box } from "@material-ui/core";
 import { observer } from "mobx-react";
-import { useEffect } from "react";
 import {  useParams } from "react-router-dom";
 import { BoardKind } from "../aggregate/BoardKind";
 import { useStore } from "../store/RootStore";
@@ -13,16 +12,6 @@ const PostingListContainer = (observer((props:any) =>{
     const postingStore :any = useStore().postingStore;
     const params = useParams()
     const boardKind = params.boardKind
-
-    const clearBoard = () => {
-        console.log(`clearBoard`)
-        boardStore.clearBoard();
-        boardStore.clearBoards();
-    }
-
-    useEffect(()=>{
-        clearBoard();
-    })
 
     const onFetchBoardAndPosting= async (clubId :string, boardKind : BoardKind) => {
         const dbPostings :string|undefined = await boardStore.fetchBoardAndPosting(clubId, boardKind);

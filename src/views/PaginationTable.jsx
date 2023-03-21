@@ -17,7 +17,7 @@ import { observer } from "mobx-react";
 import { castToSnapshot } from "mobx-state-tree";
 import moment from "moment";
 import { useEffect,  useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { defaultSnapshotBoard } from "../aggregate/Board";
 import {  adminChecker, getCurrentEmail, TestBoardChecker } from "../component/Rolechecker";
 import { useStore } from "../store/RootStore";
@@ -39,6 +39,7 @@ const PaginationTable = (observer((props) => {
   const {onFetchBoardAndPosting, clubName} = props;
   const boardStore = useStore().boardStore;
   const postingStore = useStore().postingStore;
+  const commentStore = useStore().commentStore;
   const postings = postingStore.postings
   const posting = postingStore.posting;
   const setPostingProps = postingStore.setPostingProps;
@@ -61,12 +62,31 @@ const PaginationTable = (observer((props) => {
     setPage(0);
   };
 
+  const clear = () => {
+    console.log(`clear board, posting, comment`)
+    boardStore.clearBoard();
+    boardStore.clearBoards();
+    postingStore.clearPosting();
+    postingStore.clearPostings();
+    commentStore.clearComment();
+    commentStore.clearComments();
+
+}
+
   //url Routing
   const urlparams = useParams();
   const clubId  = urlparams.clubId;
   const boardKind  = urlparams.boardKind;
 
+  const location = useLocation();
+
+  useEffect(() => {
+    TestBoardChecker() ? sampleBoard() : af()
+    // eslint-disable-next-line
+  }, [location]);
+
   async function af () {
+      clear()
       await onFetchBoardAndPosting(clubId, boardKind); //fetch board info and posting list to state
       setBoard(castToSnapshot(boardStore.getBoard));
       if(posting.id){
@@ -86,11 +106,12 @@ const PaginationTable = (observer((props) => {
   } 
 
   async function sampleBoard(){
+    clear()
     await postingStore.fetchTestPostings(boardKind);
   }
 
   useEffect(() =>{
-    console.log('게시판 글목록 새로고침')
+    console.log('게시판 글목록 새로고침 - renderwriting')
     TestBoardChecker() ? sampleBoard() : af()
     // eslint-disable-next-line
   },[renderWriting])
