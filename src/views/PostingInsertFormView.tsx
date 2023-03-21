@@ -14,10 +14,11 @@ export const PostingInsertFormView = (observer((props:any) => {
 
   let postingId = '';
 
-  const onClickEvent = async (locationString: string) => {
+  const onClickEvent = async () => {
   setPostingProps('boardId', `${clubId}/${boardKind}`);
   await onAddPosting(`${clubId}/${boardKind}`);
   setRenderWriting(false);
+  navigateToPosting(posting.id)
   };
 
   const navigateToPosting = (postingId: string) => {
@@ -88,7 +89,7 @@ export const PostingInsertFormView = (observer((props:any) => {
                   TestBoardChecker() ? 
                   await onClickEventTestBoard()
                   :
-                  await onClickEvent(window.location.pathname)
+                  await onClickEvent()
                 }}
               > Add </Button>
             </Grid>
