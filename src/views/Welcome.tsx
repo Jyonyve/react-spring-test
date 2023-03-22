@@ -2,7 +2,7 @@ import { Typography } from "@material-ui/core"
 
 const Welcome = () => {
     return(
-        <Typography variant="h2" >Welcome~!</Typography>
+        <Typography variant="h4" >Welcome abroad :)</Typography>
     )
 }
 export default Welcome

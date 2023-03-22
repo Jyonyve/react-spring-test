@@ -12,7 +12,6 @@ import Popup from 'reactjs-popup';
 import 'reactjs-popup/dist/index.css';
 import { PostingEditFormView } from "./PostingEditFormView";
 import { adminChecker, TestBoardChecker } from "../component/Rolechecker";
-import { BoardKind } from "../aggregate/BoardKind";
 
 
 const PostingContentsView = observer((props:any) => {
@@ -29,7 +28,7 @@ const PostingContentsView = observer((props:any) => {
     const clubId = (boardId as string).split("/")[0]
 
     async function af() {
-        console.log('posting - af')
+        console.log(`posting, pathlocation:${pathlocation}`)
         let posting = await postingStore.fetchPosting(postingId);
         setShowPosting(castToSnapshot(posting));
         let comments :[] = await commentStore.fetchComments(postingId)

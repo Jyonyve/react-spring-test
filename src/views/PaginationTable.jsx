@@ -86,7 +86,7 @@ const PaginationTable = (observer((props) => {
   }, [location]);
 
   async function af () {
-      console.log('af')
+      console.log(`af: pathlocation:${window.location.pathname}`)
       clear()
       await onFetchBoardAndPosting(clubId, boardKind); //fetch board info and posting list to state
       setBoard(castToSnapshot(boardStore.getBoard));
@@ -100,7 +100,7 @@ const PaginationTable = (observer((props) => {
             readCount: `${posting.readCount}`,
             writtenDate: `${posting.writtenDate}`,
             boardId: `${clubId}/${boardKind}`,
-            pathlocation: window.location.pathname,
+            pathlocation: location.pathname,
           },
         });
       }
@@ -170,7 +170,8 @@ const PaginationTable = (observer((props) => {
                     contents : `${copyPosting.contents}`, 
                     writerEmail : `${copyPosting.writerEmail}`, 
                     boardId:`${clubId}/${boardKind}`, 
-                    pathlocation:window.location.pathname}} )
+                    pathlocation: location.pathname
+                  }} )
                 }}>
                   <TableCell align="center">{posting.title}</TableCell>
                   <TableCell align="center">{moment(`${posting.writtenDate}`, "x").format("YYYY MMM DD hh:mm a")}</TableCell>

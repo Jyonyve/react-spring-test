@@ -63,7 +63,7 @@ const  GoogleLoginTokenAndView = observer((props:any) =>{
 
       <Box alignContent="center">
         {navigate("/")}
-        <h2> Welcome~!</h2>
+        <h4>Let's go!</h4>
       </Box>
     );
 })
