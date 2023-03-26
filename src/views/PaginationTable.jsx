@@ -147,7 +147,7 @@ const PaginationTable = (observer((props) => {
           <TableHead >
             <TableRow component={Card}>
               <TableCell align="center">{board.boardKind}</TableCell>
-              <TableCell align="center">Club Name : {clubName}</TableCell>
+              <TableCell align="center">{TestBoardChecker ? "TEST" : `Club Name : ${clubName}`}</TableCell>
               <TableCell align="center">{board.createDate}</TableCell>
             </TableRow>
             <TableRow >

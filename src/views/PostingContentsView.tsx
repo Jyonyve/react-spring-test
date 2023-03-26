@@ -134,7 +134,7 @@ const PostingContentsView = observer((props:any) => {
             </Grid>
             <Grid item xs={5}>
                     {
-                        adminChecker()||localStorage.getItem('clubRoles')?.includes(showPosting.writerEmail)
+                        (adminChecker()||localStorage.getItem('clubRoles')?.includes(showPosting.writerEmail)) && !TestBoardChecker()
                     ?
                     <><Popup trigger={<StyledButton size="small" variant="outlined" color="success"> Update</StyledButton>} position="bottom center" modal nested>
                                     {((close: any) => (
